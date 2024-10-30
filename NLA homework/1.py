@@ -250,30 +250,27 @@ def correlation_to_covariance(corr_matrix: List[List[float]], std_vector: List[f
     return cov_matrix
 
 
-def calculate_daily_log_returns(file_path: str) -> pd.DataFrame:
+def calculate_log_returns_df(input_df: pd.DataFrame) -> pd.DataFrame:
     """
-    Reads an Excel file containing end-of-day values for stock indices and calculates daily log returns.
+    Calculates the daily log returns for each column in a given DataFrame.
 
     Parameters
     ----------
-    file_path : str
-        The path to the Excel file containing stock index data.
+    input_df : pd.DataFrame
+        A DataFrame containing end-of-day values for stock indices.
 
     Returns
     -------
     pd.DataFrame
         A DataFrame containing the daily log returns for each stock index.
     """
-    # Read in the Excel file
-    df = pd.read_excel(file_path, index_col=0, parse_dates=True)
-
     # Calculate daily log returns
-    log_returns = np.log(df / df.shift(1))
+    log_returns = np.log(input_df / input_df.shift(1))
 
     return log_returns
 
 
-def dataframe_to_list_of_lists(df: pd.DataFrame) -> List[List[float]]:
+def df_to_list_of_lists(df: pd.DataFrame) -> List[List[float]]:
     """
     Converts a pandas DataFrame into a list of lists.
 
@@ -290,7 +287,7 @@ def dataframe_to_list_of_lists(df: pd.DataFrame) -> List[List[float]]:
     return df.values.tolist()
 
 
-def compute_covariance_matrix_no_numpy(data: List[List[float]]) -> List[List[float]]:
+def compute_covariance_matrix(data: List[List[float]]) -> List[List[float]]:
     """
     Computes the sample covariance matrix of the given data without using numpy.
 
@@ -328,7 +325,7 @@ def compute_covariance_matrix_no_numpy(data: List[List[float]]) -> List[List[flo
     return covariance_matrix
 
 
-def calculate_daily_percentage_returns(df: pd.DataFrame) -> pd.DataFrame:
+def calculate_percentage_returns(df: pd.DataFrame) -> pd.DataFrame:
     """
     Calculates the daily percentage returns for each column in the DataFrame.
 
@@ -391,32 +388,64 @@ def exc10():
     # Assuming the Excel file is uploaded and we have the path to it
     file_path = "NLA homework/indeces-close-jan3-jan31-2017.xlsx"
     # Calculate daily log returns using the function
-    daily_log_returns_df = calculate_daily_log_returns(file_path)
-    log_returns_list = dataframe_to_list_of_lists(
+    end_of_day_values_df = end_of_day_values_df = pd.read_excel(
+        file_path, index_col=0, parse_dates=True)
+    daily_log_returns_df = calculate_log_returns_df(end_of_day_values_df)
+    log_returns_list = df_to_list_of_lists(
         daily_log_returns_df.dropna())
 
     print(pd.DataFrame(daily_log_returns_df))
 
     # Compute the covariance matrix using the function without numpy
-    computed_covariance_matrix = compute_covariance_matrix_no_numpy(
+    computed_covariance_matrix = compute_covariance_matrix(
         log_returns_list)
     print(pd.DataFrame(computed_covariance_matrix))
 
-    # Correctly calculate the daily percentage returns using the original end-of-day values from the Excel file
-
-    # Read in the original DataFrame of end-of-day values
-    end_of_day_values_df = pd.read_excel(
-        file_path, index_col=0, parse_dates=True)
-
     # Calculate the daily percentage returns correctly
-    daily_percentage_returns_df = calculate_daily_percentage_returns(
+    daily_percentage_returns_df = calculate_percentage_returns(
         end_of_day_values_df)
     print(daily_percentage_returns_df)
 
-    computed_covariance_matrix = compute_covariance_matrix_no_numpy(
-        dataframe_to_list_of_lists(daily_percentage_returns_df.dropna()))
+    computed_covariance_matrix = compute_covariance_matrix(
+        df_to_list_of_lists(daily_percentage_returns_df.dropna()))
     print(pd.DataFrame(computed_covariance_matrix))
 
 
+def exc11():
+    # Assuming the Excel file is uploaded and we have the path to it
+    file_path = "NLA homework/indices-july2016.csv"
+    # Calculate daily log returns using the function
+    end_of_day_values = pd.read_csv(file_path, index_col=0, parse_dates=True)
+
+    datas = {"daily": end_of_day_values,
+             "weekly": end_of_day_values.resample("W").apply("first"),
+             "monthly": end_of_day_values.resample("ME").apply("first")}
+
+    for frequency, end_of_period in datas.items():
+        print(frequency)
+        # Calculate the daily percentage returns correctly
+        perc_returns_df = calculate_percentage_returns(end_of_period)
+        perc_returns_list = df_to_list_of_lists(perc_returns_df.dropna())
+
+        covariance_matrix = compute_covariance_matrix(perc_returns_list)
+        print("from perc returns")
+        print("covariance matrix")
+        print(pd.DataFrame(covariance_matrix))
+        correlation_matrix = covariance_to_correlation(covariance_matrix)
+        print("correlation matrix")
+        print(pd.DataFrame(correlation_matrix))
+
+        log_returns_df = calculate_log_returns_df(end_of_period)
+        log_returns_list = df_to_list_of_lists(log_returns_df.dropna())
+        # Compute the covariance matrix using the function without numpy
+        covariance_matrix = compute_covariance_matrix(log_returns_list)
+        print("from log returns")
+        print("covariance matrix")
+        print(pd.DataFrame(covariance_matrix))
+        correlation_matrix = covariance_to_correlation(covariance_matrix)
+        print("correlation matrix")
+        print(pd.DataFrame(correlation_matrix))
+
+
 if __name__ == "__main__":
-    exc10()
+    exc11()
