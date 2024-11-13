@@ -419,7 +419,7 @@ def exc11():
 
     datas = {"daily": end_of_day_values,
              "weekly": end_of_day_values.resample("W").apply("first"),
-             "monthly": end_of_day_values.resample("ME").apply("first")}
+             "monthly": end_of_day_values.resample("M").apply("first")}
 
     for frequency, end_of_period in datas.items():
         print(frequency)
