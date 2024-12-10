@@ -1,0 +1,505 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{graphicx} % Required for \scalebox
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{verbatim}
+\setcounter{MaxMatrixCols}{20}
+\title{Baruch NLA HW4}
+\author{Daniel Tuzes, 21}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{orange},
+    showstringspaces=false,
+    breaklines=true,
+    frame=single
+}
+\begin{document}
+\maketitle
+\section{exercise}
+\[
+    Q_1 A Q_2 = B
+\]
+Multiply from the left with $Q_1^{-1}$ and with $Q_2^{-1}$ from the right:
+\[
+    A = Q_1^{-1} B Q_2^{-1}
+\]
+The inverses exist because the $Q_1$ and $Q_2$ are orthogonal. Since
+\[
+    Q_1^{-1} = Q_1^\top \text{ and } Q_2^{-1} = Q_2^\top,
+\]
+therefore
+\[
+    A = Q_1^\top B Q_2^\top.
+\]
+\section{exercise}
+\[
+    \left\| {A{\bf{v}}} \right\| = {\left( {A{\bf{v}}} \right)^\top}A{\bf{v}} = {{\bf{v}}^\top }{A^\top}A{\bf{v}} = {{\bf{v}}^\top}{A^{ - 1}}A{\bf{v}} = {{\bf{v}}^\top}{\bf{v}} = \left\| \bf{v} \right\|
+\]
+Therefore
+\[
+    \|A\| = \sup_{\|\mathbf{v}\| \neq 0} \frac{\|A \mathbf{v}\|}{\|\mathbf{v}\|}
+    = \sup_{\|\mathbf{v}\| \neq 0} \frac{\|\mathbf{v}\|}{\|\mathbf{v}\|}
+    = 1
+\]
+\section{exercise}
+\subsection{sub}
+\textbf{Symmetry:}
+First, we show that \( Q^T A Q \) is symmetric:
+\[
+    (Q^T A Q)^T = Q^T (A^T) (Q^T)^T = Q^T A Q
+\]
+Here, we used \( A^T = A \) because \( A \) is symmetric.
+
+\textbf{Positive Definiteness:}
+Now, we show that \( Q^T A Q \) is positive definite, i.e.
+\[
+    \mathbf{x}^T Q^T A Q \mathbf{x} > 0 \quad \forall \mathbf{x} \neq 0
+\]
+
+Denote \(Q\mathbf{x}  = \mathbf{y} \). Therefore, \(\mathbf{x}^T Q^T = \mathbf{y}^T\). \(Q\) keeps the norm, so if \(\mathbf{x} \neq 0\) then \(\mathbf{y} \neq 0\).
+\[
+    \mathbf{y}^T A \mathbf{y} > 0 \quad \text{because} \quad \mathbf{x}^T A \mathbf{x} > 0 \quad \forall \mathbf{x} \neq 0,
+\]
+and we just showed that \(\mathbf{y} \neq 0\). It is shown that \( Q^T A Q \) is symmetric positive definite.
+\subsection{sub}
+Replace \(>\) with \(\geq\) in the positive definiteness part to get positive semidefiniteness.
+
+\section{exercise}
+
+Given the matrix:
+\[ B_4 = \begin{bmatrix}
+        2  & -1 & 0  & 0  \\
+        -1 & 2  & -1 & 0  \\
+        0  & -1 & 2  & -1 \\
+        0  & 0  & -1 & 2
+    \end{bmatrix} \]
+
+The eigenvalues are:
+\[ \Lambda = \begin{bmatrix}
+        0.38196601 & 0          & 0          & 0          \\
+        0          & 1.38196601 & 0          & 0          \\
+        0          & 0          & 2.61803399 & 0          \\
+        0          & 0          & 0          & 3.61803399
+    \end{bmatrix} \]
+
+The matrix of eigenvectors \( Q \) and its transpose \( Q^T \) are:
+\[ Q = \begin{bmatrix}
+        -0.37174803 & 0.60150096  & 0.60150096  & -0.37174803 \\
+        -0.60150096 & 0.37174803  & -0.37174803 & 0.60150096  \\
+        -0.60150096 & -0.37174803 & -0.37174803 & -0.60150096 \\
+        -0.37174803 & -0.60150096 & 0.60150096  & 0.37174803
+    \end{bmatrix} \]
+
+\[ Q^T = \begin{bmatrix}
+        -0.37174803 & -0.60150096 & -0.60150096 & -0.37174803 \\
+        0.60150096  & 0.37174803  & -0.37174803 & -0.60150096 \\
+        0.60150096  & -0.37174803 & -0.37174803 & 0.60150096  \\
+        -0.37174803 & 0.60150096  & -0.60150096 & 0.37174803
+    \end{bmatrix} \]
+
+The diagonal form \( Q \Lambda Q^T \) is verified to be:
+\[ Q \Lambda Q^T = \begin{bmatrix}
+        2  & -1 & 0  & 0  \\
+        -1 & 2  & -1 & 0  \\
+        0  & -1 & 2  & -1 \\
+        0  & 0  & -1 & 2
+    \end{bmatrix} \]
+
+This python code provided the results:
+\begin{lstlisting}
+    import numpy as np
+
+    # Define the matrix B4
+    B4 = np.array([
+        [ 2, -1,  0,  0],
+        [-1,  2, -1,  0],
+        [ 0, -1,  2, -1],
+        [ 0,  0, -1,  2]
+    ])
+    
+    # Compute the eigenvalues and eigenvectors
+    eigenvalues, eigenvectors = np.linalg.eigh(B4)
+    
+    # Form the diagonal matrix of eigenvalues
+    Lambda = np.diag(eigenvalues)
+    
+    # Verify the diagonalization
+    Q = eigenvectors
+    Q_T = Q.T
+    B4_diagonalized = Q @ Lambda @ Q_T
+    
+    eigenvalues, Q, Q_T, B4_diagonalized    
+\end{lstlisting}
+
+\section{exercise}
+It can be seen that the matrix is symmetric, because $A_{1,2} = A_{2,1}$.
+
+Now let's see if it is positive semidefinite! Let
+\[\mathbf{v}_1 := \frac{1}{{\sqrt 2 }}\begin{bmatrix}
+        1 \\
+        1
+    \end{bmatrix}\quad \mathbf{v}_2 := \frac{1}{{\sqrt 2 }}\begin{bmatrix}
+        1 \\
+        -1
+    \end{bmatrix}.\]
+They are linearly independent, and the dimension of \(\mathbb{R}^2\) is 2,
+so they form a basis, even further,
+an orthonormal basis, i.e. \(\mathbf{v}_i^T \mathbf{v}_j = \delta_{ij}\), and every vector can be expressed as
+\[\mathbf{v} = \lambda_1 \mathbf{v}_1 + \lambda_2 \mathbf{v}_2.\]
+It can be seen that
+\[\begin{array}{ccccc}
+        A\mathbf{v}_1 = 0 = \mathbf{v}_1^T A \\
+        A\mathbf{v}_2 = 2\mathbf{v}_2.
+    \end{array}\]
+So does \(\mathbf{v}^T A \mathbf{v} \ge 0\) hold for any vector $\mathbf{v}$?
+\begin{align*}
+    \mathbf{v}^T A \mathbf{v} = & (\lambda_1 \mathbf{v}_1^T + \lambda_2 \mathbf{v}_2^T)A(\lambda_1 \mathbf{v}_1 + \lambda_2 \mathbf{v}_2) \\
+    =                           & \lambda_2^2 \mathbf{v}_2^T A \mathbf{v}_2 \quad \text{because } A\mathbf{v}_1 = 0 = \mathbf{v}_1^T A    \\
+    =                           & \lambda_2^2 \mathbf{v}_2^T \mathbf{v}_2                                                                 \\
+    =                           & \lambda_2^2 \geq 0
+\end{align*}
+It indeed holds. The matrix is then symmetric and positive semidefinite.
+However, as $\mathbf{v}^T A \mathbf{v} = 0$ holds not only for the null vector,
+but for every vector $\mathbf{v} = \lambda_1 \mathbf{v}_1$,
+so it is not positive definite.
+
+\section{exercise}
+
+By reading the values across the main diagonal, we can verify that the matrix is symmetric.
+Using python, the diagonlaized form with the eigenvalues are:
+\[ \Lambda = \begin{bmatrix}
+        0.381966 & 0        & 0        & 0        \\
+        0        & 1.381966 & 0        & 0        \\
+        0        & 0        & 2.618034 & 0        \\
+        0        & 0        & 0        & 3.618034
+    \end{bmatrix} \]
+
+This shows that the matrix is indeed positive definite.
+
+The matrix of eigenvectors \( Q \):
+\[ Q = \begin{bmatrix}
+        0.371748  & 0.601501  & 0.601501  & 0.371748 \\
+        -0.601501 & -0.371748 & 0.371748  & 0.601501 \\
+        0.601501  & -0.371748 & -0.371748 & 0.601501 \\
+        -0.371748 & 0.601501  & -0.601501 & 0.371748
+    \end{bmatrix} \]
+
+The transpose of the eigenvectors \( Q^T \):
+\[ Q^T = \begin{bmatrix}
+        0.371748 & -0.601501 & 0.601501  & -0.371748 \\
+        0.601501 & -0.371748 & -0.371748 & 0.601501  \\
+        0.601501 & 0.371748  & -0.371748 & -0.601501 \\
+        0.371748 & 0.601501  & 0.601501  & 0.371748
+    \end{bmatrix} \]
+
+Verification of the diagonalization \( Q \Lambda Q^T \):
+\[ Q \Lambda Q^T = \begin{bmatrix}
+        2 & 1 & 0 & 0 \\
+        1 & 2 & 1 & 0 \\
+        0 & 1 & 2 & 1 \\
+        0 & 0 & 1 & 2
+    \end{bmatrix} \]
+
+These are results from this python script:
+\begin{lstlisting}
+# Define the matrix
+matrix = np.array([
+    [2, 1, 0, 0],
+    [1, 2, 1, 0],
+    [0, 1, 2, 1],
+    [0, 0, 1, 2]
+])
+
+# Compute the eigenvalues and eigenvectors
+eigenvalues, eigenvectors = np.linalg.eigh(matrix)
+
+# Form the diagonal matrix of eigenvalues
+Lambda = np.diag(eigenvalues)
+
+# Verify the diagonalization
+Q = eigenvectors
+Q_T = Q.T
+diagonalized = Q @ Lambda @ Q_T
+
+eigenvalues, Q, Q_T, diagonalized
+
+\end{lstlisting}
+
+\section{exercise}
+The symmetry is a condition on both sides, so this property is given.
+
+Trace and determinant are base-independent scalars,
+so if the original matrix $A$ is symmetric, then let $A={O\Lambda {O^T}}$,
+and represent the matrix in the base of eigenvectors,
+and then $Tr\left( A \right) = Tr\left( \Lambda  \right)$ and
+$\det \left( A \right) = \det \left( \Lambda  \right)$.
+
+\[\begin{array}{l}
+        Tr\left( \Lambda  \right) = {\lambda _1} + {\lambda _2} \\
+        \det \left( \Lambda  \right) = {\lambda _1}{\lambda _2}
+    \end{array}\]
+
+$ \Rightarrow $ If $A$ is positive semidefinite,
+then both eigenvalues are nonnegative,
+so are they sum and product.
+
+$ \Leftarrow $ If trace and determinant are nonnegative,
+then from the fact that the determinant is nonnegative,
+their sign cannot be $+-$ or $-+$, only $++$, $0+$, $+0$, $-0$, $0-$ and $--$.
+Due to the positiveness of the trace, the latter 3 are excluded,
+meaning that the eigenvalues can be only nonnegative.
+\section{exercise}
+\begin{itemize}
+    \item $\Rightarrow$ direction: \( A \) is symmetric positive semidefinite $\Rightarrow$ there exists such $B$.
+
+          Given that \( A \) is symmetric and positive semidefinite, it can be diagonalized by an orthogonal matrix \( O \) such that
+          \[
+              A = O \Lambda O^T,
+          \]
+          where \( \Lambda \) is a diagonal matrix with non-negative diagonal entries \( \Lambda_{ii} \geq 0 \) for all \( i \), because \( A \) is positive semidefinite.
+
+          \textbf{Construct \( B \):}
+          Define \( B \) as
+          \[
+              B = O \sqrt{\Lambda} O^T,
+          \]
+          where \( \sqrt{\Lambda} \) is a diagonal matrix whose entries are
+          the square roots of the corresponding entries in \( \Lambda \),
+          i.e., \( (\sqrt{\Lambda})_{ii} = \sqrt{\Lambda_{ii}} \).
+          Since \( \Lambda_{ii} \geq 0 \),
+          the square roots are real and non-negative.
+          $B$ is also symmetric,
+          as $B^T = {O^T}^T \sqrt{\Lambda}^T O^T=O \sqrt{\Lambda} O^T =B$.
+
+          Verify \( B^2 = A \) by substituting the expression for \( B \), we have
+          \[
+              B^2 = (O \sqrt{\Lambda} O^T)(O \sqrt{\Lambda} O^T) = O \sqrt{\Lambda} (O^T O) \sqrt{\Lambda} O^T.
+          \]
+          Since \( O^T O = I \) (the identity matrix, because \( O \) is orthogonal),
+          it simplifies to
+          \[
+              B^2 = O \sqrt{\Lambda} \sqrt{\Lambda} O^T = O \Lambda O^T = A,
+          \]
+          confirming that \( B^2 = A \).
+    \item $\Leftarrow$ direction: $A$ is symmetric positive definite $\Leftarrow$ there exists such \( B \)
+
+          Consider any vector \( x \in \mathbb{R}^n \).
+          We need to show that \( x^T A x \geq 0 \).
+          Start by calculating \( x^T A x \) using the given \( B^2 = A \):
+          \[
+              x^T A x = x^T B^2 x = (Bx)^T (Bx).
+          \]
+          Here we used $B = B^T$. Let \( y = Bx \). Then, the expression simplifies to
+          \[
+              x^T A x = y^T y.
+          \]
+          The \( y^T y \) represents the scalar product of \( y \) with itself,
+          which is always non-negative:
+          \[
+              y^T y = \sum_{i=1}^n y_i^2 \geq 0.
+          \]
+          Thus, \( x^T A x \geq 0 \) for any \( x \),
+          proving that \( A \) is positive semidefinite.
+\end{itemize}
+
+\section{exercise}
+See the positive (i)/non-negative (ii) cases separated by the slash.
+
+Let \( A \) be an \( n \times n \) symmetric positive definite/semidefinite matrix.
+Since \( A \) is symmetric,
+there exists an orthogonal matrix \( Q \) and a diagonal matrix \( D \) such that
+\[
+    A = Q D Q^T,
+\]
+where \( D \) is diagonal with positive/nonnegative entries
+because \( A \) is positive definite/semidefinite.
+For any positive integer \( m \), we have
+\[
+    A^m = (Q D Q^T)^m = Q D Q^T \cdot Q D Q^T \cdots Q D Q^T \text{ (m times)}.
+\]
+Notice that each consecutive pair \( Q^T Q \) is the identity matrix \( I \)
+because \( Q \) is orthogonal. Thus,
+\[
+    A^m = Q D Q^T \cdot I \cdot D Q^T \cdot I \cdots Q D Q^T = Q D^m Q^T.
+\]
+Since \( D^m \) is also diagonal with positive/nonnegative entries
+(as raising positive/nonnegative numbers
+to a power maintains positivity/nonnegativity),
+\( Q D^m Q^T \) is symmetric and positive definite/semidefinite.
+
+\section{exercise}
+For every real number $\alpha$, let
+\[
+    A^\alpha = Q \Lambda^\alpha Q^T,
+\]
+where
+\[
+    \Lambda^\alpha = \text{diag}(\lambda_k^\alpha)_{k=1:n}.
+\]
+\begin{enumerate}
+    \item \textbf{Proof that $A^\alpha$ is symmetric and positive definite:}
+
+          First, let us show that $A^\alpha$ is symmetric:
+          \[
+              (A^\alpha)^T = (Q \Lambda^\alpha Q^T)^T = (Q^T)^T (\Lambda^\alpha)^T Q^T.
+          \]
+          $\Lambda^\alpha$ is a diagonal matrix, hence symmetric. Thus:
+          \[
+              (A^\alpha)^T = Q \Lambda^\alpha Q^T = A^\alpha.
+          \]
+          So $A^\alpha$ is symmetric.
+
+          Now let's prove it is positive definite. For any vector $x\neq0$:
+          \[
+              x^T A^\alpha x = x^T Q \Lambda^\alpha Q^T x.
+          \]
+          Let $y := Q^T x$, so $x^T Q = y^T$. Substituting:
+          \[
+              x^T A^\alpha x = y^T \Lambda^\alpha y.
+          \]
+          Expanding using $\Lambda^\alpha = \text{diag}(\lambda_k^\alpha)$:
+          \[
+              y^T \Lambda^\alpha y = \sum_{i=1}^n y_i^2 \lambda_i^\alpha.
+          \]
+
+          Since $A$ is positive definite, $\lambda_i > 0$ for all $i$. For any real $\alpha$, $\lambda_i^\alpha > 0$. Hence:
+          \[
+              \sum_{i=1}^n y_i^2 \lambda_i^\alpha > 0 \quad \text{for all } y \neq 0.
+          \]
+
+          Equality holds if and only if $y = 0$, which implies $x = 0$ (since $y = Q^T x$ and $Q$ is invertible). Therefore, $A^\alpha$ is positive definite.
+    \item \begin{align*}
+              A^\alpha A^\beta & = (O \Lambda^\alpha O^T)(O \Lambda^\beta O^T)                                                                                                        \\
+                               & = O \Lambda^\alpha (O^T O) \Lambda^\beta O^T                                                                                                         \\
+                               & = O \Lambda^\alpha \Lambda^\beta O^T \quad \text{(since $O^T O = I$)}                                                                                \\
+                               & = O \, \text{diag}(\lambda_k^\alpha)_{k=1:n} \, \text{diag}(\lambda_k^\beta)_{k=1:n} \, O^T                                                          \\
+                               & = O \, \text{diag}(\lambda_k^\alpha \cdot \lambda_k^\beta)_{k=1:n} \, O^T                                                                            \\
+                               & = O \, \text{diag}(\lambda_k^{\alpha+\beta})_{k=1:n} \, O^T \quad \text{(using $\lambda_k^\alpha \cdot \lambda_k^\beta = \lambda_k^{\alpha+\beta}$)} \\
+                               & = A^{\alpha+\beta}.
+          \end{align*}
+    \item Let \( B := A^\alpha \). Then, $B = O \Lambda^\alpha O^T$ . The inverse of \( B \) is:
+          \begin{align*}
+              B^{-1} & = (O \Lambda^\alpha O^T)^{-1}                                          \\
+                     & = O (\Lambda^\alpha)^{-1} O^T \quad \text{(since \( O^T = O^{-1} \))}.
+          \end{align*}
+
+          Now, compute \( (\Lambda^\alpha)^{-1} \):
+          \begin{align*}
+              (\Lambda^\alpha)^{-1} & = \text{diag}(\gamma_k)_{k=1:n}, \quad \text{where } \gamma_k = (\lambda_k^\alpha)^{-1} \\
+                                    & = \text{diag}(\lambda_k^{-\alpha})_{k=1:n}.
+          \end{align*}
+
+          Substituting back, we have:
+          \begin{align*}
+              B^{-1} & = O \, \text{diag}(\lambda_k^{-\alpha})_{k=1:n} \, O^T \\
+                     & = O \Lambda^{-\alpha} O^T.
+          \end{align*}
+
+          Thus, \( B^{-1} = A^{-\alpha} \).
+\end{enumerate}
+\section{exercise}
+We can check that $A_{i,j}=A_{j,i} \quad \forall i,j \in [1,4]$.
+It is also diagonally strictly dominant with positive values in the diagonal:
+\begin{align*}
+    x^T A x & = \sum_{i=1}^n a_{ii} x_i^2 + \sum_{i \neq j} a_{ij} x_i x_j                                       \\
+            & > \sum_{i=1}^n \left( \sum_{j \neq i} |a_{ij}| \right) x_i^2 - \sum_{i \neq j} |a_{ij}| |x_i||x_j| \\
+            & = \sum_{j > i} \left( |a_{ij}| \left( x_i^2 + x_j^2 - 2|x_i||x_j| \right) \right)                  \\
+            & = \sum_{j > i} \left( |a_{ij}| \left( (x_i - |x_j|)^2 \right) \right)                              \\
+            & \geq 0.
+\end{align*}
+So it is also positive definite.
+\section{exercise}
+
+Let:
+\[
+    A_1 = \begin{bmatrix} 1 & 1 \\ 1 & 2 \end{bmatrix}, \quad A_2 = \begin{bmatrix} 2 & 1 \\ 1 & 1 \end{bmatrix}.
+\]
+
+Both \( A_1 \) and \( A_2 \) are symmetric and positive definite (their determinant and trace are both positive). Their product is not even symmetric:
+\[
+    A_1 A_2 = \begin{bmatrix} 1 & 1 \\ 1 & 2 \end{bmatrix} \begin{bmatrix} 2 & 1 \\ 1 & 1 \end{bmatrix} = \begin{bmatrix} 3 & 2 \\ 4 & 3 \end{bmatrix}.
+\]
+
+\section{exercise}
+Recall 10/iii with $\alpha=1$: $A^{-1} = Q\Lambda^{-1}Q^t$. Proof: \[A{A^{ - 1}} = Q\Lambda {Q^t}Q{\Lambda ^{ - 1}}{Q^t} = Q\Lambda {\Lambda ^{ - 1}}{Q^t} = Q{Q^t} = I\]
+
+\section{exercise}
+ (i) To show that \( M^TAM \) is symmetric positive semidefinite:
+
+\begin{align*}
+    \left(M^T A M\right)^T & = \left(M^T (A M)\right)^T                                           \\
+                           & = (M^T A^T) M                                                        \\
+                           & = M^T A M \quad \text{(since \( A \) is symmetric, \( A = A^T \))} , \\
+\end{align*}
+so \( M^TAM \) is symmetric.
+We need to show that it is positive semidefinite, i.e.
+\( x^T (M^T A M) x \geq 0 \)  for any vector $x$. Let $y = Mx$, then
+$x^T M^T A M x =  y^T A y \geq 0$ since $A$ is positive definite.
+
+\vspace{0.5cm}
+(ii) \quad Show that \( M^TAM \) is symmetric positive definite if and only if
+the columns of \( M \) are linearly independent.
+
+We have already shown that \( x^T M^T A M x \geq 0 \) for any \( x \).
+We need to show that \( x^T M^T A M x = 0 \) implies \( x = 0 \) iif the columns are linearly indepenent.
+
+\begin{enumerate}
+    \item Sufficiency:
+          Assume the columns of \( M \) are linearly independent.
+          Let \( Mx = y \). Since \( A \) is positive definite, \( y^T A y = 0 \) implies \( y = 0 \).
+          Because the columns of \( M \) are linearly independent, \( Mx = 0 \) only if \( x = 0 \),
+          as $Mx$ is a vector made of the linear combination of columns of $M$ with weights as the elements of $x$.
+
+    \item Necessity:
+          Assume \( Mx = 0 \) implies \( x = 0 \).
+          Suppose the columns of \( M \) are not linearly independent.
+          Then there exists some weights $x_i$ put into a non-zero vector $x$
+          such that \( Mx = 0 \), contradicting the assumption.
+          Thus, the columns of \( M \) must be linearly independent.
+\end{enumerate}
+
+\section{exercise}
+\begin{enumerate}
+    \item The matrix is symmetric, and diagonally strictly dominant,
+          which implies that it is positive definite, as in 11.
+    \item \[
+              B \approx \begin{pmatrix}
+                  6.2602777 & 1.3449624 \\
+                  1.3449624 & 11.584087
+              \end{pmatrix}
+          \]
+    \item \[
+              U \approx \begin{pmatrix}
+                  6.40312424 & 3.74817029  \\
+                  0          & 11.04315261
+              \end{pmatrix}
+          \]
+\end{enumerate}
+This is the outcome from the python code below:
+\begin{lstlisting}
+import numpy as np
+from scipy import linalg
+
+A = np.array([[41, 24],
+              [24, 136]])
+
+B = linalg.sqrtm(A)
+
+print(B)
+print(B@B)
+
+U = linalg.cholesky(A)
+print(U)
+print(U.transpose()@U)
+\end{lstlisting}
+\end{document}
