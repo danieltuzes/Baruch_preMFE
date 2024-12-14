@@ -1,0 +1,729 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{graphicx} % Required for \scalebox
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{verbatim}
+\setcounter{MaxMatrixCols}{20}
+\title{Baruch NLA HW 6}
+\author{Daniel Tuzes, 21}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{orange},
+    showstringspaces=false,
+    breaklines=true,
+    frame=single
+}
+\begin{document}
+\maketitle
+\section{exercise}
+\begin{itemize}
+    \item The values in the diagonal are greater than
+          the sum of absolute values of the off-diagonal values in each row:
+          $1 \ge 1$, $2.5 \ge 1.5$ and $3.1 \ge 2.1$.
+          Therefore this is a weakly diagonally row dominant matrix.
+    \item First leading principal minor:    \(A_{1} = 1\). Second leading principal minor:
+          \[
+              A_{2} = \det\left(\begin{matrix} 1 & -0.2 \\ -0.2 & 2.5 \end{matrix}\right) = 2.46
+          \]
+
+          Third leading principal minor: \(A_{3} = \det(A) = 4.752\).
+          They are all positive, so the matrix is symmetric positive definite.
+\end{itemize}
+
+\section{exercise}
+The matrix $A$ is non-singular, so $U$ and $V$ are also non-singular,
+and they have inverse.
+
+\begin{align*}
+    {U^T}U                               & = {V^T}V                  \\
+    {\left( {{V^T}} \right)^{ - 1}}{U^T} & = V{U^{ - 1}} = \tilde{D}
+\end{align*}
+Lhs is lower-triangular, the rhs is upper triangular,
+so $\tilde{D}$ must be diagonal, and $V=\tilde{D}U$.
+\begin{align*}
+    {U^T}U & = A                                         \\
+           & = {V^T}V                                    \\
+           & = {\left( {\tilde{D}U} \right)^T}\tilde{D}U \\
+           & = {\tilde{D}^2}U
+\end{align*}
+Mulitply by ${U^T}^{-1}$ from the left and by $U^{-1}$ from the right: $I=\tilde{D}^2 \Rightarrow \tilde{D}$ consists of $1$s and $-1$s in its main diagonal,
+and it is diagonal.
+
+\section{exercise}
+\( J \) defined as:
+\[
+    J =
+    \begin{bmatrix}
+        a      & 0      & \cdots & 0      & 0      \\
+        b      & a      & \cdots & 0      & 0      \\
+        \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0      & 0      & \cdots & a      & 0      \\
+        0      & 0      & \cdots & b      & a
+    \end{bmatrix}
+\]
+
+The eigenvalues of \( J \) are determined by solving \( (J - \lambda I)v = 0 \). Subtracting \( \lambda \) times the identity matrix from \( J \) yields:
+\[
+    J - \lambda I =
+    \begin{bmatrix}
+        a-\lambda & 0         & \cdots & 0         & 0         \\
+        b         & a-\lambda & \cdots & 0         & 0         \\
+        \vdots    & \vdots    & \ddots & \vdots    & \vdots    \\
+        0         & 0         & \cdots & a-\lambda & 0         \\
+        0         & 0         & \cdots & b         & a-\lambda
+    \end{bmatrix}
+\]
+
+To find the eigenvalues, compute the determinant of \( J - \lambda I \), which due to its lower triangular structure is the product of its diagonal entries:
+\[
+    \det(J - \lambda I) = (a-\lambda)^n
+\]
+This determinant equals zero when:
+\[
+    (a-\lambda)^n = 0
+\]
+Thus, \(\lambda = a\) for all \(n\) eigenvalues, each with algebraic multiplicity \(n\).
+
+The corresponding eigenvectors for \( \lambda = a \) are determined by:
+\[
+    (J - aI)v = 0
+\]
+which simplifies to:
+\[
+    \begin{bmatrix}
+        0      & 0      & \cdots & 0      & 0      \\
+        b      & 0      & \cdots & 0      & 0      \\
+        \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0      & 0      & \cdots & 0      & 0      \\
+        0      & 0      & \cdots & b      & 0
+    \end{bmatrix}
+    v = 0
+\]
+The system \( (J - aI)v = 0 \) only has the trivial solution where \( v_1 = v_2 = \ldots = v_{n-1} = 0 \) and \( v_n \) is free,
+leading to the only eigenvector:
+\[
+    v = \begin{bmatrix} 0 \\ 0 \\ \vdots \\ 0 \\ 1 \end{bmatrix}
+\]
+\section{exercise}
+If $B=LL^T$, then using numpy's Cholesky-decomposition,
+\[L \approx \displaystyle \left[\begin{matrix}1.414 & 0.0 & 0.0 & 0.0\\-0.707 & 1.225 & 0.0 & 0.0\\0.0 & -0.816 & 1.155 & 0.0\\0.0 & 0.0 & -0.866 & 1.118\end{matrix}\right].\]
+
+We can append an extra 0 vector to it:
+\[C \approx \displaystyle \left[\begin{matrix}1.414 & 0.0 & 0.0 & 0.0 & 0.0\\-0.707 & 1.225 & 0.0 & 0.0 & 0.0\\0.0 & -0.816 & 1.155 & 0.0 & 0.0\\0.0 & 0.0 & -0.866 & 1.118 & 0.0\end{matrix}\right]\]
+
+While $B=CC^T$, $C$ is a Cholesky-component, this is not a square matrix (hence not a lower triangular matrix either).
+
+\section{exercise}
+\[
+    \Sigma_Y = M \Sigma_X M^T = \begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix} \begin{pmatrix} 1 & \rho \\ \rho & 1 \end{pmatrix} \begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix} = \begin{pmatrix} 2 + 2\rho & 0 \\ 0 & 2 - 2\rho \end{pmatrix}
+\]
+It is shown that off-diagonal entries are 0,
+so the correlation matrix's off-diagonals must be 0 too, and the diagonals can be only 1, so
+the correlation matrix is the identity matrix.
+
+\section{exercise}
+\begin{enumerate}
+    \item
+          For a matrix to be considered a correlation matrix,
+          it must be symmetric and positive semi-definite.
+          Using Sylvester's criterion, all principal minors must be non-negative.
+          \begin{itemize}
+              \item The main diagonal has only positive entries.
+              \item The 3 pieces of 2x2 matrices are all non-negative,
+                    if $1-\rho^2\ge0$, which is expected anyway.
+              \item The first 2 requirement will never tell us anything new.
+                    Now we need to check the determinant of the full matrix.
+          \end{itemize}
+
+          The inequality that needs to be solved to ensure the matrix is symmetric positive semi-definite is:
+          \[
+              -\rho^2 - 1.28\rho - 0.28 \geq 0
+          \]
+          The solution is:
+          \[
+              \rho \in [-1.0, -0.28]
+          \]
+    \item Compared to the previous part, only the full determinant part is different.
+          \[
+              -\rho^2 - 0.32\rho + 0.68 \geq 0
+          \]
+          The solution is
+          \[
+              \rho \in [-1.0, 0.68]
+          \]
+    \item The interval in the 2nd case is wider. It is worth to note that the Gershgorin circle theorem
+          also defines a satisfactory, narrower range for $\rho$.
+          According to this,
+          the smaller the correlation components are for $\rho_{1,2}$ and $\rho_{1,3}$,
+          the bigger (in absolute value) it can be for $\rho_{2,3}$.
+\end{enumerate}
+
+\section{exercise}
+As per previous exercise, we just need to check the determinant.
+Wlog, if $\rho_{1,2}$ and $\rho_{1,3}$ are fixed,
+then the inequality that needs to be solved is the determinant being larger or equal to 0.
+For $\rho_{2,3}$ it has 2 solutions:
+\[
+    \rho_{23} = \rho_{12} \rho_{13} \pm \sqrt{\rho_{12}^2 \rho_{13}^2 - \rho_{12}^2 - \rho_{13}^2 + 1}
+\]
+Using $0.5$ and $0.7$,
+after reindexing,
+the result for the range is $\rho \in [-0.27, 0.97]$.
+
+\section{exercise}
+The feasible ranges for \( \rho \) (correlation between \( X_1 \) and \( X_2 \)) to ensure that the \(4 \times 4\) correlation matrix and its submatrices remain positive semi-definite are derived from the determinants of these matrices:
+
+\begin{enumerate}
+    \item the main diagonal, they are all 1.
+    \item the 2x2 matrices, they tell the trivial,
+          the absolute value of $\rho$ cannot be larger than 1.
+    \item 2 out of the 4 3x3 matrices are requirement on the defined value.
+          Fingers crossed, I hope the exercise is well-defined.
+    \item For the \(3 \times 3\) matrix excluding \(X_4\):
+          \[
+              (-0.818, 0.978)
+          \]
+          This range ensures the matrix, excluding \(X_4\), is positive semi-definite.
+
+    \item For the \(3 \times 3\) matrix excluding \(X_3\):
+          \[
+              (-0.875, 0.995)
+          \]
+          This range ensures the matrix, excluding \(X_3\), is positive semi-definite.
+
+    \item From the initial \(4 \times 4\) matrix determinant analysis, the interval for \( \rho \) was found to be:
+          \[
+              (-0.744, 0.969)
+          \]
+          This range was derived from ensuring the full matrix's determinant is non-negative.
+\end{enumerate}
+The allowed value for $\rho$ is the intersection of all intervals,
+which is the interval defined by the total determinant.
+
+The result for the full determanint is the result of the following python code:
+\begin{lstlisting}
+rho, x = sp.symbols('rho x')
+
+correlation_matrix_scaled_new = sp.Matrix([
+    [1, rho, 4 * x, -2 * x],
+    [rho, 1, 2 * x, -3 * x],
+    [4 * x, 2 * x, 1, -2 * x],
+    [-2 * x, -3 * x, -2 * x, 1]
+])
+
+det_scaled_new = correlation_matrix_scaled_new.det()
+
+simplified_det_scaled_new = sp.simplify(det_scaled_new)
+det_evaluated = simplified_det_scaled_new.subs(x, 0.1)
+det_evaluated = sp.simplify(det_evaluated)
+rho_solutions = sp.solveset(sp.Gt(det_evaluated, 0), rho, domain=sp.S.Reals)
+rho_solutions
+
+\end{lstlisting}
+
+\section{exercise}
+The matrix is decomposed as $LL^t$, and
+\[L = \left[\begin{matrix}1.0 & 0.0 & 0.0\\0.2 & 0.979795897113271 & 0.0\\0.3 & -0.265361388801511 & 0.916287800493564\end{matrix}\right]\]
+Produced by:
+\begin{lstlisting}
+import numpy as np
+
+matrix = np.array([
+    [1, 0.2, 0.3],
+    [0.2, 1, -0.2],
+    [0.3, -0.2, 1]
+])
+
+np.linalg.cholesky(matrix)
+\end{lstlisting}
+\section{exercise}
+\subsection*{i}
+Let \( X_1, X_2, \ldots, X_n \) be nonconstant random variables, and let \( Y_i = d_i X_i \) for constants \( d_i \neq 0 \).
+The covariance matrix \(\Sigma_Y\) for \(Y_1, Y_2, \ldots, Y_n\) is defined by its elements:
+\[
+    \Sigma_Y[i,j] = \text{Cov}(Y_i, Y_j) = \mathbb{E}[(Y_i - \mathbb{E}[Y_i])(Y_j - \mathbb{E}[Y_j])]
+\]
+Given that \( Y_i = d_i X_i \), the expectation of \( Y_i \) is \( \mathbb{E}[Y_i] = \mathbb{E}[d_i X_i] = d_i \mathbb{E}[X_i] \). Thus:
+\[
+    Y_i - \mathbb{E}[Y_i] = d_i X_i - d_i \mathbb{E}[X_i] = d_i (X_i - \mathbb{E}[X_i])
+\]
+Substituting these into the covariance formula, we get:
+\[
+    \Sigma_Y[i,j] = \mathbb{E}[(d_i (X_i - \mathbb{E}[X_i]))(d_j (X_j - \mathbb{E}[X_j]))]
+\]
+Using the linearity of the expected value, this expands to:
+\[
+    \Sigma_Y[i,j] = d_i d_j \mathbb{E}[(X_i - \mathbb{E}[X_i])(X_j - \mathbb{E}[X_j])]
+\]
+Since \(\mathbb{E}[(X_i - \mathbb{E}[X_i])(X_j - \mathbb{E}[X_j])]\) is just \(\Sigma_X[i,j]\), we find:
+\[
+    \Sigma_Y[i,j] = d_i \Sigma_X[i,j] d_j
+\]
+This result implies that:
+\[
+    \Sigma_Y = D \Sigma_X D
+\]
+where \( D \) is the diagonal matrix \(\text{diag}(d_1, d_2, \ldots, d_n)\).
+\subsection*{ii}
+\[
+    \Omega_Y[i,j] = \frac{\text{Cov}(Y_i, Y_j)}{\sqrt{\text{Var}(Y_i) \text{Var}(Y_j)}}
+\]
+Given \(Y_i = d_i X_i\), we have:
+\[
+    \text{Cov}(Y_i, Y_j) = \text{Cov}(d_i X_i, d_j X_j) = d_i d_j \text{Cov}(X_i, X_j)
+\]
+\[
+    \text{Var}(Y_i) = \text{Var}(d_i X_i) = d_i^2 \text{Var}(X_i)
+\]
+Thus, the denominator for \(\Omega_Y[i,j]\) becomes:
+\[
+    \sqrt{\text{Var}(Y_i) \text{Var}(Y_j)} = \sqrt{d_i^2 \text{Var}(X_i) d_j^2 \text{Var}(X_j)} = |d_i d_j| \sqrt{\text{Var}(X_i) \text{Var}(X_j)}
+\]
+Substituting these into the definition of \(\Omega_Y[i,j]\), we obtain:
+\[
+    \Omega_Y[i,j] = \frac{d_i d_j \text{Cov}(X_i, X_j)}{|d_i d_j| \sqrt{\text{Var}(X_i) \text{Var}(X_j)}}
+\]
+Since \(\text{Cov}(X_i, X_j) = \text{Var}(X_i)\) when \(i = j\) and noting that \(\sqrt{\text{Var}(X_i) \text{Var}(X_j)}\) is always positive, the correlation simplifies to:
+\[
+    \Omega_Y[i,j] = \frac{d_i d_j}{|d_i d_j|} \frac{\text{Cov}(X_i, X_j)}{\sqrt{\text{Var}(X_i) \text{Var}(X_j)}} = \text{sgn}(d_i d_j) \Omega_X[i,j]
+\]
+Where \(\text{sgn}(d_i d_j)\) is the sign function, which evaluates to \(+1\) if \(d_i\) and \(d_j\) have the same sign and \(-1\) if they have opposite signs. Under the conditions that all \(d_i > 0\) or all \(d_i < 0\), \(\text{sgn}(d_i d_j) = 1\) for all \(i, j\), thus:
+\[
+    \Omega_Y[i,j] = \Omega_X[i,j]
+\]
+This shows that under the specified conditions, \(\Omega_Y = \Omega_X\).
+\subsection*{iii}
+Consider a scenario where \(d_1 = -1\) and \(d_i = 1\) for all \(i \geq 2\). The transformation for \(Y_i\) becomes:
+\[
+    Y_i = d_i X_i \quad \text{with} \quad Y_1 = -X_1 \quad \text{and} \quad Y_i = X_i \quad \text{for } i \geq 2
+\]
+For \(i, j \geq 2\), \(\Omega_Y[i,j]\) remains unchanged from \(\Omega_X[i,j]\) because \(d_i = d_j = 1\):
+\[
+    \Omega_Y[i,j] = \Omega_X[i,j] \quad \text{for } i, j \geq 2
+\]
+However, for \(i = 1\) or \(j = 1\) and \(i, j \neq 1\), the correlation \(\Omega_Y[i,j]\) involves \(-X_1\):
+\[
+    \Omega_Y[1,2] = \frac{\text{Cov}(-X_1, X_2)}{\sqrt{\text{Var}(-X_1) \text{Var}(X_2)}} = \frac{-\text{Cov}(X_1, X_2)}{|-1| \sqrt{\text{Var}(X_1) \text{Var}(X_2)}} = -\Omega_X[1,2]
+\]
+\[
+    \Omega_Y[2,1] = \frac{\text{Cov}(X_2, -X_1)}{\sqrt{\text{Var}(X_2) \text{Var}(-X_1)}} = \frac{-\text{Cov}(X_2, X_1)}{|-1| \sqrt{\text{Var}(X_2) \text{Var}(X_1)}} = -\Omega_X[2,1]
+\]
+
+\section{exercise}
+The mean of the linear combination \(Y = a^T \mathbf{X}\) is calculated as follows:
+\[
+    \text{Mean} = a^T \boldsymbol{\mu} = \begin{bmatrix} 3 & 2 & 1 \end{bmatrix} \begin{bmatrix} -1 \\ -2 \\ 3 \end{bmatrix} = 3(-1) + 2(-2) + 1 \cdot 3 = -3 - 4 + 3 = -4.
+\]
+The variance of \(Y\) is given by:
+\[
+    \text{Variance} = a^T \Sigma a = \begin{bmatrix} 3 & 2 & 1 \end{bmatrix} \begin{bmatrix} 3 & -1 & 1 \\ -1 & 4 & -2 \\ 1 & -2 & 3 \end{bmatrix} \begin{bmatrix} 3 \\ 2 \\ 1 \end{bmatrix} = \begin{bmatrix} 3 & 2 & 1 \end{bmatrix} \begin{bmatrix} 8 \\ 3 \\ 2 \end{bmatrix} = 24 + 6 + 2 = 32.
+\]
+Given \(Y \sim N(-4, 31)\), we calculate the probability \(P(Y > 0)\) as follows:
+\[
+    P(Y > 0) = P\left(\frac{Y + 4}{\sqrt{32}} > \frac{0 + 4}{\sqrt{32}}\right) = P\left(Z > \frac{4}{\sqrt{32}}\right)
+\]
+where \(Z \sim N(0,1)\). Calculating the probability using the standard normal distribution, we find:
+\[
+    P(Z > 0.72) \approx 0.239.
+\]
+
+\section{exercise}
+\subsection*{i}
+Given two independent standard normal variables $Z_1$ and $Z_2$, we need to find two normal random variables $X_1$ and $X_2$ with a specified correlation matrix $\Omega_X$:
+
+\[
+    \Omega_X = \begin{pmatrix} 1 & -0.36 \\ -0.36 & 1 \end{pmatrix}
+\]
+
+The variables $Z_1$ and $Z_2$ have the correlation matrix $\Omega_Z$, which is the identity matrix since they are independent:
+
+\[
+    \Omega_Z = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+\]
+
+To transform $\mathbf{Z} = \begin{pmatrix} Z_1 \\ Z_2 \end{pmatrix}$ into $\mathbf{X} = \begin{pmatrix} X_1 \\ X_2 \end{pmatrix}$ with the correlation structure given by $\Omega_X$, we seek a matrix $M$ such that:
+
+\[
+    M \Omega_Z M^\top = \Omega_X
+\]
+This holds because $Z_1$ and $Z_2$ are independent, and $\Omega_Z = \Sigma_Z$. Given $\Omega_Z$ is the identity matrix, this reduces to:
+
+\[
+    M M^\top = \Omega_X
+\]
+
+We solve for \(M\) using Cholesky decomposition since the correlation matrix \(\Omega_X\) is symmetric positive semi-definite. The Cholesky decomposition is suitable for such matrices and results in a lower triangular matrix \(L\) such that:
+
+\[
+    \Omega_X = L L^\top
+\]
+
+The matrix \(L\) obtained from the Cholesky decomposition of \(\Omega_X\) is:
+
+\[
+    M=L = \begin{pmatrix}
+        1     & 0     \\
+        -0.36 & 0.933
+    \end{pmatrix}
+\]
+
+\[
+    X_1 = Z_1
+\]
+\[
+    X_2 = -0.36 \cdot Z_1 + 0.933 \cdot Z_2
+\]
+\subsection*{ii}
+\[
+    \Sigma_X = \begin{pmatrix} 9 & -4 \\ -4 & 16 \end{pmatrix}
+\]
+
+
+\[
+    \mathbf{X} = A \mathbf Z = \begin{pmatrix} X_1 \\ X_2 \end{pmatrix}, \quad \mathbf Z = \begin{pmatrix} Z_1 \\ Z_2 \end{pmatrix}
+\]
+
+\[
+    \Sigma_Z = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+\]
+\[
+    \Sigma_X = \text{Cov}(\mathbf X) = \text{Cov}(A \mathbf Z) = A \Sigma_Z A^\top
+\]
+
+To achieve the desired covariance structure,
+we find a matrix $A$ such that $AA^\top = \Sigma_X$, since \(\Sigma_Z = I\).
+Using Cholesky decomposition, we obtain:
+
+\[
+    A = \begin{pmatrix} 3 & 0 \\ -\frac{4}{3} & \frac{8\sqrt{2}}{3} \end{pmatrix}
+\]
+
+Thus, the transformation from $Z$ to $X$ is given by:
+
+\[
+    \mathbf X = A \mathbf Z = \begin{pmatrix} X_1 \\ X_2 \end{pmatrix}=\begin{pmatrix} 3Z_1 \\ -\frac{4}{3}Z_1 + \frac{8\sqrt{2}}{3}Z_2 \end{pmatrix}
+\]
+
+\section{exercise}
+\subsection*{i}
+Given three independent standard normal variables \(Z_1\), \(Z_2\),
+and \(Z_3\), we aim to find three normal random variables \(X_1\), \(X_2\),
+and \(X_3\) with a specified correlation matrix:
+
+\[
+    \Omega_X = \begin{pmatrix}
+        1    & -0.3 & 0.4 \\
+        -0.3 & 1    & 0.5 \\
+        0.4  & 0.5  & 1
+    \end{pmatrix}
+\]
+
+We need a transformation matrix \(M\) such that $\mathbf X = M \mathbf Z $
+nd \(M M^\top = \Omega\).
+The Cholesky decomposition of \(\Omega\) yields \(M\) as:
+
+\[
+    M = \begin{pmatrix}
+        1    & 0     & 0     \\
+        -0.3 & 0.954 & 0     \\
+        0.4  & 0.65  & 0.646
+    \end{pmatrix}
+\]
+
+So the new random variables:
+
+\[
+    X_1 = Z_1,
+\]
+\[
+    X_2 = -0.3 Z_1 + 0.954 Z_2,
+\]
+\[
+    X_3 = 0.4 Z_1 + 0.65 Z_2 + 0.646 Z_3
+\]
+\subsection*{ii}
+\[
+    \Sigma_X = \begin{pmatrix} 4 & 1 & 0.5 \\ 1 & 4 & 2 \\ 0.5 & 2 & 9 \end{pmatrix}
+\]
+We are looking for new random variables in the form:
+\[
+    \begin{pmatrix}
+        X_1 \\
+        X_2 \\
+        X_3
+    \end{pmatrix}
+    = M \begin{pmatrix}
+        Z_1 \\
+        Z_2 \\
+        Z_3
+    \end{pmatrix}
+\]
+The transformation of the covariance matrix:
+\[
+    \Sigma_X = M \Sigma_Z M^\top = MM^\top
+\]
+$M$ can be calculated from Cholesky decomposition:
+\[
+    M = \begin{pmatrix}
+        2           & 0                   & 0     \\
+        \frac{1}{2} & \frac{\sqrt{15}}{2} & 0     \\
+        0.25        & 0.25\sqrt{15}       & 2.828
+    \end{pmatrix}
+\]
+So the new random variables:
+\[
+    X_1 = 2Z_1,
+\]
+\[
+    X_2 = \frac{1}{2}Z_1 + \frac{\sqrt{15}}{2}Z_2,
+\]
+\[
+    X_3 = 0.25Z_1 + 0.25\sqrt{15}Z_2 + 2.828 Z_3
+\]
+\section{exercise}
+\subsection*{i}
+The annualized zero rate is $Z =  - \ln \left( {DF} \right)/t$.
+
+\begin{tabular}{rrr}
+    \toprule
+    Months & Discount Factor & Zero Rate (\%) \\
+    \midrule
+    0      & 0.999979        & 0.75           \\
+    1      & 0.998300        & 2.041736       \\
+    4      & 0.993500        & 1.956365       \\
+    10     & 0.982900        & 2.069747       \\
+    13     & 0.977500        & 2.100645       \\
+    20     & 0.951700        & 2.970325       \\
+    22     & 0.947900        & 2.918524       \\
+    \bottomrule
+\end{tabular}
+\subsection*{ii}
+To be able to interpolate till 22, we need to use
+
+$M = \displaystyle \left[\begin{matrix}8.0 & 3.0 & 0.0 & 0.0 & 0.0\\3.0 & 18.0 & 6.0 & 0.0 & 0.0\\0.0 & 6.0 & 18.0 & 3.0 & 0.0\\0.0 & 0.0 & 3.0 & 20.0 & 7.0\\0.0 & 0.0 & 0.0 & 7.0 & 18.0\end{matrix}\right]$
+$z = \displaystyle \left[\begin{matrix}-0.07924\\0.00286\\-0.00052\\0.00683\\-0.00898\end{matrix}\right]$
+
+If we don't want to do interpolation between months 20 and 22, we can omit the last rows and columns from $M$ and $z$.
+\subsection*{iii}
+Using numpy's solve banded:
+$w = \displaystyle \left[\begin{matrix}-0.0107496097909466\\0.00225229277585762\\-0.000905406765432886\\0.000754521707548751\\-0.000792234632300705\end{matrix}\right]$
+
+This needs to be preceeded and appended by 0. From there, we can now get
+\[\begin{array}{l}
+        {c_i} = \frac{{{w_{i - 1}}{x_i} - {w_i}{x_{i - 1}}}}{{2\left( {{x_i} - {x_{i - 1}}} \right)}} \\
+        {d_i} = \frac{{{w_i} - {w_{i - 1}}}}{{6\left( {{x_i} - {x_{i - 1}}} \right)}}
+    \end{array}\]
+
+To meet the proper indicies, I assigned 0 as their 0th value, which is not used later. Results:
+
+$c = \displaystyle \left[\begin{matrix}0\\0.0\\-0.00754178865660734\\0.00217871290169231\\-0.00321925083768584\\0.0018135345979203\\-0.00435729047765388\end{matrix}\right]$
+$d = \displaystyle \left[\begin{matrix}0\\-0.00179160163182443\\0.000722327920378012\\-8.77138761469585 \cdot 10^{-5}\\9.22182484989798 \cdot 10^{-5}\\-3.68275319011775 \cdot 10^{-5}\\6.60195526917254 \cdot 10^{-5}\end{matrix}\right]$
+
+Now we can calculate:
+\[\begin{array}{l}
+        {q_{i - 1}} = {v_{i - 1}} - {c_i}x_{i - 1}^2 - {d_i}x_{i - 1}^3 \\
+        {r_i} = {v_i} - {c_i}x_i^2 - {d_i}x_i^3
+    \end{array}\]
+Results:
+
+$q =\displaystyle \left[\begin{matrix}0.0075\\0.0272394607362293\\-0.00968571835367163\\0.250406835269604\\-0.204567259461643\\1.24445976952775\end{matrix}\right]$
+$r = \displaystyle \left[\begin{matrix}0\\0.0222116016318244\\0.0939996316015246\\-0.109457414022273\\0.362459899616648\\-0.401093583958699\\1.43514239412298\end{matrix}\right]$
+
+Now we can calculate
+\[\begin{array}{l}
+        {a_i} = \frac{{{q_{i - 1}}{x_i} - {r_i}{x_{i - 1}}}}{{{x_i} - {x_{i - 1}}}} \\
+        {b_i} = \frac{{{r_i} - {q_{i - 1}}}}{{{x_i} - {x_{i - 1}}}}
+    \end{array}\]
+
+Results:
+
+$a = \displaystyle \left[\begin{matrix}0.0075\\0.00498607044779756\\0.0568287454253957\\-0.123103379220543\\0.160410200318603\\-0.662366476424619\end{matrix}\right]$
+$b = \displaystyle \left[\begin{matrix}0.0147116016318244\\0.0222533902884318\\-0.0166286159447668\\0.0373510214490147\\-0.0280751892138651\\0.0953413122976183\end{matrix}\right]$
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{interp.pdf}
+    \caption{Piecewise Cubic Spline Function}
+    \label{fig:spline_plot}
+\end{figure}
+
+
+\subsection*{iv}
+With face value 100:
+
+\begin{tabular}{rrrrr}
+    \toprule
+    Month & Zero Rate & Cash Flow & Discount Factor & Discounted Cash Flow \\
+    \midrule
+    3     & 0.023373  & 1.75      & 0.994174        & 1.739804             \\
+    9     & 0.019704  & 1.75      & 0.985331        & 1.724329             \\
+    15    & 0.023035  & 1.75      & 0.971617        & 1.700330             \\
+    21    & 0.029643  & 101.75    & 0.949447        & 96.606253            \\
+    \bottomrule
+\end{tabular}
+Total: $\displaystyle 101.77$
+\section{exercise}
+\subsection*{i}
+Calculate the rank of
+$A = \displaystyle \left[\begin{matrix}0.25 & -0.5 & 1.5\\1.0 & -1.0 & 1.25\\-0.5 & -0.25 & 2.0\\0.0 & 0.5 & 0.75\\-1.0 & 0.75 & 1.5\end{matrix}\right]$
+with python, it turnes out to be 3, so the columns as vectors in $A$ are linearly independent.
+\subsection*{ii}
+\[
+    \Sigma = \frac{1}{N-1} \sum_{j=1}^N (x_{ij} - \mu_i)(x_{kj} - \mu_k)
+    =\displaystyle \left[\begin{matrix}0.575 & -0.44375 & -0.13125\\-0.44375 & 0.51875 & -0.075\\-0.13125 & -0.075 & 0.20625\end{matrix}\right]
+\]
+
+Calculating the determinant, it is $10^{-18}$, i.e. 0 within the numeric precision.
+This is expected after seeing that the rank is 3 for this matrix:
+
+$\displaystyle \left[\begin{matrix}0.25 & -0.5 & 1.5 & 1.0\\1.0 & -1.0 & 1.25 & 1.0\\-0.5 & -0.25 & 2.0 & 1.0\\0.0 & 0.5 & 0.75 & 1.0\\-1.0 & 0.75 & 1.5 & 1.0\end{matrix}\right]$
+\section{exercise}
+\subsection*{i}
+For weekly log returns, only the top rows are shown.
+Also note that the order is from older to newer:
+
+\scalebox{0.75}{
+    \begin{tabular}{llrrrrrrrr}
+        \toprule
+          & Date       & AXP       & BAC       & JPM       & CSCO      & HPQ       & IBM       & INTC      & MSFT      \\
+        \midrule
+        0 & 2011-07-05 & 0.013850  & -0.035221 & -0.020348 & -0.003981 & -0.016879 & 0.011077  & 0.024281  & 0.033833  \\
+        1 & 2011-07-11 & -0.024116 & -0.068319 & -0.018913 & -0.009352 & -0.037629 & -0.005375 & -0.031536 & -0.005162 \\
+        2 & 2011-07-18 & 0.008300  & 0.013046  & 0.053690  & 0.054209  & 0.045103  & 0.053450  & 0.033416  & 0.027485  \\
+        3 & 2011-07-25 & -0.043030 & -0.041736 & -0.042090 & -0.030335 & -0.042709 & -0.018130 & -0.035360 & -0.004658 \\
+        4 & 2011-08-01 & -0.058162 & -0.173216 & -0.073120 & -0.067076 & -0.075074 & -0.049997 & -0.061689 & -0.064694 \\
+        5 & 2011-08-08 & -0.050468 & -0.127721 & -0.045876 & 0.068385  & -0.009387 & -0.023719 & -0.006748 & -0.022671 \\
+        6 & 2011-08-15 & -0.009435 & -0.031386 & -0.044371 & -0.058622 & -0.314599 & -0.065425 & -0.073467 & -0.036761 \\
+        7 & 2011-08-22 & 0.086337  & 0.108399  & 0.052604  & 0.015835  & 0.050380  & 0.071010  & 0.029820  & 0.049000  \\
+        8 & 2011-08-29 & 0.000636  & -0.067230 & -0.044611 & 0.005450  & -0.019244 & -0.012812 & -0.006550 & 0.021167  \\
+        9 & 2011-09-06 & -0.025546 & -0.038275 & -0.076324 & 0.026811  & -0.072051 & -0.034177 & 0.003280  & -0.002055 \\
+        \bottomrule
+    \end{tabular}
+
+
+}
+
+Monthly log returns:
+
+\scalebox{0.75}{\begin{tabular}{llrrrrrrrr}
+        \toprule
+           & Date       & AXP       & BAC       & JPM       & CSCO      & HPQ       & IBM       & INTC      & MSFT      \\
+        \midrule
+        0  & 2011-08-01 & -0.006597 & -0.171980 & -0.073967 & -0.019187 & -0.301121 & -0.051838 & -0.093866 & -0.023061 \\
+        1  & 2011-09-01 & -0.101805 & -0.288505 & -0.220818 & -0.010746 & -0.142573 & 0.017050  & 0.058568  & -0.066623 \\
+        2  & 2011-10-03 & 0.124098  & 0.109142  & 0.151885  & 0.182772  & 0.170059  & 0.054337  & 0.139502  & 0.067809  \\
+        3  & 2011-11-01 & -0.052316 & -0.226102 & -0.115254 & 0.005609  & 0.049071  & 0.022070  & 0.024015  & -0.032921 \\
+        4  & 2011-12-01 & -0.018282 & 0.021979  & 0.071049  & -0.030667 & -0.076961 & -0.022126 & -0.027058 & 0.014587  \\
+        5  & 2012-01-03 & 0.064715  & 0.248896  & 0.122128  & 0.086675  & 0.082557  & 0.046332  & 0.085886  & 0.128895  \\
+        6  & 2012-02-01 & 0.053478  & 0.113379  & 0.050720  & 0.011567  & -0.100495 & 0.025090  & 0.024858  & 0.078845  \\
+        7  & 2012-03-01 & 0.089772  & 0.182742  & 0.158509  & 0.062314  & -0.054959 & 0.058805  & 0.045332  & 0.016208  \\
+        8  & 2012-04-02 & 0.043301  & -0.165241 & -0.061050 & -0.044184 & 0.037950  & -0.007522 & 0.010006  & -0.007423 \\
+        9  & 2012-05-01 & -0.075551 & -0.097543 & -0.259618 & -0.210645 & -0.087392 & -0.066778 & -0.087414 & -0.085864 \\
+        10 & 2012-06-01 & 0.041725  & 0.107408  & 0.074979  & 0.050057  & -0.114535 & 0.013832  & 0.030906  & 0.046889  \\
+        11 & 2012-07-02 & -0.005253 & -0.108775 & 0.015830  & -0.069251 & -0.097822 & 0.002027  & -0.036151 & -0.037404 \\
+        12 & 2012-08-01 & 0.010305  & 0.085186  & 0.031204  & 0.179302  & -0.077458 & -0.001507 & -0.025816 & 0.051451  \\
+        13 & 2012-09-04 & -0.024984 & 0.101458  & 0.085881  & 0.001079  & 0.018138  & 0.062639  & -0.091664 & -0.035151 \\
+        14 & 2012-10-01 & -0.012369 & 0.054127  & 0.036658  & -0.100339 & -0.208423 & -0.064304 & -0.046563 & -0.041797 \\
+        15 & 2012-11-01 & -0.001263 & 0.055425  & -0.014552 & 0.105182  & -0.063997 & -0.018825 & -0.089702 & -0.061387 \\
+        16 & 2012-12-03 & 0.027960  & 0.164704  & 0.067949  & 0.038436  & 0.102366  & 0.007773  & 0.052309  & 0.003427  \\
+        17 & 2013-01-02 & 0.026345  & -0.025340 & 0.074672  & 0.045439  & 0.147023  & 0.058410  & 0.020084  & 0.027368  \\
+        18 & 2013-02-01 & 0.055237  & -0.007105 & 0.038873  & 0.014212  & 0.198941  & -0.006930 & 0.003389  & 0.020861  \\
+        19 & 2013-03-01 & 0.082008  & 0.081276  & -0.030293 & 0.001945  & 0.174755  & 0.060233  & 0.044893  & 0.028563  \\
+        20 & 2013-04-01 & 0.016857  & 0.010625  & 0.038547  & 0.008704  & -0.146026 & -0.051715 & 0.092197  & 0.145819  \\
+        21 & 2013-05-01 & 0.101423  & 0.104140  & 0.107639  & 0.142459  & 0.170204  & 0.031349  & 0.022913  & 0.059926  \\
+        22 & 2013-06-03 & -0.012666 & -0.059618 & -0.033399 & 0.009144  & 0.021191  & -0.084785 & -0.002061 & -0.010369 \\
+        \bottomrule
+    \end{tabular}
+
+
+}
+\subsection*{ii}
+Weekly Covariance Matrix
+
+\scalebox{0.8}{
+    \begin{tabular}{lrrrrrrrr}
+        \toprule
+             & AXP      & BAC      & JPM      & CSCO     & HPQ      & IBM      & INTC     & MSFT     \\
+        \midrule
+        AXP  & 0.001033 & 0.001330 & 0.000992 & 0.000460 & 0.000670 & 0.000449 & 0.000552 & 0.000542 \\
+        BAC  & 0.001330 & 0.003600 & 0.002139 & 0.000977 & 0.001152 & 0.000857 & 0.000896 & 0.000883 \\
+        JPM  & 0.000992 & 0.002139 & 0.001949 & 0.000937 & 0.001114 & 0.000684 & 0.000692 & 0.000687 \\
+        CSCO & 0.000460 & 0.000977 & 0.000937 & 0.001482 & 0.000927 & 0.000589 & 0.000534 & 0.000525 \\
+        HPQ  & 0.000670 & 0.001152 & 0.001114 & 0.000927 & 0.003587 & 0.000872 & 0.001016 & 0.000591 \\
+        IBM  & 0.000449 & 0.000857 & 0.000684 & 0.000589 & 0.000872 & 0.000865 & 0.000519 & 0.000428 \\
+        INTC & 0.000552 & 0.000896 & 0.000692 & 0.000534 & 0.001016 & 0.000519 & 0.001066 & 0.000507 \\
+        MSFT & 0.000542 & 0.000883 & 0.000687 & 0.000525 & 0.000591 & 0.000428 & 0.000507 & 0.000916 \\
+        \bottomrule
+    \end{tabular}
+}
+Weekly Correlation Matrix
+
+\scalebox{0.8}{
+    \begin{tabular}{lrrrrrrrr}
+        \toprule
+             & AXP      & BAC      & JPM      & CSCO     & HPQ      & IBM      & INTC     & MSFT     \\
+        \midrule
+        AXP  & 1.000000 & 0.689501 & 0.699261 & 0.372070 & 0.348173 & 0.474895 & 0.526059 & 0.556712 \\
+        BAC  & 0.689501 & 1.000000 & 0.807547 & 0.423249 & 0.320555 & 0.485617 & 0.457506 & 0.486391 \\
+        JPM  & 0.699261 & 0.807547 & 1.000000 & 0.551521 & 0.421470 & 0.527166 & 0.480359 & 0.514542 \\
+        CSCO & 0.372070 & 0.423249 & 0.551521 & 1.000000 & 0.402049 & 0.520300 & 0.424725 & 0.450444 \\
+        HPQ  & 0.348173 & 0.320555 & 0.421470 & 0.402049 & 1.000000 & 0.495163 & 0.519735 & 0.325845 \\
+        IBM  & 0.474895 & 0.485617 & 0.527166 & 0.520300 & 0.495163 & 1.000000 & 0.540684 & 0.481144 \\
+        INTC & 0.526059 & 0.457506 & 0.480359 & 0.424725 & 0.519735 & 0.540684 & 1.000000 & 0.513052 \\
+        MSFT & 0.556712 & 0.486391 & 0.514542 & 0.450444 & 0.325845 & 0.481144 & 0.513052 & 1.000000 \\
+        \bottomrule
+    \end{tabular}
+}
+Monthly Covariance Matrix
+
+\scalebox{0.8}{
+    \begin{tabular}{lrrrrrrrr}
+        \toprule
+             & AXP      & BAC      & JPM      & CSCO     & HPQ      & IBM      & INTC     & MSFT     \\
+        \midrule
+        AXP  & 0.003105 & 0.005148 & 0.004490 & 0.002934 & 0.004046 & 0.001222 & 0.001832 & 0.002217 \\
+        BAC  & 0.005148 & 0.018797 & 0.011645 & 0.005865 & 0.005610 & 0.002353 & 0.002242 & 0.004682 \\
+        JPM  & 0.004490 & 0.011645 & 0.011253 & 0.005719 & 0.004723 & 0.002201 & 0.002362 & 0.004006 \\
+        CSCO & 0.002934 & 0.005865 & 0.005719 & 0.007650 & 0.004756 & 0.001967 & 0.002488 & 0.002816 \\
+        HPQ  & 0.004046 & 0.005610 & 0.004723 & 0.004756 & 0.018312 & 0.003346 & 0.003729 & 0.002116 \\
+        IBM  & 0.001222 & 0.002353 & 0.002201 & 0.001967 & 0.003346 & 0.001998 & 0.001216 & 0.000768 \\
+        INTC & 0.001832 & 0.002242 & 0.002362 & 0.002488 & 0.003729 & 0.001216 & 0.003887 & 0.002494 \\
+        MSFT & 0.002217 & 0.004682 & 0.004006 & 0.002816 & 0.002116 & 0.000768 & 0.002494 & 0.003533 \\
+        \bottomrule
+    \end{tabular}
+}
+Monthly Correlation Matrix
+
+\scalebox{0.8}{
+    \begin{tabular}{lrrrrrrrr}
+        \toprule
+             & AXP      & BAC      & JPM      & CSCO     & HPQ      & IBM      & INTC     & MSFT     \\
+        \midrule
+        AXP  & 1.000000 & 0.673816 & 0.759623 & 0.602003 & 0.536523 & 0.490684 & 0.527247 & 0.669284 \\
+        BAC  & 0.673816 & 1.000000 & 0.800678 & 0.489094 & 0.302386 & 0.383878 & 0.262332 & 0.574497 \\
+        JPM  & 0.759623 & 0.800678 & 1.000000 & 0.616332 & 0.328974 & 0.464213 & 0.357220 & 0.635266 \\
+        CSCO & 0.602003 & 0.489094 & 0.616332 & 1.000000 & 0.401785 & 0.503133 & 0.456288 & 0.541684 \\
+        HPQ  & 0.536523 & 0.302386 & 0.328974 & 0.401785 & 1.000000 & 0.553181 & 0.441980 & 0.263062 \\
+        IBM  & 0.490684 & 0.383878 & 0.464213 & 0.503133 & 0.553181 & 1.000000 & 0.436520 & 0.288991 \\
+        INTC & 0.527247 & 0.262332 & 0.357220 & 0.456288 & 0.441980 & 0.436520 & 1.000000 & 0.672936 \\
+        MSFT & 0.669284 & 0.574497 & 0.635266 & 0.541684 & 0.263062 & 0.288991 & 0.672936 & 1.000000 \\
+        \bottomrule
+    \end{tabular}
+}
+The covariance is bigger for monthly than for weekly,
+because there is a higher chance for more gain/loss over 1 month than 1 week.
+This is in line with previous observation from HW1.
+
+The correlation does not show this trend.
+
+\end{document}
