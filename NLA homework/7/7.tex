@@ -1,0 +1,963 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{graphicx} % Required for \scalebox
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{verbatim}
+\usepackage{adjustbox}
+\usepackage{fancyvrb}
+\setcounter{MaxMatrixCols}{20}
+\title{Baruch NLA HW 7}
+\author{Daniel Tuzes, 21}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{orange},
+    showstringspaces=false,
+    breaklines=true,
+    frame=single
+}
+
+\newenvironment{myverb}{%
+ \VerbatimEnvironment
+ \begin{adjustbox}{max width=\linewidth}
+ \begin{BVerbatim}
+  }{
+  \end{BVerbatim}
+ \end{adjustbox}
+}
+
+\DeclareMathOperator{\sgn}{sgn}
+
+\begin{document}
+\maketitle
+\section{exercise}
+\subsection*{i}
+Given the regression model to estimate the 3-year Treasury bond yield \( T_3 \):
+\[ T_3 = a + b_1 T_2 + b_2 T_5 + b_3 T_{10} \]
+
+Where:
+\begin{itemize}
+    \item \( T_2, T_5, \) and \( T_{10} \) are the yields of the 2-year, 5-year, and 10-year Treasury bonds, respectively.
+    \item \( a, b_1, b_2, b_3 \) are the coefficients to be estimated.
+\end{itemize}
+
+The matrix \( A \) and vector \( y \) are defined as:
+\[ A = \begin{bmatrix}
+        1      & T_{2,1} & T_{5,1} & T_{10,1} \\
+        1      & T_{2,2} & T_{5,2} & T_{10,2} \\
+        \vdots & \vdots  & \vdots  & \vdots   \\
+        1      & T_{2,n} & T_{5,n} & T_{10,n}
+    \end{bmatrix} \]
+\[ y = \begin{bmatrix} a \\ b_1 \\ b_2 \\ b_3 \end{bmatrix} \]
+
+The coefficients \( y \) are estimated using the
+ordinary least squares method,
+calculated as follows:
+\[ y = (A^T A)^{-1} A^T T_3 \]
+This formula ensures the minimization of the sum of
+squared residuals between the observed values \( T_3 \)
+and the predicted values \( A \cdot y \).
+After fitting the model,
+the estimated coefficients with $\text{error}_{\text{LR}} = 0.043$ are:
+\[ y = \begin{bmatrix}
+        -1.2720 \\
+        0.1272  \\
+        0.3340  \\
+        0.5298
+    \end{bmatrix} \]
+
+The approximation error is calculated as the Euclidean norm of the residual vector, which is the difference between the observed values \( T_3 \) and the model's predictions \( T_{3,\text{LR}} = A \cdot y \). Mathematically, this is expressed as:
+\[ \text{error}_{\text{LR}} = \|\ T_3 - T_{3,\text{LR}} \|\]
+where \( T_{3,\text{LR}} \) is the vector of predicted \( T_3 \) values.
+
+\subsection*{ii}
+
+The linearly interpolated values are calcualted as
+the linear combination of $T_2$ and $T_5$ with coefficients $2/3$ and $1/3$.
+
+\begin{tabular}{rrrrrr}
+    \toprule
+    2Y   & 3Y   & 5Y   & 10Y  & $\text{3Y}_{\text{OLS Pred}}$ & $\text{3Y}_{\text{lin. interp.}}$ \\
+    \midrule
+    1.69 & 2.58 & 3.57 & 4.63 & 2.59                          & 2.32                              \\
+    1.81 & 2.71 & 3.69 & 4.73 & 2.70                          & 2.44                              \\
+    1.81 & 2.72 & 3.70 & 4.74 & 2.71                          & 2.44                              \\
+    1.79 & 2.78 & 3.77 & 4.81 & 2.76                          & 2.45                              \\
+    1.79 & 2.77 & 3.77 & 4.80 & 2.76                          & 2.45                              \\
+    1.83 & 2.75 & 3.73 & 4.79 & 2.74                          & 2.46                              \\
+    1.81 & 2.71 & 3.72 & 4.76 & 2.72                          & 2.45                              \\
+    1.81 & 2.72 & 3.74 & 4.77 & 2.73                          & 2.45                              \\
+    1.83 & 2.76 & 3.77 & 4.80 & 2.76                          & 2.48                              \\
+    1.81 & 2.73 & 3.75 & 4.77 & 2.74                          & 2.46                              \\
+    1.82 & 2.75 & 3.77 & 4.80 & 2.76                          & 2.47                              \\
+    1.82 & 2.75 & 3.76 & 4.80 & 2.76                          & 2.47                              \\
+    1.80 & 2.73 & 3.75 & 4.78 & 2.74                          & 2.45                              \\
+    1.78 & 2.71 & 3.72 & 4.73 & 2.70                          & 2.43                              \\
+    1.79 & 2.71 & 3.71 & 4.73 & 2.70                          & 2.43                              \\
+    \bottomrule
+\end{tabular}
+
+This approximation gives $\text{error}_{\text{linear interp.}} = 1.099$.
+\subsection*{iii}
+We can do cubic spline for each day. On the first day, it would yield $2.42$, illustrated on \autoref{fig:spline_plot}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{sample_cspline.pdf}
+    \caption{Piecewise cubic spline function based on 1st day's data}
+    \label{fig:spline_plot}
+\end{figure}
+
+\begin{tabular}{rrrrrrr}
+    \toprule
+    2Y   & 3Y   & 5Y   & 10Y  & 3Y\_OLS & 3y\_lin\_interp & 3Y\_c\_spline \\
+    \midrule
+    1.69 & 2.58 & 3.57 & 4.63 & 2.59    & 2.32            & 2.39          \\
+    1.81 & 2.71 & 3.69 & 4.73 & 2.70    & 2.44            & 2.51          \\
+    1.81 & 2.72 & 3.70 & 4.74 & 2.71    & 2.44            & 2.51          \\
+    1.79 & 2.78 & 3.77 & 4.81 & 2.76    & 2.45            & 2.53          \\
+    1.79 & 2.77 & 3.77 & 4.80 & 2.76    & 2.45            & 2.53          \\
+    1.83 & 2.75 & 3.73 & 4.79 & 2.74    & 2.46            & 2.53          \\
+    1.81 & 2.71 & 3.72 & 4.76 & 2.72    & 2.45            & 2.52          \\
+    1.81 & 2.72 & 3.74 & 4.77 & 2.73    & 2.45            & 2.53          \\
+    1.83 & 2.76 & 3.77 & 4.80 & 2.76    & 2.48            & 2.55          \\
+    1.81 & 2.73 & 3.75 & 4.77 & 2.74    & 2.46            & 2.53          \\
+    1.82 & 2.75 & 3.77 & 4.80 & 2.76    & 2.47            & 2.54          \\
+    1.82 & 2.75 & 3.76 & 4.80 & 2.76    & 2.47            & 2.54          \\
+    1.80 & 2.73 & 3.75 & 4.78 & 2.74    & 2.45            & 2.52          \\
+    1.78 & 2.71 & 3.72 & 4.73 & 2.70    & 2.43            & 2.50          \\
+    1.79 & 2.71 & 3.71 & 4.73 & 2.70    & 2.43            & 2.50          \\
+    \bottomrule
+\end{tabular}
+
+Now calculating the sum of the square of the difference between
+the 3Y values and the cubic spline interpolated values, one gets
+$\text{error}_{cubic spline} = 0.816$.
+
+\section{exercise}
+Calculate the mid prices and the difference $C-P$ as the first step.
+Then from the book, eq. 8.22, we use
+
+\[C - P = S{e^{ - qT}} - K{e^{ - rT}}.\]
+
+\begin{tabular}{rrrrrrr}
+    \toprule
+    Bid\_Call & Ask\_Call & Bid\_Put & Ask\_Put & Strk & Mid\_Call & Mid\_Put \\
+    \midrule
+    259.30    & 260.70    & 34.80    & 35.70    & 2150 & 260.00    & 35.25    \\
+    238.10    & 239.60    & 38.50    & 39.40    & 2175 & 238.85    & 38.95    \\
+    217.40    & 218.90    & 42.50    & 43.50    & 2200 & 218.15    & 43.00    \\
+    197.20    & 198.70    & 47.10    & 48.10    & 2225 & 197.95    & 47.60    \\
+    177.40    & 178.90    & 52.10    & 53.20    & 2250 & 178.15    & 52.65    \\
+    158.30    & 159.70    & 57.80    & 58.90    & 2275 & 159.00    & 58.35    \\
+    139.80    & 141.30    & 64.10    & 65.30    & 2300 & 140.55    & 64.70    \\
+    122.10    & 123.60    & 71.20    & 72.50    & 2325 & 122.85    & 71.85    \\
+    105.30    & 106.80    & 79.10    & 80.50    & 2350 & 106.05    & 79.80    \\
+    89.50     & 90.90     & 88.10    & 89.50    & 2375 & 90.20     & 88.80    \\
+    74.80     & 76.10     & 98.10    & 99.50    & 2400 & 75.45     & 98.80    \\
+    61.30     & 62.60     & 109.40   & 110.90   & 2425 & 61.95     & 110.15   \\
+    49.10     & 50.30     & 122.00   & 123.50   & 2450 & 49.70     & 122.75   \\
+    38.50     & 39.60     & 136.10   & 137.60   & 2475 & 39.05     & 136.85   \\
+    29.40     & 30.30     & 151.70   & 153.30   & 2500 & 29.85     & 152.50   \\
+    15.70     & 16.40     & 185.90   & 190.00   & 2550 & 16.05     & 187.95   \\
+    7.70      & 8.20      & 227.20   & 231.70   & 2600 & 7.95      & 229.45   \\
+    3.60      & 4.00      & 265.90   & 285.90   & 2650 & 3.80      & 275.90   \\
+    1.75      & 2.05      & 313.70   & 333.60   & 2700 & 1.90      & 323.65   \\
+    0.55      & 0.75      & 411.70   & 431.50   & 2800 & 0.65      & 421.60   \\
+    \bottomrule
+\end{tabular}
+
+
+\subsection*{i}
+Consider solving the linear system using the least squares technique:
+\[
+    A \mathbf{x} \approx \mathbf{y}
+\]
+
+Where:
+\[
+    A = \begin{bmatrix}
+        1      & -K_1   \\
+        1      & -K_2   \\
+        1      & -K_3   \\
+        \vdots & \vdots
+    \end{bmatrix} =
+    \begin{bmatrix}
+        1      & -2150  \\
+        1      & -2175  \\
+        1      & -2200  \\
+        \vdots & \vdots
+    \end{bmatrix}, \quad
+    \mathbf{y} = \begin{bmatrix}
+        y_1 \\
+        y_2 \\
+        y_3 \\
+        \vdots
+    \end{bmatrix} =
+    \begin{bmatrix}
+        224.75 \\
+        200.45 \\
+        175.15 \\
+        \vdots
+    \end{bmatrix}
+\]
+
+
+The vector \( \mathbf{x} \) to be estimated contains:
+\[
+    \mathbf{x} = \begin{bmatrix}
+        S \cdot e^{-qT} \\
+        e^{-rT}
+    \end{bmatrix}
+\]
+
+The least squares solution can be computed as:
+\[
+    \mathbf{x} = (A^T A)^{-1} A^T \mathbf{y}
+\]
+
+From \( \mathbf{x} \), knowing \( S \) and \( T \), one can compute \( q \) and \( r \) — the dividend yield and discount rate, respectively.
+
+
+Given the outcomes from the least squares technique:
+\[
+    S \cdot e^{-qT} = 2360.17, \quad e^{-rT} = 0.9932
+\]
+with the spot price of the index \( S \) as 2381, and time to expiration \( T \), calculated from March 16, 2017, to September 29, 2017, is approximately:
+\[
+    T = 0.548 \text{ years}
+\]
+Substitute the values into the equations to solve for \( q \) and \( r \):
+\[
+    q = -\frac{\log\left(\frac{S \cdot e^{-qT}}{S}\right)}{T}, \quad r = -\frac{\log(e^{-rT})}{T}
+\]
+
+Using these formulas, we calculate:
+\[
+    q = -\frac{\log\left(\frac{2360.17}{2381}\right)}{T} = 1.60\%, \quad r = -\frac{\log(0.9931)}{T}=1.25\%
+\]
+
+\subsection*{ii}
+By guessing the volatility, we get an implied price from BS.
+Then the difference between the BS and the market price can be used to adjust the guessed volatility.
+By implementing the book's methond of Table 8.3,
+for the call with strike $2150$, we get the iterative steps:
+
+
+\begin{tabular}{lrrrrrr}
+    \toprule
+      & $\sigma$ & d1      & d2      & C\_BS     & vega\_C   & $\Delta_\sigma$ \\
+    \midrule
+    0 & 0.250000 & 0.63369 & 0.44868 & 301.68231 & 570.02647 & 0.073123        \\
+    1 & 0.176877 & 0.83037 & 0.69947 & 262.37153 & 493.59109 & 0.004805        \\
+    2 & 0.172072 & 0.84995 & 0.72261 & 260.01913 & 485.53745 & 0.000039        \\
+    \bottomrule
+\end{tabular}
+
+
+resulting in a final implied volatility of $0.172032$,
+where the tolarance was 1e-6,
+i.e. the last digit is inaccurate due to the interpolation.
+Repeating the iteration for all the options, calls and puts, the results are:
+
+\begin{tabular}{rrrrrr}
+    \toprule
+    Strike & Mid\_Call & Mid\_Put & impl call vol & impl put vol & diff [\%] \\
+    \midrule
+    2150   & 260.00    & 35.25    & 0.172         & 0.172        & 0.132     \\
+    2175   & 238.85    & 38.95    & 0.167         & 0.167        & 0.152     \\
+    2200   & 218.15    & 43.00    & 0.162         & 0.163        & 0.058     \\
+    2225   & 197.95    & 47.60    & 0.158         & 0.158        & 0.025     \\
+    2250   & 178.15    & 52.65    & 0.153         & 0.153        & 0.047     \\
+    2275   & 159.00    & 58.35    & 0.148         & 0.148        & 0.069     \\
+    2300   & 140.55    & 64.70    & 0.143         & 0.143        & 0.037     \\
+    2325   & 122.85    & 71.85    & 0.138         & 0.138        & 0.06      \\
+    2350   & 106.05    & 79.80    & 0.133         & 0.133        & 0.026     \\
+    2375   & 90.20     & 88.80    & 0.129         & 0.129        & 0.003     \\
+    2400   & 75.45     & 98.80    & 0.124         & 0.124        & 0.096     \\
+    2425   & 61.95     & 110.15   & 0.119         & 0.119        & 0.075     \\
+    2450   & 49.70     & 122.75   & 0.115         & 0.115        & 0.054     \\
+    2475   & 39.05     & 136.85   & 0.11          & 0.11         & 0.173     \\
+    2500   & 29.85     & 152.50   & 0.106         & 0.106        & 0.161     \\
+    2550   & 16.05     & 187.95   & 0.099         & 0.098        & 1.147     \\
+    2600   & 7.95      & 229.45   & 0.094         & 0.092        & 1.974     \\
+    2650   & 3.80      & 275.90   & 0.091         & 0.093        & 1.96      \\
+    2700   & 1.90      & 323.65   & 0.091         & 0.094        & 3.001     \\
+    2800   & 0.65      & 421.60   & 0.096         & 0.10         & 4.224     \\
+    \bottomrule
+\end{tabular}
+
+The implied volatilites go hand in hand,
+and the relative difference is the lowest around the spot price.
+
+\subsection*{iv}
+Implement an explicit method to calculate implied volatility based on the \\article
+\url{https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2908494}.
+The forward price of the asset at time $T$ can be calculated
+from the fitted present value of the forward,
+\[F=Se^{-qT} \cdot 1/e^{-rT} = 2376.41.\]
+The rest can be calculated separately for calls and puts.
+The vars $R$, $B$, $C$, $\gamma$, $\beta$, $\sigma$ are distinguished for puts and calls,
+and $CP\_00 = Ke^{-rT}$.
+Thanks to Kian, note that $A$ is both a variable and a function,
+\begin{lstlisting}
+def A_func(x):
+    return 1/2 + sgn(x)/2 * sqrt(1 - exp(-2*x*x/pi))
+\end{lstlisting}
+
+\scalebox{1.5}{
+    \begin{adjustbox}{max width=\textwidth, angle=90}
+
+        \begin{tabular}{rrrrrrrrrrrrrrrrrrrrrr}
+            \toprule
+            Strike & Mid\_Call & Mid\_Put & impl call vol & impl put vol & y     & alpha\_C & R\_C & B\_C & C\_C & A    & alpha\_P & R\_P & B\_P & C\_P & beta\_C & gamma\_C & beta\_P & gamma\_P & CP\_00  & sigma\_C & sigma\_P \\
+            \midrule
+            2150   & 260.00    & 35.25    & 0.17          & 0.17         & 0.10  & 0.12     & 0.14 & 0.04 & 0.03 & 0.01 & 0.02     & 0.14 & 0.04 & 0.03 & 0.67    & 0.64     & 0.67    & 0.64     & 2135.31 & 0.17     & 0.17     \\
+            2175   & 238.85    & 38.95    & 0.17          & 0.17         & 0.09  & 0.11     & 0.13 & 0.04 & 0.03 & 0.00 & 0.02     & 0.13 & 0.04 & 0.03 & 0.71    & 0.53     & 0.72    & 0.53     & 2160.14 & 0.17     & 0.17     \\
+            2200   & 218.15    & 43.00    & 0.16          & 0.16         & 0.08  & 0.10     & 0.12 & 0.04 & 0.03 & 0.00 & 0.02     & 0.12 & 0.04 & 0.03 & 0.76    & 0.42     & 0.76    & 0.42     & 2184.97 & 0.16     & 0.16     \\
+            2225   & 197.95    & 47.60    & 0.16          & 0.16         & 0.07  & 0.09     & 0.11 & 0.03 & 0.03 & 0.00 & 0.02     & 0.11 & 0.03 & 0.03 & 0.81    & 0.33     & 0.81    & 0.33     & 2209.80 & 0.16     & 0.16     \\
+            2250   & 178.15    & 52.65    & 0.15          & 0.15         & 0.05  & 0.08     & 0.10 & 0.03 & 0.03 & 0.00 & 0.02     & 0.10 & 0.03 & 0.03 & 0.86    & 0.24     & 0.86    & 0.24     & 2234.63 & 0.15     & 0.15     \\
+            2275   & 159.00    & 58.35    & 0.15          & 0.15         & 0.04  & 0.07     & 0.10 & 0.03 & 0.03 & 0.00 & 0.03     & 0.10 & 0.03 & 0.03 & 0.90    & 0.16     & 0.90    & 0.16     & 2259.46 & 0.15     & 0.15     \\
+            2300   & 140.55    & 64.70    & 0.14          & 0.14         & 0.03  & 0.06     & 0.09 & 0.03 & 0.03 & 0.00 & 0.03     & 0.09 & 0.03 & 0.03 & 0.94    & 0.10     & 0.94    & 0.10     & 2284.29 & 0.14     & 0.14     \\
+            2325   & 122.85    & 71.85    & 0.14          & 0.14         & 0.02  & 0.05     & 0.08 & 0.03 & 0.03 & 0.00 & 0.03     & 0.08 & 0.03 & 0.03 & 0.97    & 0.05     & 0.97    & 0.05     & 2309.12 & 0.14     & 0.14     \\
+            2350   & 106.05    & 79.80    & 0.13          & 0.13         & 0.01  & 0.05     & 0.08 & 0.02 & 0.02 & 0.00 & 0.03     & 0.08 & 0.02 & 0.02 & 0.99    & 0.02     & 0.99    & 0.02     & 2333.95 & 0.13     & 0.13     \\
+            2375   & 90.20     & 88.80    & 0.13          & 0.13         & 0.00  & 0.04     & 0.08 & 0.02 & 0.02 & 0.00 & 0.04     & 0.08 & 0.02 & 0.02 & 1.00    & 0.00     & 1.00    & 0.00     & 2358.78 & 0.13     & 0.13     \\
+            2400   & 75.45     & 98.80    & 0.12          & 0.12         & -0.01 & 0.03     & 0.07 & 0.02 & 0.02 & 0.00 & 0.04     & 0.07 & 0.02 & 0.02 & 0.99    & 0.01     & 0.99    & 0.01     & 2383.61 & 0.12     & 0.12     \\
+            2425   & 61.95     & 110.15   & 0.12          & 0.12         & -0.02 & 0.03     & 0.07 & 0.02 & 0.02 & 0.00 & 0.05     & 0.07 & 0.02 & 0.02 & 0.97    & 0.05     & 0.97    & 0.05     & 2408.44 & 0.12     & 0.12     \\
+            2450   & 49.70     & 122.75   & 0.11          & 0.11         & -0.03 & 0.02     & 0.07 & 0.02 & 0.02 & 0.00 & 0.05     & 0.07 & 0.02 & 0.02 & 0.92    & 0.13     & 0.92    & 0.13     & 2433.27 & 0.11     & 0.11     \\
+            2475   & 39.05     & 136.85   & 0.11          & 0.11         & -0.04 & 0.02     & 0.07 & 0.02 & 0.01 & 0.00 & 0.06     & 0.07 & 0.02 & 0.01 & 0.85    & 0.25     & 0.85    & 0.25     & 2458.09 & 0.11     & 0.11     \\
+            2500   & 29.85     & 152.50   & 0.11          & 0.11         & -0.05 & 0.01     & 0.07 & 0.02 & 0.01 & 0.00 & 0.06     & 0.07 & 0.02 & 0.01 & 0.76    & 0.42     & 0.76    & 0.43     & 2482.92 & 0.11     & 0.11     \\
+            2550   & 16.05     & 187.95   & 0.10          & 0.10         & -0.07 & 0.01     & 0.08 & 0.01 & 0.01 & 0.00 & 0.07     & 0.08 & 0.01 & 0.01 & 0.54    & 0.96     & 0.53    & 0.99     & 2532.58 & 0.10     & 0.10     \\
+            2600   & 7.95      & 229.45   & 0.09          & 0.09         & -0.09 & 0.00     & 0.09 & 0.01 & 0.00 & 0.00 & 0.09     & 0.09 & 0.01 & 0.00 & 0.32    & 1.79     & 0.30    & 1.87     & 2582.24 & 0.09     & 0.09     \\
+            2650   & 3.80      & 275.90   & 0.09          & 0.09         & -0.11 & 0.00     & 0.11 & 0.02 & 0.00 & 0.01 & 0.10     & 0.11 & 0.02 & 0.00 & 0.16    & 2.86     & 0.17    & 2.75     & 2631.90 & 0.09     & 0.09     \\
+            2700   & 1.90      & 323.65   & 0.09          & 0.09         & -0.13 & 0.00     & 0.12 & 0.02 & 0.00 & 0.01 & 0.12     & 0.12 & 0.02 & 0.00 & 0.08    & 4.02     & 0.09    & 3.77     & 2681.56 & 0.09     & 0.09     \\
+            2800   & 0.65      & 421.60   & 0.10          & 0.10         & -0.16 & 0.00     & 0.15 & 0.03 & 0.00 & 0.01 & 0.15     & 0.15 & 0.03 & 0.00 & 0.02    & 6.00     & 0.03    & 5.51     & 2780.87 & 0.09     & 0.09     \\
+            \bottomrule
+        \end{tabular}
+
+    \end{adjustbox}
+}
+
+The relative difference (compared to the Newtonian method):
+
+\scalebox{0.8}{
+    \begin{tabular}{rrrrrrr}
+        \toprule
+        Strike & impl call vol & impl put vol & sigma\_C & sigma\_P & call vol d [\%] & put vol d [\%] \\
+        \midrule
+        2150   & 0.172         & 0.172        & 0.170    & 0.170    & -1.375          & -1.371         \\
+        2175   & 0.167         & 0.167        & 0.165    & 0.166    & -1.144          & -1.141         \\
+        2200   & 0.162         & 0.163        & 0.161    & 0.161    & -0.923          & -0.922         \\
+        2225   & 0.158         & 0.158        & 0.157    & 0.157    & -0.716          & -0.716         \\
+        2250   & 0.153         & 0.153        & 0.152    & 0.152    & -0.528          & -0.527         \\
+        2275   & 0.148         & 0.148        & 0.147    & 0.147    & -0.360          & -0.359         \\
+        2300   & 0.143         & 0.143        & 0.143    & 0.143    & -0.217          & -0.217         \\
+        2325   & 0.138         & 0.138        & 0.138    & 0.138    & -0.105          & -0.105         \\
+        2350   & 0.133         & 0.133        & 0.133    & 0.133    & -0.031          & -0.031         \\
+        2375   & 0.129         & 0.129        & 0.129    & 0.129    & -0.002          & -0.002         \\
+        2400   & 0.124         & 0.124        & 0.124    & 0.124    & -0.028          & -0.028         \\
+        2425   & 0.119         & 0.119        & 0.119    & 0.119    & -0.120          & -0.120         \\
+        2450   & 0.115         & 0.115        & 0.114    & 0.114    & -0.292          & -0.293         \\
+        2475   & 0.110         & 0.110        & 0.110    & 0.110    & -0.557          & -0.559         \\
+        2500   & 0.106         & 0.106        & 0.105    & 0.105    & -0.930          & -0.932         \\
+        2550   & 0.099         & 0.098        & 0.097    & 0.096    & -2.019          & -2.063         \\
+        2600   & 0.094         & 0.092        & 0.091    & 0.089    & -3.420          & -3.531         \\
+        2650   & 0.091         & 0.093        & 0.087    & 0.089    & -4.707          & -4.595         \\
+        2700   & 0.091         & 0.094        & 0.086    & 0.089    & -5.478          & -5.360         \\
+        2800   & 0.096         & 0.100        & 0.091    & 0.094    & -5.745          & -5.771         \\
+        \bottomrule
+    \end{tabular}
+}
+
+Here, implied means the Newtonian method, and sigma refers to the explicit formula.
+Close to the spot price of the index the error is remarkably small.
+
+\section{exercise}
+\subsection*{i}
+\scalebox{0.8}{
+    \begin{tabular}{lrrrrrrrr}
+        \toprule
+                   & BAC   & BCS    & CS     & GS    & JPM    & MS     & RBS    & UBS    \\
+        \midrule
+        2016-09-16 & -1.59 & -6.23  & -4.66  & -1.52 & -1.25  & 0.00   & -10.33 & -6.20  \\
+        2016-09-09 & -1.62 & -1.72  & 3.47   & -0.36 & -1.24  & -0.94  & -0.73  & -0.20  \\
+        2016-09-02 & 1.80  & 7.51   & 7.45   & 2.33  & 1.92   & 2.34   & 5.61   & 4.85   \\
+        2016-08-26 & 3.75  & 2.61   & 3.52   & -0.16 & 0.55   & 2.00   & 5.08   & 4.23   \\
+        2016-08-19 & 2.08  & -0.35  & -0.83  & 1.83  & 0.83   & 4.73   & -3.34  & -2.89  \\
+        2016-08-12 & -0.93 & 5.36   & 6.37   & 0.72  & -1.48  & 0.55   & 6.93   & 2.97   \\
+        2016-08-05 & 3.86  & -1.82  & -2.16  & 2.07  & 3.64   & 0.97   & -6.67  & -2.32  \\
+        2016-07-29 & 0.76  & 2.74   & 0.17   & -1.00 & -0.11  & 0.03   & 2.41   & 3.69   \\
+        2016-07-22 & 5.27  & 0.25   & 1.85   & -0.76 & -0.22  & 3.25   & 1.22   & 0.91   \\
+        2016-07-15 & 3.72  & 9.29   & 8.32   & 7.49  & 3.80   & 6.22   & 11.82  & 7.51   \\
+        2016-07-08 & 0.53  & -3.56  & -3.77  & 1.44  & 0.93   & 1.74   & -4.56  & -6.99  \\
+        2016-07-01 & 0.77  & -14.62 & -5.56  & 4.50  & 3.59   & 5.71   & -15.10 & -5.59  \\
+        2016-06-24 & -2.99 & -7.59  & -8.29  & -2.60 & -4.30  & -3.12  & -16.20 & -5.17  \\
+        2016-06-17 & -3.11 & 0.63   & 0.97   & -2.84 & -2.44  & -0.90  & 6.93   & 2.65   \\
+        2016-06-10 & -4.09 & -9.04  & -6.89  & -3.71 & -1.24  & -3.77  & -12.93 & -3.18  \\
+        2016-06-03 & -2.76 & -3.67  & -6.64  & -2.42 & -1.21  & -3.60  & -5.43  & -4.15  \\
+        2016-05-27 & 2.48  & 7.38   & 4.38   & 3.67  & 3.02   & 2.84   & 9.04   & 4.11   \\
+        2016-05-20 & 4.61  & 8.20   & 6.61   & -0.53 & 3.77   & 3.40   & 11.39  & 0.75   \\
+        2016-05-13 & -1.63 & -0.21  & -3.16  & -2.21 & -0.65  & -1.37  & -2.73  & -0.12  \\
+        2016-05-06 & -3.09 & -6.37  & -7.96  & -3.21 & -2.53  & -2.99  & -7.98  & -9.67  \\
+        2016-04-29 & -3.64 & 1.41   & -2.62  & -1.58 & -1.20  & -1.78  & -7.26  & 3.97   \\
+        2016-04-22 & 7.93  & 4.76   & 4.90   & 5.19  & 3.39   & 7.53   & 9.45   & 4.01   \\
+        2016-04-15 & 8.70  & 11.69  & 9.73   & 5.48  & 7.15   & 8.46   & 11.73  & 5.27   \\
+        2016-04-08 & -5.01 & -1.85  & -3.49  & -5.97 & -2.84  & -6.97  & -4.48  & -4.05  \\
+        2016-04-01 & -0.88 & -1.37  & -2.09  & 4.46  & 0.66   & 2.41   & -1.88  & -2.65  \\
+        2016-03-24 & -0.80 & -7.51  & -5.03  & -2.92 & -1.65  & -5.14  & -7.01  & -2.87  \\
+        2016-03-18 & 0.00  & -2.07  & -5.08  & 2.38  & 1.92   & 1.08   & 2.24   & -1.47  \\
+        2016-03-11 & 1.85  & 0.50   & 3.17   & -1.85 & -1.18  & -0.50  & 1.82   & 2.79   \\
+        2016-03-04 & 7.02  & 5.37   & 13.11  & 4.84  & 4.36   & 3.86   & 4.44   & 7.91   \\
+        2016-02-26 & 4.70  & 0.98   & 3.57   & 2.27  & -0.48  & 4.83   & -10.51 & 2.82   \\
+        2016-02-19 & 1.51  & 0.22   & -4.63  & 0.53  & 0.57   & 3.94   & 1.15   & -1.20  \\
+        2016-02-12 & -7.72 & -8.55  & -7.74  & -6.61 & -0.45  & -5.17  & -0.57  & -1.25  \\
+        2016-02-05 & -8.42 & -6.68  & -15.84 & -3.15 & -2.94  & -5.91  & -5.02  & -8.35  \\
+        2016-01-29 & 4.28  & -1.91  & -0.22  & 3.00  & 4.48   & 1.65   & -2.38  & -0.12  \\
+        2016-01-22 & -6.22 & 0.27   & -4.60  & 0.80  & -0.16  & -1.39  & 0.27   & 0.24   \\
+        2016-01-15 & -4.87 & -6.16  & -4.49  & -5.08 & -3.19  & -8.49  & -7.72  & -4.32  \\
+        2016-01-08 & -9.69 & -9.88  & -9.73  & -9.04 & -10.17 & -10.78 & -8.00  & -10.33 \\
+        2015-12-31 & -2.55 & -2.92  & -1.86  & -1.23 & -0.86  & -2.06  & -2.63  & -1.58  \\
+        2015-12-24 & 3.04  & 3.73   & 3.80   & 3.98  & 3.42   & 3.80   & 4.95   & 2.88   \\
+        2015-12-18 & 0.18  & 0.39   & 3.80   & -0.61 & 0.52   & -2.46  & 0.58   & 4.25   \\
+        2015-12-11 & -6.01 & -8.03  & -7.30  & -7.07 & -5.63  & -9.17  & -6.50  & -6.57  \\
+        2015-12-04 & 2.12  & 3.64   & 2.82   & 0.09  & 1.07   & 4.56   & 0.44   & 2.40   \\
+        2015-11-27 & -0.96 & 0.15   & -2.05  & -0.52 & -0.55  & -0.38  & -1.61  & -1.54  \\
+        2015-11-20 & 2.62  & -1.32  & -2.77  & 0.57  & 3.02   & -0.06  & 0.32   & 2.69   \\
+        2015-11-13 & -4.18 & -3.27  & -5.87  & -4.41 & -4.24  & -4.18  & -3.42  & -3.90  \\
+        2015-11-06 & NaN   & NaN    & NaN    & NaN   & NaN    & NaN    & NaN    & NaN    \\
+        \bottomrule
+    \end{tabular}
+}
+
+The last row with "not a number" values means that
+there the returns cannot be calculated for that week,
+because there is no data for previous week.
+
+We now aim to solve
+\[
+    y = X\beta + \epsilon
+\]
+
+Where:
+\begin{itemize}
+    \item \( y \) is the vector of the dependent variable, JPM's data (weekly return or value).
+    \item \( X \) is the matrix of independent variables, with an intercept term included (a column of ones is added to \( X \)). All the stocks or just some of them.
+    \item \( \beta \) is the vector of coefficients, including the intercept.
+\end{itemize}
+
+To find the coefficients \( \beta \) that minimize the residuals, we use the OLS formula:
+\[
+    \beta = (X^T X)^{-1} X^T y
+\]
+\subsection*{ii}
+Here, the data will be the all returns.
+
+\begin{itemize}
+    \item JPM's returns \( y \) is:
+          \[
+              y = \begin{bmatrix}
+                  -1.24  \\
+                  -1.24  \\
+                  1.92   \\
+                  0.55   \\
+                  0.83   \\
+                  \vdots \\
+              \end{bmatrix}
+          \]
+
+    \item The independent variables \( X \), including a column of ones for the intercept, look like this:
+          \[
+              X = \begin{bmatrix}
+                  1      & -1.59  & -6.23  & -4.66  & -1.52  & 0.00   & -10.33 & -6.20  \\
+                  1      & -1.62  & -1.72  & 3.47   & -0.36  & -0.94  & -0.73  & -0.20  \\
+                  1      & 1.80   & 7.51   & 7.45   & 2.33   & 2.34   & 5.61   & 4.85   \\
+                  1      & 3.75   & 2.61   & 3.52   & -0.16  & 2.00   & 5.08   & 4.23   \\
+                  1      & 2.08   & -0.35  & -0.83  & 1.83   & 4.73   & -3.34  & -2.89  \\
+                  \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+              \end{bmatrix}
+          \]
+
+    \item The coefficients vector \( \beta \) is calculated but not yet known:
+          \[
+              \beta = \begin{bmatrix}
+                  \beta_0 \\
+                  \beta_1 \\
+                  \beta_2 \\
+                  \beta_3 \\
+                  \beta_4 \\
+                  \beta_5 \\
+                  \beta_6 \\
+                  \beta_7 \\
+              \end{bmatrix}
+          \]
+\end{itemize}
+
+The result is:
+
+$$\displaystyle \beta = (X^T X)^{-1} X^T y = \left[\begin{matrix}0.193\\0.338\\-0.112\\-0.153\\0.472\\-0.003\\0.112\\0.154\end{matrix}\right]$$
+
+From here, the predicted values and error:
+\[{y_{{\rm{pred}}}} = X\beta \qquad \left\| {{y_{{\rm{pred}}}} - y} \right\| = {\rm{error}} = 8.76\]
+
+\subsection*{iii}
+Here we fit only to GS, MS, and BAC.
+
+$$\displaystyle X  = \left[\begin{matrix}1.0 & -1.52 & 0.0 & -1.59\\1.0 & -0.36 & -0.94 & -1.62\\1.0 & 2.33 & 2.34 & 1.8\\1.0 & -0.16 & 2.0 & 3.75\\ \vdots & \vdots & \vdots & \vdots\end{matrix}\right]$$
+
+The results are:
+
+$$\displaystyle \beta = \left[\begin{matrix}0.209\\0.479\\0.015\\0.258\end{matrix}\right]\qquad \left\| {{y_{{\rm{pred}}}} - y} \right\| = {\rm{error}} = 9.52$$
+\subsection*{iv}
+Instead the returns, use the stock values itself. Use JPM as $y$, add a new column with ones for intercept, like in ii. The results are
+
+$$\displaystyle \beta = \left[\begin{matrix}20.168\\1.948\\1.414\\-1.648\\0.123\\0.09\\-0.057\\0.126\end{matrix}\right] \qquad \left\|  {{y_{{\rm{pred}}}} - y} \right\| = {\rm{error}} = 5.40$$
+
+This is smaller than ii.
+Consider a stock A that goes up by 1 every week.
+Consider another stock B that goes up by 2 on even weeks,
+and goes down by 1 on odd weeks.
+You can explain the cumulative changes of A
+by the cumulative changes in B (or vice versa) very well,
+but the explanation of the weekly returns (with a linear model) will be much worse.
+\section{exercise}
+\subsection*{i}
+\textbf{Parameters:}
+\begin{itemize}
+    \item Stock A: \$80 per share, 150 shares.
+    \item Stock B: \$65 per share, 500 shares.
+\end{itemize}
+
+\textbf{Total Investment Value:}
+\begin{align*}
+    V_1              & = 80 \times 150 = \$12000 \quad (\text{Stock A}) \\
+    V_2              & = 65 \times 500 = \$32500 \quad (\text{Stock B}) \\
+    V_{\text{total}} & = V_1 + V_2 = \$44500
+\end{align*}
+
+\textbf{Portfolio Weights:}
+\begin{align*}
+    w_1 & = \frac{V_1}{V_{\text{total}}} \approx 0.2697 \quad (\text{26.97\%}) \\
+    w_2 & = \frac{V_2}{V_{\text{total}}} \approx 0.7303 \quad (\text{73.03\%})
+\end{align*}
+\subsection*{ii}
+\begin{align*}
+    w_1 + w_2         & = 1 \quad \text{(Sum of weights)}   \\
+    0.10w_1 + 0.05w_2 & = 0.08 \quad \text{(Target return)}
+\end{align*}
+
+Solving the above equations, substitute \( w_2 = 1 - w_1 \) into the return equation:
+
+\begin{align*}
+    0.10w_1 + 0.05(1 - w_1) & = 0.08                 \\
+    0.05w_1                 & = 0.03                 \\
+    w_1                     & = 0.6, \quad w_2 = 0.4
+\end{align*}
+Portfolio weights should be 60\% in Stock 1 and 40\% in Stock 2.
+
+\subsection*{iii}
+
+Let:
+\begin{itemize}
+    \item \(\mathbf{w} = \begin{bmatrix} w_1 \\ w_2 \end{bmatrix}\) be the weights of the assets in the portfolio.
+    \item \(\mathbf{r} = \begin{bmatrix} r_1 \\ r_2 \end{bmatrix}\) be the expected returns, where \(r_1 = 10\%\), \(r_2 = 5\%\).
+    \item \(\Sigma = \begin{bmatrix} \sigma_1^2 & \rho \sigma_1 \sigma_2 \\ \rho \sigma_1 \sigma_2 & \sigma_2^2 \end{bmatrix}\) be the covariance matrix, where \(\sigma_1 = 35\%\), \(\sigma_2 = 15\%\), and \(\rho = 15\%\).
+\end{itemize}
+
+The variance of the portfolio, \(\sigma_p^2\), is given by:
+\[
+    \sigma_p^2 = \mathbf{w}^\top \Sigma \mathbf{w} = w_1^2 \sigma_1^2 + 2 w_1 w_2 \rho \sigma_1 \sigma_2 + w_2^2 \sigma_2^2\qquad w_1 + w_2 = 1
+\]
+
+The standard deviation, \(\sigma_p\), is the square root of the variance:
+\[
+    \sigma_p = \sqrt{\mathbf{w}^\top \Sigma \mathbf{w}}
+\]
+
+\[
+    \sigma_p = \sqrt{w_1^2 \sigma_1^2 + 2 w_1 (1 - w_1) \rho \sigma_1 \sigma_2 + (1 - w_1)^2 \sigma_2^2}
+\]
+and the expected return of the portfolio, \(r_p\), is given by:
+\[
+    r_p = \mathbf{w}^\top \mathbf{r} = w_1 r_1 + w_2 r_2
+\]
+
+The solutions are:
+\[
+    w_1 = -0.42, \quad w_2 = 1.42\qquad r_p = 0.0289
+\]
+and
+\[
+    w_1 = 0.646, \quad w_2 = 0.354\qquad r_p = 0.0823
+\]
+\section{exercise}
+The proportional weights of each asset in a tangency portfolio, excluding cash, are calculated as:
+\begin{align*}
+    \text{Weight of the first asset}  & = \frac{25}{85} \approx 29.41\% \\
+    \text{Weight of the second asset} & = \frac{15}{85} \approx 17.65\% \\
+    \text{Weight of the third asset}  & = \frac{45}{85} \approx 52.94\%
+\end{align*}
+
+\section{exercise}
+\subsection*{i}
+$$\displaystyle \Sigma = \left[\begin{matrix}0.022 & 0.011\\0.011 & 0.062\end{matrix}\right]\qquad \Sigma^{-1} = \displaystyle \left[\begin{matrix}48.84 & -8.791\\-8.791 & 17.582\end{matrix}\right]$$
+$$\bar\mu = \mu - r_f = \displaystyle \left[\begin{matrix}0.06\\0.12\end{matrix}\right] - 0.2= \displaystyle \left[\begin{matrix}0.04\\0.1\end{matrix}\right]$$
+Weights for the tangency portfolio are computed as:
+\[
+    w = \frac{\Sigma^{-1} \bar{\mu}}{\mathbf{1}^T \Sigma^{-1} \bar{\mu}} = \displaystyle \left[\begin{matrix}0.433\\0.567\end{matrix}\right]
+\]
+
+Multiply this by \$20MM to get the allocation: \$8.66MM to asset 1 and \$11.35MM to asset 2.
+
+\subsection*{ii}
+To calculate the specific allocations to cash, Asset 1, and Asset 2:
+\begin{itemize}
+    \item Let \( k \) be the scaling factor for the weights from the tangency portfolio to achieve the target return of $R_\text{target} = 8\%$.
+    \item The weights of the assets are scaled as:
+          \[ w' = k \cdot w_{\text{tangency}} \]
+    \item The allocation to cash, which ensures that the total of all allocations sums to 100\%, is given by:
+          \[ w_{\text{cash}} = 1 - (w'_1 + w'_2) \]
+    \item Where \( w'_1 \) and \( w'_2 \) are the scaled weights for Asset 1 and Asset 2, respectively.
+\end{itemize}
+
+The scaling factor \( k \) is calculated as:
+\[ k = \frac{(R_{\text{target}} - r_f)}{w_{\text{tangency}}^T \bar{\mu}} \]
+
+The results:
+
+$$k=0.810\qquad w' = \displaystyle \left[\begin{matrix}0.351\\0.46\end{matrix}\right] \qquad w_{\text{cash}} = 0.189  $$
+It means that weight for asset 1 is
+$35.1\%$, $46.0\%$ for asset 2,
+and the remaining $18.9\%$ is for cash.
+Given \$20MM for the portfolio: \$7.02MM to asset 1, \$9.19MM to asset 2, and \$3.79MM stays is cash.
+Given the scaled weights \( w' \) for the portfolio, and the covariance matrix \( \Sigma \) of the assets, the standard deviation of the portfolio, \( \sigma_p \), is calculated using the formula:
+\[
+    \sigma_p = \sqrt{w'^T \Sigma w'} = 14.00\%
+\]
+Multiply it by \$20MM to get it in dollars.
+\subsection*{iii}
+Allocation weights and amounts for the 2 assets, in order:
+$$\displaystyle w' = \left[\begin{matrix}0.761\\0.996\end{matrix}\right] \Rightarrow \displaystyle \left[\begin{matrix}15.22\\19.92\end{matrix}\right]\$\text{MM}$$
+And $w_{\text{cash}} = -0.756 \Rightarrow \$-15.12\text{MM}$, and $\sigma_p = 30.34\%$.
+Multiply it by \$20MM to get it in dollars.
+
+\subsection*{iv}
+Given the weights of the tangency portfolio \( w_{\text{tangency}} \) and its covariance matrix \( \Sigma \), to achieve a portfolio with a standard deviation of 20\%, we scale the weights by a factor \( k \), where \( k \) is determined as follows:
+
+The standard deviation of the scaled portfolio \( \sigma_{\text{scaled}} \) is given by:
+\[ \sigma_{\text{scaled}} = k \sqrt{w_{\text{tangency}}^T \Sigma w_{\text{tangency}}} \]
+Setting \( \sigma_{\text{scaled}} = 0.20 \), we solve for \( k \):
+\[ k = \frac{0.20}{\sqrt{w_{\text{tangency}}^T \Sigma w_{\text{tangency}}}} \]
+
+The new weights \( w_{\text{scaled}} \) are then:
+\[ w_{\text{scaled}} = k \times w_{\text{tangency}} \]
+
+The expected return of this portfolio is:
+\[ E(R_{\text{scaled}}) = w_{\text{scaled}}^T E(R) \]
+
+$$\displaystyle w_\text{scaled} = \left[\begin{matrix}0.501\\0.656\end{matrix}\right]\qquad w_\text{cash} = -0.157$$
+That is, by multiplying with \$20MM, \$10.03MM to asset 1, \$13.13MM to asset 2, and \$3.16MM cash loan.
+
+The expected return on the scaled tangency portfolio is 0.1088, but it is negative on the cash.
+The net expected return of the portfolio,
+\( E(R_{\text{net}}) \), is calculated by considering both the returns from the assets and the cost of borrowing:
+
+\[ E(R_{\text{net}}) = w_{\text{scaled}}^T E(R) + w_{\text{cash}} r_f = 0.1057 \Rightarrow \$2.11\text{MM}\]
+
+where:
+\begin{itemize}
+    \item \( w_{\text{scaled}} \) are the scaled weights of the assets,
+          contributing positively to the portfolio's return.
+    \item \( E(R) \) is the vector of expected returns for each asset.
+    \item \( w_{\text{cash}} \) is the negative weight representing the borrowed funds;
+          it is negative and reflects the cost of borrowing.
+    \item \( r_f =0.02\) is the borrowing rate, indicating the cost per unit of negative cash held.
+    \item \( w_{\text{cash}} r_f \) quantifies the borrowing cost,
+          effectively reducing the overall expected return by the interest expense on the borrowed amount.
+\end{itemize}
+\subsection*{v}
+$$\displaystyle w_\text{scaled} = \left[\begin{matrix}0.752\\0.985\end{matrix}\right] \Rightarrow \left[\begin{matrix}15.044\\19.694\end{matrix}\right] \text{\$MM}$$
+$$w_\text{cash} = -0.7369 \Rightarrow -14.74 \$\text{MM}\qquad E(R_{\text{net}}) = 0.149 \Rightarrow \$2.97\text{MM}$$
+
+\subsection*{vi}
+Modifying the risk free interest rate modifies the $\bar\mu$, so the tangency portfolio needs to be recalcualted
+$$\displaystyle w = \left[\begin{matrix}0.391\\0.609\end{matrix}\right]$$
+
+\subsubsection*{vi/i}
+$$\displaystyle w_\text{scaled} = \left[\begin{matrix}0.3\\0.468\end{matrix}\right]\Rightarrow \displaystyle \left[\begin{matrix}6.009\\9.365\end{matrix}\right] \$\text{MM}$$
+For cash,
+we have
+$w_\text{cash} = 0.231 \Rightarrow \$4.62\text{MM}$.
+    This says that to achieve the same return with minimal risk,
+    we can leave more money in the treasury. While amount in asset 1 is decreased, asset 2 is increased.
+
+    \subsubsection*{vi/ii}
+    $$\displaystyle w_\text{scaled} = \left[\begin{matrix}0.437\\0.681\end{matrix}\right] \Rightarrow \displaystyle \left[\begin{matrix}8.741\\13.624\end{matrix}\right] \$\text{MM}$$
+    For cash, $w_\text{cash} = -0.118 \Rightarrow \$2.37\text{MM}$.
+The trend is similar, higher value for cash allocatin (i.e. smaller loan),
+lower amount in asset 1, and higher amount in asset 2.
+
+\section{exercise}
+\subsection*{i}
+$$\displaystyle \Sigma = \left[\begin{matrix}0.0256 & -0.016 & -0.006\\-0.016 & 0.04 & -0.0125\\-0.006 & -0.0125 & 0.0625\end{matrix}\right] \Rightarrow \Sigma ^{-1} = \displaystyle \left[\begin{matrix}58.3603 & 26.7679 & 10.9562\\26.7679 & 38.9442 & 10.3586\\10.9562 & 10.3586 & 19.1235\end{matrix}\right]$$
+$$\displaystyle \bar\mu = \mu - r_f = \displaystyle \left[\begin{matrix}0.05\\0.08\\0.11\end{matrix}\right] - 0.02 = \left[\begin{matrix}0.03\\0.06\\0.09\end{matrix}\right]$$
+$$\displaystyle w_\text{tan} = \frac{\Sigma^{-1} \bar\mu}{\mathbf{1}^T \Sigma^{-1} \bar\mu} = \left[\begin{matrix}0.392\\0.367\\0.241\end{matrix}\right]$$
+The expected return: $\mu_{\text{tan}} = w_{\text{tan}}^T \mu = 0.07547$
+$$\sigma_{\text{tan}} = \sqrt{w_{\text{tan}}^T \Sigma w_{\text{tan}}} = 0.07073$$
+
+\subsection*{ii}
+We want expected return of 10\%, which is higher than the tangency portfolio's return.
+$$\displaystyle w_\text{scaled} = \left[\begin{matrix}0.519\\0.487\\0.319\end{matrix}\right],$$
+with $w_\text{cash} = -0.3249$ and $\sigma_\text{scaled} = 0.0937$.
+\subsection*{iii}
+We want std of 20\%, which is higher than the tangency portfolio's std.
+$$\displaystyle w_\text{scaled} =\displaystyle \left[\begin{matrix}1.108\\1.038\\0.681\end{matrix}\right]$$
+with $w_\text{cash} =-1.83$, and $E[R_{\text{net}}] = 0.213$.
+
+\section{exercise}
+\subsection*{i}
+$$ \Sigma = \left[\begin{matrix}0.09 & -0.01 & -0.03 & -0.02\\-0.01 & 0.063 & 0.02 & -0.01\\-0.03 & 0.02 & 0.1225 & -0.015\\-0.02 & -0.01 & -0.015 & 0.0576\end{matrix}\right]$$
+$$\Sigma^{-1} = \displaystyle \left[\begin{matrix}14.0 & 2.0 & 3.86 & 6.22\\2.0 & 17.46 & -1.97 & 3.21\\3.86 & -1.97 & 9.87 & 3.57\\6.22 & 3.21 & 3.57 & 21\end{matrix}\right]\qquad\bar\mu =  \left[\begin{matrix}0.036\\0.03\\0.053\\0.027\end{matrix}\right]$$
+From these,
+$$\displaystyle w_\text{tan} = \frac{\Sigma^{-1} \bar{\mu}}{\mathbf{1}^T \Sigma^{-1} \bar{\mu}} = \left[\begin{matrix}0.285\\0.176\\0.213\\0.327\end{matrix}\right]$$
+$$E[R_p] = w^T \mu + r_f =  0.0506$$
+\[
+    \sigma_p = \sqrt{w^T \Sigma w}  = 0.10403
+\]
+\[
+    \text{Sharpe Ratio} = \frac{E[R_p] - r_f}{\sigma_p} = 0.3423
+\]
+\subsection*{ii}
+We aim for 5\% return, which is slightly lower than the expected return from the tangency portfolio,
+i.e. we will leave some cash in the treasury. For the scaling:
+\[
+    k = \alpha = \frac{R_{\text{target}} - r_f}{E[R_T] - r_f}
+\]
+$$\displaystyle w_\text{scaled} = \left[\begin{matrix}0.28\\0.173\\0.209\\0.321\end{matrix}\right]$$
+with $w_\text{cash} =  0.017$.
+\[
+    \sigma_{\text{new}} = \alpha \sigma_p = 0.10223
+\]
+It is indeed smaller than the $\sigma$ of the tangency portfolio.
+\[
+    SR_{\text{new}} = \frac{R_{\text{target}} - r_f}{\sigma_{\text{new}}} = 0.3423
+\]
+Which is the same as before, because
+The new Sharpe Ratio ($SR_{\text{new}}$) can be expressed as:
+\[
+    SR_{\text{new}} = \frac{E[R_{\text{new}}] - r_f}{\sigma_{\text{new}}}
+\]
+\[
+    SR_{\text{new}} = \frac{\alpha E[R_T] + (1-\alpha) r_f - r_f}{\alpha \sigma_T}
+\]
+\[
+    SR_{\text{new}} = \frac{\alpha (E[R_T] - r_f)}{\alpha \sigma_T}
+\]
+\[
+    SR_{\text{new}} = \frac{E[R_T] - r_f}{\sigma_T}
+\]
+\[
+    SR_{\text{new}} = SR_T
+\]
+\subsection*{iii}
+The 29\% standard deviation is much higher than the tangency portfolio's, so we expect a high leverage.
+$$\displaystyle w_\text{scaled} = \left[\begin{matrix}0.793\\0.49\\0.592\\0.912\end{matrix}\right]$$
+with $w_\text{cash} = -1.788$ and $\text{net expected return} = 0.1142$, and $\text{Sharpe Ratio} = \frac{E[R_p] - r_f}{\sigma_p} = 0.3423$.
+
+\subsection*{iv}
+Derive the formula for the weights. The weights must sum to one:
+\[
+    \sum_{i=1}^n w_i = 1
+\]
+Using a Lagrange multiplier \(\lambda\):
+\[
+    L(w, \lambda) = w^T \Sigma w + \lambda (1 - w^T \mathbf{1})
+\]
+Setting the derivative of the Lagrangian with respect to \(w\) and \(\lambda\) to zero, we get:
+\[
+    \frac{\partial L}{\partial w} = 2 \Sigma w - \lambda \mathbf{1} = 0
+\]
+\[
+    \frac{\partial L}{\partial \lambda} = 1 - w^T \mathbf{1} = 0
+\]
+
+From the first equation:
+\[
+    w = \frac{1}{2} \Sigma^{-1} \lambda \mathbf{1}
+\]
+Using the second condition to find \(\lambda\):
+\[
+    1 = \mathbf{1}^T w = \frac{1}{2} \lambda \mathbf{1}^T \Sigma^{-1} \mathbf{1}
+\]
+\[
+    \lambda = \frac{2}{\mathbf{1}^T \Sigma^{-1} \mathbf{1}}
+\]
+Substituting back for \(w\):
+\[
+    w = \frac{\Sigma^{-1} \mathbf{1}}{\mathbf{1}^T \Sigma^{-1} \mathbf{1}} = \displaystyle \left[\begin{matrix}0.271\\0.215\\0.16\\0.354\end{matrix}\right]
+\]
+\[
+    \sigma_p = \sqrt{w^T \Sigma w} = 0.102,
+\]
+The sharpe ratio is then 0.3356, which is indeed lower than the tangency portfolio's. Note that the standard deviations for the different assets are $\sigma_X = \displaystyle \left[\begin{matrix}0.3\\0.25\\0.35\\0.24\end{matrix}\right]$
+\section{exercise}
+\subsection*{i}
+Given the problem to show that the asset allocation for a minimum variance portfolio with an expected return \(\mu_P\) can be expressed in terms of the asset weights vector \(w_T\) of the tangency portfolio.
+
+The minimum variance portfolio that achieves a certain expected return, \(\mu_P\), can be composed of cash (risk-free asset) and the tangency portfolio. We denote:
+\begin{itemize}
+    \item \(w_{\text{min}}\) as the weight vector of the minimum variance portfolio.
+    \item \(w_T\) as the weight vector of the tangency portfolio.
+    \item \(r_f\) as the risk-free rate.
+\end{itemize}
+The expected return on the portfolio \(w_{\text{min}}\) is a linear combination of the risk-free asset and the tangency portfolio, scaled by some factor \(\alpha\). The expected return \(\mu_P\) can be expressed as:
+\[
+    \mu_P = \alpha \mu_T + (1-\alpha) r_f
+\]
+where \(\mu_T\) is the expected return of the tangency portfolio.
+
+Rearrange the equation to solve for \(\alpha\):
+\[
+    \alpha (\mu_T - r_f) = \mu_P - r_f \quad \Rightarrow \quad \alpha = \frac{\mu_P - r_f}{\mu_T - r_f}
+\]
+
+The weights \(w_{\text{min}}\) are a scaled version of \(w_T\), since the entire risky part of the portfolio is just a scaled tangency portfolio:
+\[
+    w_{\text{min}} = \alpha w_T \quad \Rightarrow \quad w_{\text{min}} = \frac{\mu_P - r_f}{\mu_T - r_f} w_T
+\]
+Assuming \(\mu_T\) is typically defined or can be simplified as \(\mu_T' w_T\), where \(\mu_T' = w_T^T \mu\) and \(\mu\) is the vector of expected returns of the assets. This aligns with the provided formula.
+
+\subsection*{ii}
+
+\begin{myverb}
+    Input:
+    w_T   // Vector of weights for the tangency portfolio
+    r_f   // Risk-free rate
+    mu    // Vector of expected returns
+    mu_P  // Desired expected return
+
+    Output:
+    w_min // Vector of weights for the min var portf
+
+    1. Start
+    2. Compute the expected return of the tangency portfolio:
+    mu_T = w_T^T * mu   // Dot product
+
+    3. Compute the scaling factor alpha:
+    alpha = (mu_P - r_f) / (mu_T - r_f)
+
+    4. Compute the asset weights for the
+    minimum variance portfolio:
+    w_min = alpha * w_T                  // Scale the tan portf
+    5. Return w_min
+\end{myverb}
+
+In case the tangency portfolio is not given,
+run the subroutine at the end of the doc to get it.
+
+\section{exercise}
+\subsection*{i}
+From risky assets and risk-free cash calculate the weights of the portfolio, including cash, given:
+\begin{itemize}
+    \item Tangency portfolio weights, \( w_T \), that maximize the Sharpe ratio.
+    \item Covariance matrix of asset returns, \( \Sigma \).
+    \item Target variance of the portfolio, \( \sigma_P^2 \).
+    \item Cash with zero variance and return \( r_f \).
+\end{itemize}
+
+The total portfolio \( w_{\text{max}} \) can be described as a combination of the tangency portfolio and cash:
+\[ w_{\text{extrm}} = \alpha w_T + (1 - \alpha) \cdot \text{cash},\]
+where \( \alpha \) is a scalar determining the amount of money invested in the tangency portfolio.
+With this formula, we can only ensure that the portfolio is extremal,
+using the Lagrange multiplicator technique,
+and the maximum will be choosen later.
+Since cash has zero variance,
+the variance of the entire portfolio is contributed only by the tangency portfolio:
+\[ \text{Var}(w_{\text{extrm}}) = \alpha^2 w_T^T \Sigma w_T \]
+To meet the specific target variance \( \sigma_P^2 \), we set:
+\[ \alpha^2 w_T^T \Sigma w_T = \sigma_P^2 \]
+Solving for \( \alpha \), we get:
+\[ \alpha = \frac{\sigma_P}{\sqrt{w_T^T \Sigma w_T}} \]
+therefore
+\[ w_{\text{extrm}} = \alpha w_T = \frac{\sigma_P}{\sqrt{w_T^T \Sigma w_T}} w_T\]
+and
+\[ w_{\text{cash}} = 1 - \mathbf{1}^T w_{\text{extrm}}.\]
+
+This ensures that the variance is as desired, and the return is extremal.
+In the case when the portfolio underperforms the risk-free cash,
+then short the assets and keep cash, this is represented by the sign operator.
+What the argument contains is actually just proportional to the tangency portfolio weights,
+not the weights themself,
+but the SGN operator is insensitive to a constant positive normalization factor.
+So the final result is
+\[ w_{\text{max}} = \sgn\left(w_T^T\bar\mu\right) \frac{\sigma_P}{\sqrt{w_T^T \Sigma w_T}} w_T = \sgn\left(\mathbf{1}^T\Sigma^{-1}\bar\mu\right) \frac{\sigma_P}{\sqrt{w_T^T \Sigma w_T}} w_T\]
+
+Note that once we have the tangency portfolio, we don't need the inverse of the covariance matrix anymore, so this doesn't need to (re)calculated or used.
+
+\subsection*{ii}
+\begin{myverb}
+    # Inputs:
+    # w_T: Vector of weights for the tangency portfolio
+    # bar_mu: Vector of expected excess returns over the risk-free rate
+    # Sigma: Covariance matrix of the asset returns
+    # sigma_P: Target standard deviation of the portfolio
+
+    # Outputs:
+    # w_max: Vector of weights for the adjusted tangency portfolio
+    # w_cash: the cash allocation in the portfolio
+
+    # Step 1: Calculate the current variance of the tangency portfolio
+    current_variance = dot(w_T, dot(Sigma, w_T))  # dot is the matrix multiplication
+
+    # Step 2: Calculate the sign of the dot product of the tangency portfolio weights
+    # and the expected excess returns vector
+    sign_factor = sign(dot(w_T, bar_mu))  # signum function determining the direction
+
+    # Step 3: Calculate the scalar alpha to match the target variance, adjusted by the sign
+    alpha = sign_factor * sigma_P / sqrt(current_variance)
+
+    # Step 4: Calculate the new weights for the tangency portfolio
+    w_max = alpha * w_T  # Element-wise multiplication by scalar
+
+    # Step 5: Calculate the cash allocation
+    w_cash = 1 - sum(w_max)  # sum of all elements in w_max to ensure total is 1
+
+    # Output the results
+    return (w_max, w_cash)
+\end{myverb}
+
+In case the tangency portfolio is not given,
+run this subroutine to get it:
+\begin{myverb}
+    # Inputs:
+    # R: Vector of expected returns for each asset
+    # rf: Risk-free interest rate
+    # Sigma: Covariance matrix of asset returns
+
+    # Outputs:
+    # w_T: Vector of weights for the tangency portfolio
+
+    # Step 1: Calculate excess returns over the risk-free rate
+    bar_mu = R - rf  # Subtract rf from each asset's expected return
+
+    # Step 2: Calculate the inverse of the covariance matrix
+    Sigma_inv = inverse(Sigma)  # Compute the inverse of the covariance matrix
+
+    # Step 3: Compute the weights of the tangency portfolio
+    # Formula: w_T = (Sigma_inv * bar_mu) / (1^T * Sigma_inv * bar_mu)
+    numerator = dot(Sigma_inv, bar_mu)  # Inverse covariance * excess returns
+    denominator = dot(ones(numerator.shape[0]), numerator)  # Vector of ones * numerator
+
+    w_T = numerator / denominator  # Element-wise division for portfolio weights
+
+    # Step 4:
+    return w_T
+\end{myverb}
+\end{document}
