@@ -1,0 +1,204 @@
+\documentclass{article}
+\usepackage{amsmath} % for matrices
+\usepackage{enumitem}
+\title{Baruch ML HW 1}
+\author{Annie Yi, Daniel Tuzes, group 9}
+
+\begin{document}
+\maketitle
+\section{exercise}
+The augmented matrix of a system of linear equations is given as
+\[
+    \left[
+        \begin{array}{ccc|c}
+            1 & 1 & 1 & 3 \\
+            2 & 3 & 4 & 9 \\
+            4 & 3 & 2 & 9 \\
+        \end{array}
+        \right]
+\]
+Subtract row 1 from row 2 twice and from row 3 four times:
+
+\[
+    \left[
+        \begin{array}{ccc|c}
+            1 & 1  & 1  & 3  \\         % First row unchanged
+            0 & 1  & 2  & 3  \\         % Result of subtracting the first row from the second row twice
+            0 & -1 & -2 & -3 \\      % Result of subtracting the first row from the third row four times
+        \end{array}
+        \right]
+\]
+Add row 2 to row 3:
+\[
+    \left[
+        \begin{array}{ccc|c}
+            \boxed{1} & 1         & 1 & 3 \\      % Pivot in the first row
+            0         & \boxed{1} & 2 & 3 \\      % Pivot in the second row
+            0         & 0         & 0 & 0 \\      % Pivot in the third row (though it's zero, still technically a pivot for this row)
+        \end{array}
+        \right]
+\]
+The last row is consistent, but brings no new info.
+It has no pivot elements. Pivot elements are boxed.
+
+\section{exercise}
+The augmented matrix of a system of linear equations is given as
+\[
+    \left[
+        \begin{array}{ccc|c}
+            3 & 3 & 2 & a \\
+            3 & 6 & 3 & b \\
+            3 & 0 & 1 & c \\
+        \end{array}
+        \right]
+\]
+Subtract row 1 from row 2 and row 3:
+\[
+    \left[
+        \begin{array}{ccc|c}
+            3 & 3  & 2  & a     \\
+            0 & 3  & 1  & b - a \\
+            0 & -3 & -1 & c - a \\
+        \end{array}
+        \right]
+\]
+Add row 2 to row 3:
+\[
+    \left[
+        \begin{array}{ccc|c}
+            3 & 3 & 2 & a          \\
+            0 & 3 & 1 & b - a      \\
+            0 & 0 & 0 & b - 2a + c \\
+        \end{array}
+        \right]
+\]
+If \((a, b, c) = (0, 1, 1)\), then the augmented matrix becomes
+\[
+    \left[
+        \begin{array}{ccc|c}
+            3 & 3 & 2 & 0 \\
+            0 & 3 & 1 & 1 \\
+            0 & 0 & 0 & 2 \\
+        \end{array}
+        \right]
+\]
+The last equation can never hold, so we have 0 solution.
+
+If \((a, b, c) = (0, 0, 0)\), then the augmented matrix becomes
+\[
+    \left[
+        \begin{array}{ccc|c}
+            3 & 3 & 2 & 0 \\
+            0 & 3 & 1 & 0 \\
+            0 & 0 & 0 & 0 \\
+        \end{array}
+        \right]
+\]
+From 2nd row: \[3y + z = 0 \Rightarrow z = -3y\]
+From the 1st row: \[3x + 3y + 2z = 0 \Rightarrow 3x + 3y - 2(3y) = 0 \Rightarrow 3x - 3y = 0 \Rightarrow x = y\]
+So, the solution is, by using \(z = -3y\):
+\[x=y=-z/3\]
+\section{exercise}
+% latin enumaration instead of numberic with the [] option
+\begin{enumerate}[label=\alph*)]
+
+    \item Given matrix \(A\):
+          \[
+              A = \frac{1}{10} \begin{bmatrix}
+                  2 & 4 & 3 \\
+                  4 & 2 & 3 \\
+                  4 & 4 & 4 \\
+              \end{bmatrix}
+          \]
+
+          To find the characteristic equation, we write and note:
+          \[
+              \det(A - \lambda I) = 0 = \det(A^T - \lambda I)
+          \]
+          We can see that $A^T x = x$ holds for $x = (1, 1, 1)$, because the sum of the rows is 1,
+          so $\lambda = 1$ is an eigenvalue of $A^T$, and as previously noted,
+          the eigenvalues of $A$ and $A^T$ are the same.
+
+    \item
+
+          We can see that $A^T x = x$ holds for $x = (1, 1, \ldots, 1)^T$,
+          because the sum of the rows is 1,
+          so $\lambda = 1$ is an eigenvalue of $A^T$,
+          and because $A$ and $A^T$ satisfy the same characteristic equation,
+          $\lambda = 1$ is an eigenvalue of $A$ as well.
+
+          Alternatively, for any stochastic matrix $A$, the determinant of $A-\lambda I$ with $\lambda=1$ is 0,
+          hence $\lambda=1$ is an eigenvalue, because the rows are not linearly inpendent,
+          the last row is namely the sum of the previous rows times $-1$.
+
+    \item We know that $A$ has the same trace and determinant as its diagonal form $D$,
+          so by calculation, we can get that $\det(A) = 0 = \det(D)$, so $D$ has a zero on the diagonal,
+          so $0$ is an eigenvalue of $A$. For the trace, we have:
+          \[
+              \text{trace}(10A) = 2 + 2 + 4 = 8 = \text{trace}(10D)
+          \]
+          And $10D$ has a $0$ and a $10$, so $8=0+10+10\lambda_3 \Rightarrow 10\lambda_3 = -2$.
+
+          The eigenvectors can be found by solving the linear system $(A - \lambda I) x = 0$ for $\lambda = 0$ and $\lambda = 1$ and $\lambda = -0.2$.
+          The eigenvectors are, in respective order:
+          \[ \left[\begin{matrix}-1\\-1\\2\end{matrix}\right] \]
+          \[ \left[\begin{matrix}3\\3\\4\end{matrix}\right] \]
+          \[ \left[\begin{matrix}-1\\1\\0\end{matrix}\right] \]
+
+          We can verify that the 2 evectors, which don't correspond to the evalue 1,
+          are orthogonal to the evector corresponding to the evalue 1 of $A^T$.
+\end{enumerate}
+\section{}
+The characteristic polinom by using python's symbolic calculator is:
+\[\lambda^{3} - 12 \lambda + 16 = 0\]
+The roots are:
+\[\lambda = -4, 2\]
+with multiplicities 1 and 2, respectively.
+The eigenvectors can be calculated by solving the linear system $(A - \lambda I) x = 0$ for $\lambda = -4$ and $\lambda = 2$.
+\[v_{-4} = \begin{bmatrix} 0 \\ 1 \\ 1 \end{bmatrix}\]
+\[v_{2} = \begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix}\]
+By checking the rank of $B-2I$ we can see that it is 2, so the nullspace of $B-2I$ is 1-dimensional,
+so there is only 1 linearly independent eigenvector for this eigenvalue,
+and the set $S$ contains these 2 vectors.
+Therefore the matrix $B$ is not diagonalizable because we cannot define the matrix $P$ and its inverse to diagonalize $B$.
+
+\section{}
+To get the SVD of $\displaystyle B= \left[\begin{matrix}1 & 0 & 3\\-3 & 0 & -1\end{matrix}\right]$, calculate the eigenvalues and vectors of
+$\displaystyle BB^T = \left[\begin{matrix}10 & 0 & 6\\0 & 0 & 0\\6 & 0 & 10\end{matrix}\right]$.
+
+The characteristic equation for $\displaystyle BB^T$ is $\displaystyle \lambda^{3} - 20 \lambda^{2} + 64 \lambda = 0$.
+The solutions are $\displaystyle \lambda = 16, 4, 0$, and from their square roots,
+\[\Sigma  = \left[ {\begin{array}{*{20}{c}}
+                    4 & 0 & 0 \\
+                    0 & 2 & 0
+                \end{array}} \right]\]
+The eigenvectors can be calculated by solving the linear system $(BB^T - \lambda I) x = 0$ for the different eigenvalues denoted by $\lambda = 16, 4, 0$.
+The corresponding eigenvectors are
+$\displaystyle \left[\begin{matrix}1\\0\\1\end{matrix}\right]$,
+$\displaystyle \left[\begin{matrix}-1\\0\\1\end{matrix}\right]$,
+their normalization factor is $\displaystyle \sqrt{2}$ for both, and
+$\displaystyle \left[\begin{matrix}0\\1\\0\end{matrix}\right]$ so
+\[{V^ * } = \left[ {\begin{array}{*{20}{c}}
+                    {\frac{1}{{\sqrt 2 }}}    & 0 & {\frac{1}{{\sqrt 2 }}} \\
+                    { - \frac{1}{{\sqrt 2 }}} & 0 & {\frac{1}{{\sqrt 2 }}} \\
+                    0                         & 1 & 0
+                \end{array}} \right]\]
+
+To construct $U$, calculate ${u_i} = B{v_i}/{\sigma _i}$:
+\[U  = \left[ {\begin{array}{*{20}{c}}
+                    {\frac{1}{{\sqrt 2 }}}    & {\frac{1}{{\sqrt 2 }}} \\
+                    { - \frac{1}{{\sqrt 2 }}} & {\frac{1}{{\sqrt 2 }}}
+                \end{array}} \right]\]
+So the SVD of $B$ is
+\[B = U\Sigma {V^ * } = \left[ {\begin{array}{*{20}{c}}
+                    {\frac{1}{{\sqrt 2 }}}    & {\frac{1}{{\sqrt 2 }}} \\
+                    { - \frac{1}{{\sqrt 2 }}} & {\frac{1}{{\sqrt 2 }}}
+                \end{array}} \right]\left[ {\begin{array}{*{20}{c}}
+                    4 & 0 & 0 \\
+                    0 & 2 & 0
+                \end{array}} \right]\left[ {\begin{array}{*{20}{c}}
+                    {\frac{1}{{\sqrt 2 }}}    & 0 & {\frac{1}{{\sqrt 2 }}} \\
+                    { - \frac{1}{{\sqrt 2 }}} & 0 & {\frac{1}{{\sqrt 2 }}} \\
+                    0                         & 1 & 0
+                \end{array}} \right]\]
+\end{document}
