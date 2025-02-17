@@ -1,0 +1,189 @@
+\documentclass{article}
+\usepackage{amsmath} % for matrices
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{graphicx} % For including images
+\usepackage{caption}  % (Optional) For customizing captions
+
+\title{Baruch ML HW 2}
+\author{Annie Yi, Daniel Tuzes, group 9}
+
+\begin{document}
+\maketitle
+\section{exercise}
+\begin{enumerate}[label=\alph*)]
+    \item \[{f_X}\left( x \right) = \int\limits_{ - \infty }^\infty  {f\left( {x,y} \right)dy} \]
+    \item ${f_{Y|X}}\left( {y|x} \right)$,
+          or also denoted as ${f_{Y|X}}\left( y|x=x_0 \right)$,
+          is the conditional probability density function of $Y$ given $X=x_0$.
+          The latter notation is more expressing
+          when we want to evaluate the conditional pdf
+          at a specific value of $x$.
+          \[{f_{Y|X}}\left( {y|x = {x_0}} \right) = \frac{{{f_{X,Y}}\left( {x = {x_0},y} \right)}}{{{f_X}\left( {x = {x_0}} \right)}}\]
+          Here, $f_X$ at $x_0$ must not be 0. If so, then the conditional pdf is undefined.
+          If $X$ and $Y$ are independent,
+          then the joint pdf is the product of the marginal pdfs:
+          \[{f_{X,Y}}\left( {x,y} \right) = {f_X}\left( x \right){f_Y}\left( y \right)\]
+          therefore the conditional pdf is:
+          \[{f_{Y|X}}\left( {y|x = {x_0}} \right) = \frac{{{f_{X,Y}}\left( {x = {x_0},y} \right)}}{{{f_X}\left( {x = {x_0}} \right)}} = \frac{{{f_X}\left( x_0 \right){f_Y}\left( y \right)}}{{{f_X}\left( x_0 \right)}} = {f_Y}\left( y \right)\]
+    \item \[\begin{aligned}
+                  E\left( {X - Y} \right) = & E\left( X \right) - E\left( Y \right)\qquad {\text{linearity of expectation}}                           \\
+                  =                         & E\left( {\mathcal{N}}\left( {1,2} \right) \right) - E\left( {{\mathcal{N}}\left( {3,7} \right)} \right) \\
+                  =                         & 1 - 3 =  - 2                                                                                            \\
+              \end{aligned} \]
+          \[
+              \begin{aligned}
+                  \mathrm{Var}(X - Y) & = {E}\left[(X - Y - {E}(X - Y))^2\right]                                       \\
+                                      & = {E}\left[(X - Y - {E}(X) + {E}(Y))^2\right]                                  \\
+                                      & = {E}\left[(X - {E}(X) - (Y - {E}(Y)))^2\right]                                \\
+                                      & = {E}\left[(X - {E}(X))^2 - 2(X - {E}(X))(Y - {E}(Y)) + (Y - {E}(Y))^2 \right] \\
+                                      & = {E}\left[(X - {E}(X))^2\right]                                               \\
+                                      & \phantom{{=E}[} - 2{E}\left[(X - {E}(X))(Y - {E}(Y))\right]                    \\
+                                      & \phantom{{=E}[} + {E}\left[(Y - {E}(Y))^2\right]                               \\
+                                      & = \mathrm{Var}(X) - 2\mathrm{Cov}(X, Y) + \mathrm{Var}(Y)
+              \end{aligned}
+          \]
+
+          If $\mathrm{Cov}(X, Y) = 0$, then the variance is \[\mathrm{Var}(X - Y) = \mathrm{Var}(X) + \mathrm{Var}(Y)\]
+          The variance of a normal distribution is the square of the standard deviation.
+          In notation, $\mathcal{N}(\mu, \sigma^2)$ has variance $\sigma^2$.
+          \[\mathrm{Var}(X - Y) = \mathrm{Var}(\mathcal{N}(1,2)) + \mathrm{Var}(\mathcal{N}(3,7)) = 2 + 7 = 9\]
+\end{enumerate}
+\section{exercise}
+Let $X$ the number of heads in 5 tosses of a fair coin.
+$P(X=0) = \frac{1}{32}$, for the all tails case. In general, \[P(X=i) = \binom{5}{i} \left(\frac{1}{2}\right)^5 = \frac{5!}{i!(5-i)!} \left(\frac{1}{2}\right)^5\]
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{binomial_pmf_plot.pdf}
+    \caption{Probability mass function of $X \sim \mathrm{Binomial}(5, 0.5)$. This represents the distribution of the number of heads in 5 fair coin flips.}
+    \label{fig:binomial_pmf}
+\end{figure}
+To compute the expected value of $Y$ where $Y = 1 + X + X^2$,
+\[\begin{aligned}
+        E\left( {g\left( X \right)} \right) & = \int\limits_{ - \infty }^\infty  {g\left( x \right){f_X}\left( x \right)dx}                                                                                                      \\
+                                            & = \sum\limits_{x = 0}^5 {\left( {1 + x + {x^2}} \right)P\left( {X = x} \right)}                                                                                                    \\
+                                            & = \sum\limits_{x = 0}^5 {P\left( {X = x} \right)}  + \sum\limits_{x = 0}^5 {{x}P\left( {X = x} \right)}  + \sum\limits_{x = 0}^5 {{x^2}P\left( {X = x} \right)}                    \\
+                                            & = 1 + E\left( X \right) + \underbrace {E\left( {{X^2}} \right)}_{=Var\left( X \right) + E{{\left( X \right)}^2}} \quad \text{n.b. } Var\left( X \right) = np\left( {1 - p} \right) \\
+                                            & = 1 + \underbrace {5/2}_{E\left( X \right)} + \underbrace {5\frac{1}{2}\frac{1}{2}}_{Var\left( X \right)} + \underbrace {\frac{{25}}{4}}_{E{{\left( X \right)}^2}} = 11            \\
+    \end{aligned} \]
+Alternatively, we can use the law of total expectation:
+\[
+    \begin{aligned}
+        E[Y]   = & E[E[Y \mid X]]                                                                                                                                                                                        \\
+                 & \phantom{E[}E[Y \mid X]  = E[1 + X + X^2 \mid X] = 1 + X + E[X^2 \mid X] = 1 + X + X^2                                                                                                                \\
+        E[Y]   = & E[1 + X + X^2] = 1 + E[X] + E[X^2]                                                                                                                                                                    \\
+        E[X]   = & 5 \cdot \frac{1}{2} = \frac{5}{2}                                                                                                                                                                     \\
+        E[X^2] = & 5 \cdot \frac{1}{2} \cdot \left(1 - \frac{1}{2}\right) + \left(\frac{5}{2}\right)^2 = 5 \cdot \frac{1}{2} \cdot \frac{1}{2} + \frac{25}{4} = \frac{5}{4} + \frac{25}{4} = \frac{30}{4} = \frac{15}{2} \\
+        E[Y]   = & 1 + \frac{5}{2} + \frac{15}{2} = 1 + 10 = 11
+    \end{aligned}
+\]
+\section{exercise}
+Given random variables $X$ and $Y$, the pdf of their sum $Z = X + Y$
+is given by the convolution of their pdfs:
+\[
+    {f_Z}\left( z \right) = \int\limits_{ - \infty }^\infty  {{f_X}\left( x \right){f_Y}\left( {z - x} \right)dx}
+\]
+\begin{enumerate}
+    \item Till $z = 0$, $f_Z(z) = 0$, because if $x$ is positive, $z-x$ must be negative,
+          and vice versa, so the product of the two pdfs is 0.
+    \item From $z = 0$ to $z = 1$, $f_Z(z) = z$,
+          beacuse for values of $x$ from 0 to $z$, $f_X(x) = 1$ and $f_Y(z-x) = 1$,
+          the the overlap of the two pdfs has the length $z$, and hight 1, so the area is $z$.
+    \item From $z = 1$ to $z = 2$, $f_Z(z) = 2 - z$ for symmetry.
+    \item From $z = 2$ to $z = 3$, $f_Z(z) = 0$.
+\end{enumerate}
+We can check that the area under the curve is 1. To integral this from $0.2$ till $0.7$,
+we can calculate the area of the trapezoid with the two bases $0.2$ and $0.7$,
+and the height $0.5$:
+\[
+    \frac{1}{2} \cdot (0.2 + 0.7) \cdot 0.5 = 0.225
+\]
+To get the pdf of $W = X-Y$, we can think about the convolution of $X$ and $\tilde{Y}=-Y$.
+Here, $\tilde{Y}$ is the random variable $Y$ reflected around the y-axis,
+its pdf is $f_{\tilde{Y}}(x) = f_Y(-x)$, so the pdf for $W$ is
+\[
+    \begin{aligned}
+        {f_W}\left( w \right) & = \int\limits_{ - \infty }^\infty  {{f_X}\left( x \right){f_{\tilde{Y}}}\left( {w - x} \right)dx} \\
+                              & = \int\limits_{ - \infty }^\infty  {{f_X}\left( x \right){f_Y}\left( {x - w} \right)dx}
+    \end{aligned}
+\]
+The pdf can be given with the visualization of the convolution:
+\[{f_W}\left( w \right) = \left\{ {\begin{array}{*{20}{c}}
+                0     & w < -1        \\
+                1+w   & -1 \leq w < 0 \\
+                1 - w & 0 \leq w < 1  \\
+                0     & 1 \leq w
+            \end{array}} \right.\]
+
+\section{exercise}
+Integrate the joint pdf to get the probability:
+\[
+    \begin{aligned}
+        P(X>1, Y<1) = & \int\limits_1^\infty  {\int\limits_{ 0 }^1 {f\left( {x,y} \right)dy} dx}          \\
+        =             & \int\limits_1^\infty  {\int\limits_{ 0 }^1 2e^{-x}e^{-2y} dy} dx                  \\
+        =             & \int\limits_1^\infty  {2e^{-x}\left[ { - \frac{1}{2}e^{-2y}} \right]_0^1} dx      \\
+        =             & \int\limits_1^\infty  {2e^{-x}\left( - \frac{1}{2}e^{-2} + \frac{1}{2} \right)dx} \\
+        =             & \int\limits_1^\infty  {e^{-x}\left( 1 - e^{-2} \right)dx}                         \\
+        =             & \left[ { - e^{-x}} \right]_1^\infty \cdot \left( 1 - e^{-2} \right)               \\
+        =             & \left( 1 - e^{-2} \right)e^{-1} \approx 0.232
+    \end{aligned}
+\]
+If the joint distribution is indeed a 2D distribution,
+then they are independent, because the joint pdf is separable:
+\[
+    f(x,y) = 2e^{-x}e^{-2y} = 2 \cdot \underbrace {e^{-x}}_{\propto f_X(x)} \cdot \underbrace {e^{-2y}}_{\propto f_Y(y)}
+\]
+and the constants can be properly selected. This is a consequence of the separabiltiy of the integral of the joint pdf.
+\section{exercise}
+Let the probability space the ordered pairs of the die and the coin.
+Then $Y$ assigns twice the value of the die if the coin is heads,
+and half the value of the die if the coin is tails.
+Let $X$ assign the value of the die, and $C$ assign the value of the coin.
+Using the law of total expectation:
+\[
+    \begin{aligned}
+        E[Y] & = E[E[Y \mid C]]                                                                         \\
+             & = E[E[Y \mid C = H]P[C = H] + E[Y \mid C = T]P[C = T]]                                   \\
+             & = E[2X \cdot P[C = H] + 0.5X \cdot P[C = T]] \quad\text{bc $X$ and $C$ were independent} \\
+             & = E[2X \cdot 0.5 + 0.5X \cdot 0.5]                                                       \\
+             & =  1.25E[X] = 1.25 \cdot 3.5 = 4.375
+    \end{aligned}
+\]
+\section{exercise}
+Let's approximate the pdf of the binomial distribution with the normal distribution,
+so we are interested whether the normal distribution equals to 20 is the best.
+
+\[19.5 < {S_n} < 20.5\]
+
+We have the formula for
+\[P\left( {a < \frac{{{S_n} - {\mu _{{S_n}}}}}{{{\sigma _{{S_n}}}}} < b} \right) = \phi \left( b \right) - \phi \left( a \right)\]
+
+Let's transform the inequality,
+and calculate the expected value and variance for 40 tosses of a fair coin.
+The calculation for the expected value is:
+\[
+    \begin{aligned}
+        E\left( {S_n} \right) & = nE\left( X \right) = 40 \cdot \frac{1}{2} = 20
+    \end{aligned}
+\]
+The calculation for the variance is:
+\[
+    \begin{aligned}
+        Var\left( {S_n} \right) & = nVar\left( X \right) = 40 \cdot \frac{1}{2} \cdot \left( 1 - \frac{1}{2} \right) = 10
+    \end{aligned}
+\]
+So for the probability we have:
+\[
+    \begin{aligned}
+        P\left( {19.5 < {S_n} < 20.5} \right) & = P\left( {\frac{{19.5 - 20}}{{\sqrt {10} }} < \frac{{{S_n} - 20}}{{\sqrt {10} }} < \frac{{20.5 - 20}}{{\sqrt {10} }}} \right) \\
+                                              & = P\left( { - C < Z< C} \right)  \qquad \frac{{19.5 - 20}}{{\sqrt {10} }} = C                                                  \\
+                                              & = \phi (C) - \phi (-C)                                                                                                         \\
+                                              & = \phi (C) - (1 - \phi (C))                                                                                                    \\
+                                              & = 2\phi (C) - 1
+    \end{aligned}
+\]
+which is approximately 0.126.
+
+Here is an unrelated fun fact: $\sum_{k=1}^\infty \frac{1}{k^2} = \frac{\pi^2}{6}$.
+Do you know the proof?
+\end{document}
