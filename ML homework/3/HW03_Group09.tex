@@ -1,0 +1,167 @@
+\documentclass{article}
+\usepackage{amsmath} % for matrices
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{graphicx} % For including images
+\usepackage{caption}  % (Optional) For customizing captions
+\usepackage{siunitx}
+
+\title{Baruch ML HW 3}
+\author{Annie Yi, Daniel Tuzes, group 9}
+
+\begin{document}
+\maketitle
+\section{exercise}
+We want to do linear regression on the following data:
+\begin{center}
+    \begin{tabular}{c|c}
+        $x$ & $y$ \\
+        \hline
+        1   & 0   \\
+        2   & 1   \\
+        4   & 2   \\
+        5   & 3   \\
+    \end{tabular}
+\end{center}
+Supposing the connection as $y = a x + b$, we want to find the optimal parameters $a$ and $b$.
+
+Define $A$ matrix as
+\begin{center}
+    $A = \begin{bmatrix}
+            1 & 1 \\
+            1 & 2 \\
+            1 & 4 \\
+            1 & 5
+        \end{bmatrix}$
+\end{center}
+and $Y$ matrix as
+\begin{center}
+    $Y = \begin{bmatrix}
+            0 \\
+            1 \\
+            2 \\
+            3
+        \end{bmatrix}$
+\end{center}
+We want to solve $AX = \tilde Y$ for $X$,
+where $\tilde Y$ is the projection of $Y$ onto the column space of $A$.
+
+The solution is given by
+\begin{center}
+    $X = (A^T A)^{-1} A^T Y$
+\end{center}
+We can use the following code to solve for $X$:
+\begin{verbatim}
+import numpy as np
+A = np.array([[1, 1], [1, 2], [1, 4], [1, 5]])
+Y = np.array([[0], [1], [2], [3]])
+X = np.linalg.inv(A.T @ A) @ A.T @ Y
+print(X)
+\end{verbatim}
+The return value is $X^T = [-0.6, 0.7]$, so $b = -0.6$ and $a = 0.7$.
+
+\section{exercise}
+The inverse of $y= a x + b$ is $x = y \cdot \frac{1}{a} - \frac{b}{a}$.
+So if the linear regeression would optimise the same loss function,
+then we would get $a_2 = \frac{1}{a_1}$.
+However, the loss function is not the same.
+
+In the first case,
+we think about the $x$ points as fixed,
+absolutely precisely measured values with no errors,
+and $y$ values have the error.
+
+In the second case,
+we think about the $y$ points as fixed,
+absolutely precisely measured values with no errors,
+and $x$ values have the error.
+In the first case, we want to minimise the error of $y$,
+while in the second case, we want to minimise the error of $x$.
+
+In fact, using the Pearson correlation coefficient $r$,
+we can write $a_1 = r \cdot \frac{\sigma_y}{\sigma_x}$
+and $a_2 = r \cdot \frac{\sigma_x}{\sigma_y}$,
+so we can see that $a_2 = \frac{1}{a_1} \cdot r^2$.
+
+\section{exercise}
+If they were independent, then their correlation would be 0.
+It is not 0, so they are not independent.
+
+To calculate $Var(X-Y) = Var(X) + Var(Y) - 2Cov(X,Y)$,
+we substitute the values:
+$Var(X-Y) = 3 + 4 - 2 \cdot 1 = 5$.
+\section{exercise}
+The null hypothesis is that the can content is \qty{3.2}{\liter}.
+The alternative hypothesis is that the can content is not \qty{3.2}{\liter},
+i.e.\ it is either less than or greater than \qty{3.2}{\liter}.
+While some customers may be even happier if the can contained more than \qty{3.2}{\liter},
+we still want to do symmetric testing,
+so we will use the two-sided test.
+
+From the data, we get that mean is $\bar x = 3.15$
+and the standard error of the mean is $\sigma_\text{sample} = 0.158114$,
+considering that the degrees of freedom $=9$.
+We will use a t-test, with degree of freedom $=9$.
+We don't use normal distribution, because the sample size is small.
+If the null hypothesis is true,
+\[t = \frac{\bar x - \mu_0}{\sigma_\text{sample}/ \sqrt{10}} = \frac{3.15 - 3.2}{\sigma_\text{sample}/ \sqrt{10}} =  - \frac{0.05}{\sigma_\text{sample}/ \sqrt{10}} = -1.\]
+The p-value for a symmetric test is the probability of
+observing a value as extreme as $t$ or more extreme,
+\[p = P(|T| > |t|) = 2 \cdot P(T > |t|) \approx 0.343436\]
+The p-value is bigger than 0.05,
+so we have not enough evidence to reject the null hypothesis.
+
+We could have made a different alternative hypothesis,
+that the can content is less than \qty{3.2}{\liter}.
+In that case, we would have used a one-sided t-test,
+and the p-value would be $p_\text{1sided} = p/2 >0.05$,
+so we could still not reject the null hypothesis.
+
+The formula for the p-value comes from the fact that
+if the null hypothesis is true,
+then the distribution of $t$ is a t-distribution with $n-1$ degrees of freedom,
+where $n=10$ is the sample size.
+
+If the p-value is less than 0.05,
+then we reject the null hypothesis,
+because it would be so unlikely to observe $t$ realization of $T$ if the null hypothesis were true.
+
+\section{exercise}
+\begin{enumerate}[label=(\alph*)]
+    \item $v_i$ and $\lambda_i$ are eigenvectors and eigenvalues for the
+          finite dimensional matrix $M$ for a finite set $I$ iif
+          \[M{v_i} = {\lambda _i}{v_i}\quad\forall i\in I\text{ and }v_i\not =0\]
+    \item
+          \[
+              A = {M^T}M \Rightarrow {A^T} = {\left( {{M^T}M} \right)^T} = {M^T}{\left( {{M^T}} \right)^T} = {M^T}M = A \hfill \\
+          \]
+          So $A$ is symmetric.
+    \item Let $v$ eigenvector of $P$ with eigenvalue $\lambda$.
+          Then $Pv = \lambda v$. If $P$ is positive definite,
+          then for any $x \in \mathbb{R}^n$,
+          $x^T P x > 0$, which also holds for $x=v$.
+          So we have
+          \[\begin{aligned}
+                  Pv          & = \lambda v\quad /{v^T} \cdot                                                                                                          \\
+                  0 < {v^T}Pv & = {v^T}\lambda v = \lambda \underbrace {{{\left\| v \right\|}^2}}_{ > 0 \Leftarrow 0 \ne v \in {\mathbb{R}^n}} \Rightarrow 0 < \lambda \\
+              \end{aligned} \]
+    \item From $AQ=QD$ we can get $A=QDQ^{-1}$.
+          if $Q$ is invertible.
+          As the spectral theorem states,
+          if $A$ is symmetric, then it has $n$ linearly independent eigenvectors.
+          If it is formed from linearly eigenvectors of $A$,
+          then it is invertible, because its rank is $n$.
+    \item Let's suppose that the determinant of $MM^T+I$ is 0,
+          and we'll show that this leads to a contradiction.
+          If the determinant is 0, then there exists a non-zero vector $x$ such that
+          \[(MM^T + I)x = 0\Rightarrow MM^Tx = -Ix = -x\]
+          By multiplying both sides by $x^T$ from the left,
+          \[x^TMM^Tx = -x^Tx\]
+          This is a contradiction, because $x^TMM^Tx$ is always non-negative,
+          and $-x^Tx$ is always negative.
+\end{enumerate}
+
+
+
+
+\end{document}
