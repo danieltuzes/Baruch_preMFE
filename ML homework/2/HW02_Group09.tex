@@ -125,7 +125,7 @@ Integrate the joint pdf to get the probability:
         =             & \int\limits_1^\infty  {2e^{-x}\left( - \frac{1}{2}e^{-2} + \frac{1}{2} \right)dx} \\
         =             & \int\limits_1^\infty  {e^{-x}\left( 1 - e^{-2} \right)dx}                         \\
         =             & \left[ { - e^{-x}} \right]_1^\infty \cdot \left( 1 - e^{-2} \right)               \\
-        =             & \left( 1 - e^{-2} \right)e^{-1} \approx 0.232
+        =             & \left( 1 - e^{-2} \right)e^{-1}
     \end{aligned}
 \]
 If the joint distribution is indeed a 2D distribution,
@@ -176,13 +176,12 @@ So for the probability we have:
 \[
     \begin{aligned}
         P\left( {19.5 < {S_n} < 20.5} \right) & = P\left( {\frac{{19.5 - 20}}{{\sqrt {10} }} < \frac{{{S_n} - 20}}{{\sqrt {10} }} < \frac{{20.5 - 20}}{{\sqrt {10} }}} \right) \\
-                                              & = P\left( { - C < Z< C} \right)  \qquad \frac{{19.5 - 20}}{{\sqrt {10} }} = C                                                  \\
+                                              & = P\left( { - C < Z< C} \right)  \qquad \frac{{19.5 - 20}}{{\sqrt {10} }} = - C                                                \\
                                               & = \phi (C) - \phi (-C)                                                                                                         \\
                                               & = \phi (C) - (1 - \phi (C))                                                                                                    \\
                                               & = 2\phi (C) - 1
     \end{aligned}
 \]
-which is approximately 0.126.
 
 Here is an unrelated fun fact: $\sum_{k=1}^\infty \frac{1}{k^2} = \frac{\pi^2}{6}$.
 Do you know the proof?
