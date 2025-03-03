@@ -215,3 +215,4 @@ cython_debug/
 
 # Ignore directories created by LaTeX packages
 _minted*
+anki_questions.html
