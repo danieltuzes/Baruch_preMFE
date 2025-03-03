@@ -2,6 +2,8 @@
 \usepackage{amsmath} % for matrices
 \usepackage{amssymb}
 \usepackage{enumitem}
+\usepackage{booktabs} % For better looking tables
+\usepackage{hyperref} % For hyperlinks
 \usepackage{graphicx} % For including images
 \usepackage{caption}  % (Optional) For customizing captions
 \usepackage{siunitx}
@@ -13,4 +15,43 @@
 \maketitle
 \section{exercise}
 In a Fama-French 5-factor model, the expected return of a stock is given by the equation:
+\begin{align*}
+    E(R_i - R_f) = \alpha + \beta_{i,R_M} (R_M - R_f) & + \beta_{i,\text{SMB}} \cdot \text{SMB} +               \\
+                                                      & + \beta_{i,\text{HML}} \cdot \text{HML} +               \\
+                                                      & + \beta_{i,\text{HML}} \cdot \text{HML} +               \\
+                                                      & + \beta_{i,\text{CMA}} \cdot \text{CMA} + \varepsilon_i
+\end{align*}
+where:
+
+\begin{itemize}
+    \item $R_i$ is the return of stock $i$.
+    \item $R_f$ is the risk-free rate.
+    \item $\alpha$ is the intercept of the regression, representing the idiosyncratic return of stock $i$.
+    \item $\beta_{i,R_M}$ is the sensitivity of stock $i$ to the market return.
+    \item $\beta_{i,\text{SMB}}$, $\beta_{i,\text{HML}}$, $\beta_{i,\text{HML}}$ and $\beta_{i,\text{CMA}}$
+          are the sensitivity of stock $i$ to the
+          SMB (Small Minus Big),
+          HML (High Minus Low),
+          RMW (Robust Minus Weak) and
+          CMA (Conservative Minus Aggressive) factor.
+\end{itemize}
+By using the weblink
+\url{http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Research_Data_5_Factors_2x3_daily_CSV.zip}
+we can download the Fama-French 5-factor data.
+\begin{center}
+    \begin{tabular}{lllllll}
+        \toprule
+                 & Mkt-RF & SMB   & HML   & RMW   & CMA   & RF    \\
+        \midrule
+        19630701 & -0.67  & 0.02  & -0.35 & 0.03  & 0.13  & 0.012 \\
+        19630702 & 0.79   & -0.28 & 0.28  & -0.08 & -0.21 & 0.012 \\
+        19630703 & 0.63   & -0.18 & -0.1  & 0.13  & -0.25 & 0.012 \\
+        19630705 & 0.4    & 0.09  & -0.28 & 0.07  & -0.3  & 0.012 \\
+        19630708 & -0.63  & 0.07  & -0.2  & -0.27 & 0.06  & 0.012 \\
+        \bottomrule
+    \end{tabular}
+    \captionof{table}{Fama-French 5-factor data head}
+\end{center}
+
+
 \end{document}
