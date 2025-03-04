@@ -3,10 +3,11 @@
 \usepackage{amssymb}
 \usepackage{enumitem}
 \usepackage{booktabs} % For better looking tables
-\usepackage{hyperref} % For hyperlinks
 \usepackage{graphicx} % For including images
 \usepackage{caption}  % (Optional) For customizing captions
 \usepackage{siunitx}
+\usepackage{pdfpages}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
 
 \title{Baruch ML HW 4}
 \author{Annie Yi, Daniel Tuzes, group 9}
@@ -16,42 +17,117 @@
 \section{exercise}
 In a Fama-French 5-factor model, the expected return of a stock is given by the equation:
 \begin{align*}
-    E(R_i - R_f) = \alpha + \beta_{i,R_M} (R_M - R_f) & + \beta_{i,\text{SMB}} \cdot \text{SMB} +               \\
-                                                      & + \beta_{i,\text{HML}} \cdot \text{HML} +               \\
-                                                      & + \beta_{i,\text{HML}} \cdot \text{HML} +               \\
-                                                      & + \beta_{i,\text{CMA}} \cdot \text{CMA} + \varepsilon_i
+    \mathbf R_i - \mathbf R_f = \alpha_i \mathbf 1+ \beta_{i,R_M} (\mathbf R_M - \mathbf R_f) & + \beta_{i,\text{SMB}} \cdot \mathbf{SMB} +                    \\
+                                                                                              & + \beta_{i,\text{HML}} \cdot \mathbf{HML} +                    \\
+                                                                                              & + \beta_{i,\text{RMW}} \cdot \mathbf{RMW} +                    \\
+                                                                                              & + \beta_{i,\text{CMA}} \cdot \mathbf{CMA} + \mathbf \epsilon_i
 \end{align*}
 where:
 
 \begin{itemize}
-    \item $R_i$ is the return of stock $i$.
-    \item $R_f$ is the risk-free rate.
-    \item $\alpha$ is the intercept of the regression, representing the idiosyncratic return of stock $i$.
+    \item $\mathbf R_i$ is the return of stock $i$. We will use Apple's return using Yahoo's financial services.
+    \item $\mathbf R_f$ is the risk-free rate, $\mathbf R_M$ is the market return
+          (measured by all companies appearing in CRSP, weighted by their market capitalization)
+    \item $\alpha_i$ is the intercept of the regression, representing the idiosyncratic return of stock $i$.
     \item $\beta_{i,R_M}$ is the sensitivity of stock $i$ to the market return.
     \item $\beta_{i,\text{SMB}}$, $\beta_{i,\text{HML}}$, $\beta_{i,\text{HML}}$ and $\beta_{i,\text{CMA}}$
           are the sensitivity of stock $i$ to the
           SMB (Small Minus Big),
           HML (High Minus Low),
           RMW (Robust Minus Weak) and
-          CMA (Conservative Minus Aggressive) factor.
+          CMA (Conservative Minus Aggressive) factors.
 \end{itemize}
-By using the weblink
-\url{http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Research_Data_5_Factors_2x3_daily_CSV.zip}
-we can download the Fama-French 5-factor data.
-\begin{center}
+The bold symbols are vectors, having values for different time points.
+We want to minimise it in the norm of $\mathbf \epsilon_i$ by
+doing an OLS fitting to every stock $i$.
+
+From a webpage \footnote{\url{http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html}}
+we can download the data \footnote{\url{http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Research_Data_5_Factors_2x3_daily_CSV.zip}}
+containing the factors Fama-French 5-factor model.
+\begin{table}[ht]
+    \caption{Fama-French 5-factor data tail}
+    \label{FamaFrench}
     \begin{tabular}{lllllll}
         \toprule
                  & Mkt-RF & SMB   & HML   & RMW   & CMA   & RF    \\
         \midrule
-        19630701 & -0.67  & 0.02  & -0.35 & 0.03  & 0.13  & 0.012 \\
-        19630702 & 0.79   & -0.28 & 0.28  & -0.08 & -0.21 & 0.012 \\
-        19630703 & 0.63   & -0.18 & -0.1  & 0.13  & -0.25 & 0.012 \\
-        19630705 & 0.4    & 0.09  & -0.28 & 0.07  & -0.3  & 0.012 \\
-        19630708 & -0.63  & 0.07  & -0.2  & -0.27 & 0.06  & 0.012 \\
+        20241224 & 1.11   & -0.12 & -0.05 & -0.13 & -0.37 & 0.017 \\
+        20241226 & 0.02   & 1.09  & -0.19 & -0.44 & 0.35  & 0.017 \\
+        20241227 & -1.17  & -0.44 & 0.56  & 0.41  & 0.03  & 0.017 \\
+        20241230 & -1.09  & 0.24  & 0.74  & 0.55  & 0.14  & 0.017 \\
+        20241231 & -0.46  & 0.31  & 0.71  & 0.33  & 0.0   & 0.017 \\
         \bottomrule
     \end{tabular}
-    \captionof{table}{Fama-French 5-factor data head}
-\end{center}
+\end{table}
 
+Using Yahoo finance, we can get the returns for a selected stock. As Apple was not available in the
+Yahoo finance API, we used the stock of Microsoft. Some of the columns for the last few days are shown in
+table \ref{MSFT}.
+
+\begin{table}
+    \caption{Microsoft stock data tail}
+    \label{MSFT}
+    \begin{tabular}{llllll}
+        \toprule
+                 & Open    & High    & Low     & Close   & return \\
+        Date     &         &         &         &         &        \\
+        \midrule
+        20250225 & 401.100 & 401.920 & 396.700 & 397.900 & -0.015 \\
+        20250226 & 398.010 & 403.600 & 394.250 & 399.730 & 0.005  \\
+        20250227 & 401.270 & 405.740 & 392.170 & 392.530 & -0.018 \\
+        20250228 & 392.660 & 397.630 & 386.570 & 396.990 & 0.011  \\
+        20250303 & 398.820 & 398.820 & 386.160 & 388.490 & -0.021 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+From here, we can calculate the excess return of the stock by subtracting the risk-free rate from the stock's return.
+Note that the risk-free rate is given in percentage, so we need to divide it by 100.
+As $X$, we will use the market's excess return, the SMB, HML, RMW and CMA factors.
+As $y$, we will use the excess return of the stock.
+By doing an OLS fitting, we can get $\alpha_i$ and the betas,
+which are the coefficients of the regression SMB, HML, RMW and CMA.
+
+The output of the regression is
+\footnotesize
+\begin{verbatim}
+Intercept: 0.00020720675127399466
+Coefficients: [ 0.01128495 -0.00369999 -0.00378986  0.00249309 -0.00161599]
+R-squared: 0.6079755982101198
+\end{verbatim}
+\normalsize
+
+Using the coefficients, we can calculate the predicted return of the stock
+as a function of the actual return as shown in
+figure \ref{fig:predicted_return}.
+% include the figure
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{predicted_vs_actual_excess_return.pdf}
+    \caption{Predicted return of the stock as a function of the actual return}
+    \label{fig:predicted_return}
+\end{figure}
+
+We can also show the cumulative excess return of the stock and
+the predicted cumulative excess return of the stock as a function of time as shown in
+figure \ref{fig:cumulative_return}. Note that the cumulative excess returns
+may look very similar, even for models with low R-squared values.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{cumulative_excess_return.pdf}
+    \caption{Cumulative excess return of the stock and
+        the predicted excesscumulative return of the stock}
+    \label{fig:cumulative_return}
+\end{figure}
+
+Below the jupyter notebook used to generate this content, as pdf, can be found.
+To generate the pdf from the jupyter notebook, we used the nbconvert tool.
+The commands used were:
+\begin{verbatim}
+jupyter nbconvert --to latex fitting.ipynb
+pdflatex fitting.tex
+\end{verbatim}
+\includepdf[pages=-]{fitting.pdf}
 
 \end{document}
