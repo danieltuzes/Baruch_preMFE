@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage{amsmath} % for matrices
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{booktabs} % For better looking tables
+\usepackage{graphicx} % For including images
+\usepackage{caption}  % (Optional) For customizing captions
+\usepackage{siunitx}
+\usepackage{pdfpages}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+
+\title{Baruch ML HW 5}
+\author{Annie Yi, Daniel Tuzes, group 9}
+
+\begin{document}
+\maketitle
+\section*{Predicting the Consumer Price Index}
+To predict the Consumer Price Index, we build a linear model containing features as below.
+We are excited to see which one of these will be have lower weights in the regression,
+and didn't want to neglect them before seeing the model in action.
+However, we have opionions based on which is caused by the inflation,
+and which one of these may have low correlation with the results,
+see the section discussion.
+\begin{enumerate}
+    \item Past CPI Values: Historical CPI data to capture the persistence of inflation.
+          Source: U.S. Bureau of Labor Statistics (BLS),
+          Consumer Price Index for All Urban Consumers (CPI-U), U.S. city average, All items - CUUR0000SA0,
+          \url{https://data.bls.gov/toppicks?survey=cu}
+    \item Output Gap: The difference between actual and potential economic output. A positive output gap can
+          lead to higher inflation. Source: International Monetary Fund (IMF)
+    \item Unemployment Rate: Lower unemployment rates can lead to higher inflation based on the Phillips
+          Curve. Source: U.S. Bureau of Labor Statistics (BLS)
+    \item Interest Rates: Central bank policy rates, such as the Federal Funds Rate, influence inflation through
+          monetary policy. Source: Federal Reserve Economic Data (FRED). \url{https://fred.stlouisfed.org/series/FEDFUNDS}
+    \item Money Supply: Measures like M2 (a broad measure of money supply) can impact inflation. Source:
+          Federal Reserve Board.
+    \item Wage Growth: Increases in wages can lead to higher consumer spending and inflation.
+          Source: Federal Reserve Bank of Atlanta.
+          \url{https://www.atlantafed.org/chcs/wage-growth-tracker}, column "Overall"
+    \item Commodity Prices: Prices of key commodities like oil and food can directly affect inflation.
+          Source:
+          International Monetary Fund (IMF). \url{https://data.imf.org/?sk=471dddf8-d8a7-499a-81ba-5b332c01f8b9&sid=1547558078595}
+          All commodities index
+    \item Exchange Rates: Changes in exchange rates can influence import prices and thus inflation. Source:
+          Federal Reserve Board
+\end{enumerate}
+we collected data from
+\end{document}
