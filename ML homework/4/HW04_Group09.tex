@@ -121,6 +121,33 @@ may look very similar, even for models with low R-squared values.
     \label{fig:cumulative_return}
 \end{figure}
 
+\section*{Conclusion}
+We have shown how to
+\begin{itemize}
+    \item download the Fama-French 5-factor data and the stock data from Yahoo finance
+    \item align the data and calculate the excess return of the stock
+    \item do an OLS fitting to the stock data
+    \item calculate the predicted return of the stock
+\end{itemize}
+
+The outcome demonstrates how the Fama-French 5-Factor Model
+can explain much (about 61\%) of Microsoft's
+daily excess return variability.
+The positive market factor $\beta_{i,R_M}$ makes intuitive sense,
+showing that MSFT's returns rise with market upswings.
+The sign and magnitude of the other coefficients (SMB, HML, RMW, CMA) provide further insight
+into MSFT's exposures relative to
+size, value, profitability, and investment risk factors.
+
+While 61\% is a substantial portion,
+there remains a considerable amount of variability
+unexplained by these factors.
+Additional factors, dividents or non-linear terms might help improve the fit further.
+Overall, the Fama-French 5-Factor Model serves as
+a strong baseline for capturing the systematic influences on MSFT's daily returns,
+simple enough to be interpretable, good fit for educational purposes,
+and a good starting point for more complex models.
+
 Below the jupyter notebook used to generate this content, as pdf, can be found.
 To generate the pdf from the jupyter notebook, we used the nbconvert tool.
 The commands used were:
