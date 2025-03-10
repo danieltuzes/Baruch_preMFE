@@ -160,6 +160,24 @@ It is surprising, how well the data can be fit till 2022, but breaks down after 
 By extending the fitting regime till 2025, the fitted curve still wouldn't align well with the
 period 2022-2025.
 
+On the other hand, by shrinking the fitted time frame till 2018,
+in figure \ref{fig:ridge_predictions_2018},
+we can see that the model predicts the CPI well till 2022.
+It doesn't mean that the model would be any better,
+but a good example that in lucky times we can have good predictions,
+but it is not more than luck.
+
+\begin{figure}
+      \centering
+      \includegraphics[width=\linewidth]{data_pred_till_2018}
+      \caption{Predictions of the model using OLS only.
+            Training data ends at end of 2018.
+            The prediction looks good till 2022,
+            but it more due to luck than model quality.}
+      \label{fig:ridge_predictions_2018}
+\end{figure}
+
+
 \section*{Discussion}
 The CPI can be well-captured by the model in a limited period of time,
 but the model fails to predict properly after 2022. Till 2022,
