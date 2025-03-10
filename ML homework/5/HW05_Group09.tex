@@ -22,27 +22,217 @@ However, we have opionions based on which is caused by the inflation,
 and which one of these may have low correlation with the results,
 see the section discussion.
 \begin{enumerate}
-    \item Past CPI Values: Historical CPI data to capture the persistence of inflation.
-          Source: U.S. Bureau of Labor Statistics (BLS),
-          Consumer Price Index for All Urban Consumers (CPI-U), U.S. city average, All items - CUUR0000SA0,
-          \url{https://data.bls.gov/toppicks?survey=cu}
-    \item Output Gap: The difference between actual and potential economic output. A positive output gap can
-          lead to higher inflation. Source: International Monetary Fund (IMF)
-    \item Unemployment Rate: Lower unemployment rates can lead to higher inflation based on the Phillips
-          Curve. Source: U.S. Bureau of Labor Statistics (BLS)
-    \item Interest Rates: Central bank policy rates, such as the Federal Funds Rate, influence inflation through
-          monetary policy. Source: Federal Reserve Economic Data (FRED). \url{https://fred.stlouisfed.org/series/FEDFUNDS}
-    \item Money Supply: Measures like M2 (a broad measure of money supply) can impact inflation. Source:
-          Federal Reserve Board.
-    \item Wage Growth: Increases in wages can lead to higher consumer spending and inflation.
-          Source: Federal Reserve Bank of Atlanta.
-          \url{https://www.atlantafed.org/chcs/wage-growth-tracker}, column "Overall"
-    \item Commodity Prices: Prices of key commodities like oil and food can directly affect inflation.
-          Source:
-          International Monetary Fund (IMF). \url{https://data.imf.org/?sk=471dddf8-d8a7-499a-81ba-5b332c01f8b9&sid=1547558078595}
-          All commodities index
-    \item Exchange Rates: Changes in exchange rates can influence import prices and thus inflation. Source:
-          Federal Reserve Board
+      \item Past CPI Values: Historical CPI data to capture the persistence of inflation.
+            Source: U.S. Bureau of Labor Statistics (BLS),
+            Consumer Price Index for All Urban Consumers (CPI-U), U.S. city average, All items - CUUR0000SA0,
+            \url{https://data.bls.gov/toppicks?survey=cu}
+      \item Output Gap (OG): The difference between actual and potential economic output.
+            A positive output gap can lead to higher inflation. Source: IMF,
+            \url{https://www.imf.org/en/Publications/WEO/weo-database/2024/October/download-entire-database}
+            Note that data after 2023 are not measured but predicted,
+            and data frequency is in years, not months.
+      \item Unemployment Rate (UR): Lower unemployment rates can lead to higher inflation based on the Phillips
+            Curve. Source: U.S. Bureau of Labor Statistics (BLS), \url{https://data.bls.gov/toppicks?survey=ln},
+            Unemployment Rate - LNS14000000
+      \item Interest Rates (IR): Central bank policy rates, such as the Federal Funds Rate, influence inflation through
+            monetary policy. Source: Federal Reserve Economic Data (FRED). \url{https://fred.stlouisfed.org/series/FEDFUNDS}
+      \item Money Supply (M2SL): Measures like M2 (a broad measure of money supply) can impact inflation. Source:
+            Federal Reserve Board. \url{https://fred.stlouisfed.org/series/M2SL}
+      \item Wage Growth (WG): Increases in wages can lead to higher consumer spending and inflation.
+            Source: Federal Reserve Bank of Atlanta.
+            \url{https://www.atlantafed.org/chcs/wage-growth-tracker}, column "Overall"
+      \item Commodity Prices (CI): Prices of key commodities like oil and food can directly affect inflation.
+            Source:
+            International Monetary Fund (IMF). \url{https://data.imf.org/?sk=471dddf8-d8a7-499a-81ba-5b332c01f8b9&sid=1547558078595}
+            All commodities index
+      \item Exchange Rates: Changes in exchange rates can influence import prices and thus inflation. Source:
+            Federal Reserve Board,
+            Nominal Broad Dollar Index, H10/H10/JRXWTFB\_N.B
+            \url{https://www.federalreserve.gov/datadownload/Download.aspx?rel=H10&series=122e3bcb627e8e53f1bf72a1a09cfb81&lastObs=&from=01/01/2010&to=02/01/2025&filetype=csv&label=include&layout=seriescolumn}
+      \item Consumer Confidence Index (CCI): Measures consumer sentiment and expectations about the economy.
+            Higher confidence can lead to increased spending and inflation. Source: OECD.
+            This feature was added later, and only its outcome is discussed.
+            Calculation can be found in the attached notebook.
+            \url{https://www.oecd.org/en/data/indicators/consumer-confidence-index-cci.html?oecdcontrol-cf46a27224-var1=USA}
 \end{enumerate}
-we collected data from
+
+
+\begin{table}
+      \caption{CPI and features are sourced starting from January 2015 till January 2025. The tables shows the first few entries.}
+      \begin{tabular}{lrrrrrrrr}
+            \toprule
+            date   & CPI     & IR   & WG  & CI      & OG     & UR  & M2     & ER      \\
+            \midrule
+            Jan-20 & 216.687 & 0.11 & 1.6 & 139.84  & -2.326 & 9.8 & 8478   & 92.3566 \\
+            Feb-20 & 216.741 & 0.13 & 1.7 & 136.553 & -2.326 & 9.8 & 8527.6 & 93.7321 \\
+            Mar-20 & 217.631 & 0.16 & 1.9 & 141.525 & -2.326 & 9.9 & 8523.7 & 93.7979 \\
+            Apr-20 & 218.009 & 0.2  & 1.9 & 149.313 & -2.326 & 9.9 & 8555.1 & 92.6661 \\
+            May-20 & 218.178 & 0.2  & 1.6 & 140.402 & -2.326 & 9.6 & 8609.3 & 92.8423 \\
+            \bottomrule
+      \end{tabular}
+\end{table}
+
+
+\begin{figure}[ht]
+      \centering
+      \includegraphics[width=\linewidth]{data_raw.pdf}
+      \caption{Economic Indicators Over Time.
+            Note the consistent decrease in many of the indices since or around 2022,
+            but by nature, we know that CPI can hardly decrease.}
+      \label{fig:economic_indicators}
+\end{figure}
+
+The collected data first checked for outliers and missing data points by visual inspection.
+Web observed no DQ issues apart from missing data.
+Missing data is filled by either backward or forward filling
+and differences in frequencies are resolved by resampling (backfilling).
+We can see that most of the indicators went up around 2022,
+and decreased since then a bit, while CPI kept increasing.
+This changing trend cannot be captured by the model,
+since this is observable only for recent year.
+We expect the model to not to be able to predict well after 2022.
+
+We did the linear regression, ridge and lasso regression at different alphas
+on the first 12 years of data from 2010 till 2022, and inspected the output on the whole time range,
+which includes data from end of 2022 till 2025. Plotted results are shown in the figures \ref{fig:ridge_predictions} and \ref{fig:lasso_predictions}.
+
+\begin{figure}[ht]
+      \centering
+      \includegraphics[width=\linewidth]{data_pred_ridge.pdf}
+      \caption{Predictions of the models with ridge regression.
+            Training data ends at end of 2022.}
+      \label{fig:ridge_predictions}
+\end{figure}
+
+
+\begin{figure}[ht]
+      \centering
+      \includegraphics[width=\linewidth]{data_pred_lasso.pdf}
+      \caption{Predictions of the models with lasso regression.
+            Training data ends at end of 2022.}
+      \label{fig:lasso_predictions}
+\end{figure}
+
+The fitted paramters and R-squared are shown in the table \ref{tab:ridge_coefficients}.
+
+\begin{table}
+      \caption{Coefficient values and their names for ridge regression. in.cpt: axis intercept, lin reg: linear regression, rid: ridge regression, las: lasso regression}
+      \label{tab:ridge_coefficients}
+      \begin{tabular}{lrrrrrrr}
+            \toprule
+                   & Lin Reg & rid $\alpha_{0.1}$ & rid $\alpha_{1}$ & rid $\alpha_{10}$ & las $\alpha_{0.2}$ & las $\alpha_{1}$ & las $\alpha_{5}$ \\
+            \midrule
+            IR     & 15.27   & 13.7               & 8.587            & 4.296             & 7.1                & 0                & 0                \\
+            WG     & 17.41   & 15.53              & 15.05            & 13.23             & 19.06              & 1.029            & 0                \\
+            CI     & 14.42   & 15.22              & 12.43            & 6.074             & 4.976              & 0                & 0                \\
+            OG     & -2.206  & -1.533             & 2.732            & 8.932             & 2.403              & 3.091            & 0                \\
+            UR     & -3.361  & -4.33              & -5.727           & -5.138            & -0                 & -0               & -0               \\
+            M2     & 48.4    & 45.7               & 36.11            & 21.41             & 45.83              & 49.71            & 7.824            \\
+            ER     & 1.544   & 5.574              & 12.14            & 12.02             & 0                  & 0                & 0                \\
+            CCI    & 4.729   & 3.165              & -3.095           & -6.137            & -0                 & -0               & -0               \\
+            in.cpt & 212.5   & 213.1              & 217.8            & 225.7             & 218.1              & 224.5            & 242.6            \\
+            $R^2$  & 0.9927  & 0.9925             & 0.9864           & 0.9216            & 0.9842             & 0.9176           & 0.2161           \\
+            MSE    & 2.83    & 2.921              & 5.275            & 30.38             & 6.111              & 31.9             & 303.6            \\
+            \bottomrule
+      \end{tabular}
+\end{table}
+From the ridge and lasso regression,
+we can see the differences in how differently they reduced the feature coefficients:
+lasso regression eliminates the features, while ridge regression reduces them.
+
+The parameter $\alpha$ has more severe effect on MSE and $R^2$ in lasso regression,
+which is also reflected in the worsening fitting. To have a similar severity,
+one needs to lower the $\alpha$ for the lasso regression.
+
+From an econometrics point of view, we see the following:
+\begin{enumerate}
+      \item  money supply (M2) and wage growth (WG) are the most important features
+      \item while ouput gap (OG) is not eliminated by lasso regression,
+            it changes its sign depending on the strength and type of regularization
+      \item interest rate (IR), suprisingly, lost its weight in the ridge regression,
+            and we lost it completely at moderate and strong lasso regression
+      \item unemployment (UR) and exchange rates (ER) had low weights,
+            and they got eliminated by the weaker lasso regression
+      \item Commodity prices (CI) played a consistent, but not too strong role
+\end{enumerate}
+
+It is surprising, how well the data can be fit till 2022, but breaks down after that.
+By extending the fitting regime till 2025, the fitted curve still wouldn't align well with the
+period 2022-2025.
+
+\section*{Discussion}
+The CPI can be well-captured by the model in a limited period of time,
+but the model fails to predict properly after 2022. Till 2022,
+only 3 features would be enough to capture most part of the curve,
+$R^2 = 0.97$, see attached notebook and coefficients in table \ref{tab:ridge_coefficients_small}.
+
+
+\begin{table}
+      \caption{Coefficient values and their names for ridge regression.
+            The model is shrunk to 3 features.
+            in.cpt: axis intercept, lin reg: linear regression, rid: ridge regression, las: lasso regression}
+      \label{tab:ridge_coefficients_small}
+      \begin{tabular}{lrrrrrrr}
+            \toprule
+                   & Lin Reg & rid $\alpha_{0.1}$ & rid $\alpha_{1}$ & rid $\alpha_{10}$ & las $\alpha_{0.2}$ & las $\alpha_{1}$ & las $\alpha_{5}$ \\
+            \midrule
+            WG     & 30.38   & 29.99              & 27.37            & 17.75             & 24.52              & 1.029            & 0                \\
+            OG     & 3.245   & 3.53               & 5.64             & 11.26             & 3.215              & 3.091            & 0                \\
+            M2     & 42.02   & 41.77              & 39.42            & 25.87             & 43.55              & 49.71            & 7.824            \\
+            in.cpt & 218.4   & 218.5              & 219.2            & 224.6             & 219.6              & 224.5            & 242.6            \\
+            $R^2$  & 0.974   & 0.9739             & 0.9711           & 0.8826            & 0.9717             & 0.9176           & 0.2161           \\
+            MSE    & 10.08   & 10.1               & 11.18            & 45.46             & 10.95              & 31.9             & 303.6            \\
+            \bottomrule
+      \end{tabular}
+\end{table}
+
+
+It is instructive to see that increasing the number of paramters
+does not necessarily improve the quality of prediction.
+The model is limited by its linear nature two fold:
+\begin{enumerate}
+      \item it cannot capture the time delay of the features,
+            e.g. interest rate and money supply have a time delay effect on CPI (with different time scales),
+      \item it cannot capture non-linear effects, e.g. the unemployment rate,
+            which is alredy a weak feature, and even its supposedly effect is not linear
+\end{enumerate}
+
+We expected to a have a larger weight on interest rate,
+as it is a direct tool of the Federal Reserve to control inflation,
+but this regression didn't conculde that. We believe that bringing in more features
+can not help in giving more meaningful predictions without building a more thourough financial model,
+because either the changes in the new features are coused by or directly related to the inflation
+(like a subset of goods, different basket, etc),
+and they are not causing the inflation (however, the goal of such model would be to predict it),
+or the time delay of the features cannot be captured by such a linear model.
+
+However, CCI, the costumer confidence index, may be a good candidate in predicting the CPI.
+Such parameter relies rather on a psychological factor,
+and the expectations of the consumers and corporates may become self-fulfilling.
+However, we cannot know how strong effect of the existing CPI prediction models
+and their advertised outcome has on the CCI.
+
+After obtaining the data and completing the regressions,
+we have seen that the CPI is not a good predictor of inflation,
+see the table \ref{tab:ridge_coefficients_CCI}.
+\begin{table}
+      \caption{Coefficient values and their names for ridge regression}
+      \label{tab:ridge_coefficients_CCI}
+      \begin{tabular}{lrrrrrrr}
+            \toprule
+                   & Lin Reg & rid $\alpha_{0.1}$ & rid $\alpha_{1}$ & rid $\alpha_{10}$ & las $\alpha_{0.2}$ & las $\alpha_{1}$ & las $\alpha_{5}$ \\
+            \midrule
+            CCI    & 4.729   & 3.165              & -3.095           & -6.137            & -0                 & -0               & -0               \\
+            in.cpt & 212.5   & 213.1              & 217.8            & 225.7             & 218.1              & 224.5            & 242.6            \\
+            $R^2$  & 0.9927  & 0.9925             & 0.9864           & 0.9216            & 0.9842             & 0.9176           & 0.2161           \\
+            \bottomrule
+      \end{tabular}
+\end{table}
+
+A good model relies more on a carefully selected set of features,
+and an appropiate modelling approach, than on the number of features.
+
+
+% incldue pdf
+\includepdf[pages={1-}]{fitting.pdf}
 \end{document}
