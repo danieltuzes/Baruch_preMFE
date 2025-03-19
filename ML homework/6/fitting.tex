@@ -1,0 +1,1006 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{fitting}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{212}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{yfinance} \PY{k}{as} \PY{n+nn}{yf}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{243}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{tickers} \PY{o}{=} \PY{p}{[}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AMZN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{GOOG}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{TSLA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CRM}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ADBE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{BIIB}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ISRG}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{VRTX}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{REGN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ILMN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{EBAY}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{BIDU}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NFLX}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{BKNG}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{LULU}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ADSK}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{BRK\PYZhy{}B}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{BMRN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ALGN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{META}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{EA}\PY{l+s+s2}{\PYZdq{}}
+\PY{p}{]}
+
+\PY{n}{start\PYZus{}date} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{2009\PYZhy{}01\PYZhy{}01}\PY{l+s+s2}{\PYZdq{}}
+\PY{n}{end\PYZus{}date} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{2022\PYZhy{}12\PYZhy{}30}\PY{l+s+s2}{\PYZdq{}}
+\PY{n}{train\PYZus{}date} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{2020\PYZhy{}12\PYZhy{}31}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{n}{data} \PY{o}{=} \PY{n}{yf}\PY{o}{.}\PY{n}{download}\PY{p}{(}
+    \PY{n}{tickers}\PY{p}{,}
+    \PY{n}{start}\PY{o}{=}\PY{n}{start\PYZus{}date}\PY{p}{,}
+    \PY{n}{end}\PY{o}{=}\PY{n}{end\PYZus{}date}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[*********************100\%***********************]  21 of 21 completed
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{244}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{get\PYZus{}stock\PYZus{}data}\PY{p}{(}\PY{n}{data}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{stock}\PY{p}{:} \PY{n+nb}{str}\PY{p}{,} \PY{n}{freq}\PY{p}{:} \PY{n+nb}{str} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{D}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{:}
+    \PY{k}{if} \PY{n}{stock} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{data}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{levels}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{:}
+        \PY{k}{raise} \PY{n+ne}{ValueError}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Stock }\PY{l+s+si}{\PYZob{}}\PY{n}{stock}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ not found in the dataset.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{n}{stock\PYZus{}data} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{xs}\PY{p}{(}\PY{n}{stock}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{level}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+    
+    \PY{n}{stock\PYZus{}data} \PY{o}{=} \PY{n}{stock\PYZus{}data}\PY{o}{.}\PY{n}{sort\PYZus{}index}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{stock\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{stock\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Close}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{pct\PYZus{}change}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{window\PYZus{}map} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{D}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{M}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+m+mi}{3}\PY{p}{\PYZcb{}}
+    \PY{n}{window\PYZus{}size} \PY{o}{=} \PY{n}{window\PYZus{}map}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{freq}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}
+
+    \PY{n}{stock\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pct\PYZus{}Return\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{stock\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{n}{window\PYZus{}size}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+    \PY{n}{stock\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volume\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{stock\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volume}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{n}{window\PYZus{}size}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+    \PY{n}{stock\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volatility}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{stock\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{n}{window\PYZus{}size}\PY{p}{)}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{p}{)}
+
+    \PY{k}{if} \PY{n}{freq} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+        \PY{n}{stock\PYZus{}data} \PY{o}{=} \PY{n}{stock\PYZus{}data}\PY{o}{.}\PY{n}{resample}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+    \PY{k}{elif} \PY{n}{freq} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{M}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+        \PY{n}{stock\PYZus{}data} \PY{o}{=} \PY{n}{stock\PYZus{}data}\PY{o}{.}\PY{n}{resample}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ME}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{stock\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Future\PYZus{}Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{stock\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{shift}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{stock\PYZus{}data}
+
+\PY{k}{def} \PY{n+nf}{normalize\PYZus{}stock\PYZus{}data}\PY{p}{(}\PY{n}{stock\PYZus{}data}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{:}
+    \PY{n}{stock\PYZus{}data\PYZus{}normalized} \PY{o}{=} \PY{n}{stock\PYZus{}data}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{multipliers} \PY{o}{=} \PY{p}{\PYZob{}}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+m+mi}{1} \PY{o}{/} \PY{n}{stock\PYZus{}data\PYZus{}normalized}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pct\PYZus{}Return\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+m+mi}{1} \PY{o}{/} \PY{n}{stock\PYZus{}data\PYZus{}normalized}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pct\PYZus{}Return\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volume\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+m+mi}{1} \PY{o}{/} \PY{n}{stock\PYZus{}data\PYZus{}normalized}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volume\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volatility}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+m+mi}{1} \PY{o}{/} \PY{n}{stock\PYZus{}data\PYZus{}normalized}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volatility}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Future\PYZus{}Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+m+mi}{1} \PY{o}{/} \PY{n}{stock\PYZus{}data\PYZus{}normalized}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Future\PYZus{}Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{p}{)}
+    \PY{p}{\PYZcb{}}
+
+    \PY{k}{for} \PY{n}{col}\PY{p}{,} \PY{n}{multiplier} \PY{o+ow}{in} \PY{n}{multipliers}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+        \PY{n}{stock\PYZus{}data\PYZus{}normalized}\PY{p}{[}\PY{n}{col}\PY{p}{]} \PY{o}{*}\PY{o}{=} \PY{n}{multiplier}
+
+    \PY{k}{return} \PY{n}{stock\PYZus{}data\PYZus{}normalized}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{245}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}stock\PYZus{}data}\PY{p}{(}\PY{n}{stock\PYZus{}data}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{stock}\PY{p}{:} \PY{n+nb}{str}\PY{p}{)}\PY{p}{:}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+
+    \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pct\PYZus{}Return\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volume\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volatility}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{:}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{stock\PYZus{}data}\PY{o}{.}\PY{n}{index}\PY{p}{,} \PY{n}{stock\PYZus{}data}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{col}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Date}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Scaled Values}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{stock}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ Stock Data Trends}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{stock}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZus{}stock\PYZus{}data\PYZus{}trends.png}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{246}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{stock\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}stock\PYZus{}data}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AMZN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{normalized\PYZus{}stock\PYZus{}data} \PY{o}{=} \PY{n}{normalize\PYZus{}stock\PYZus{}data}\PY{p}{(}\PY{n}{stock\PYZus{}data}\PY{p}{)}
+\PY{n}{plot\PYZus{}stock\PYZus{}data}\PY{p}{(}\PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AMZN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{fitting_files/fitting_4_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{247}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{label\PYZus{}data}\PY{p}{(}\PY{n}{stock\PYZus{}data}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{cut\PYZus{}date}\PY{p}{:} \PY{n+nb}{str} \PY{o}{=} \PY{n}{train\PYZus{}date}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n+nb}{tuple}\PY{p}{:}
+    \PY{n}{stock\PYZus{}data\PYZus{}labeled} \PY{o}{=} \PY{n}{stock\PYZus{}data}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+    \PY{n}{cut\PYZus{}mask} \PY{o}{=} \PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{o}{.}\PY{n}{index} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{cut\PYZus{}date}
+
+    \PY{n}{tau} \PY{o}{=} \PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{cut\PYZus{}mask}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Future\PYZus{}Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{quantile}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{3}\PY{p}{)}
+
+    \PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Future\PYZus{}Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{n}{tau}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}
+    \PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Future\PYZus{}Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{o}{\PYZhy{}}\PY{n}{tau}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}
+
+    \PY{n}{label\PYZus{}counts} \PY{o}{=} \PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{cut\PYZus{}mask}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{n}{normalize}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{o}{.}\PY{n}{to\PYZus{}dict}\PY{p}{(}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{,} \PY{n}{tau}\PY{p}{,} \PY{n}{label\PYZus{}counts}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{248}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}labeled\PYZus{}histogram}\PY{p}{(}\PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{stock}\PY{p}{:} \PY{n+nb}{str}\PY{p}{,} \PY{n}{label\PYZus{}distribution}\PY{p}{:} \PY{n+nb}{dict}\PY{p}{)}\PY{p}{:}
+    \PY{n}{mean\PYZus{}return} \PY{o}{=} \PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Future\PYZus{}Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+    \PY{n}{std\PYZus{}return} \PY{o}{=} \PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Future\PYZus{}Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{lower\PYZus{}bound} \PY{o}{=} \PY{n}{mean\PYZus{}return} \PY{o}{\PYZhy{}} \PY{l+m+mi}{3} \PY{o}{*} \PY{n}{std\PYZus{}return}
+    \PY{n}{upper\PYZus{}bound} \PY{o}{=} \PY{n}{mean\PYZus{}return} \PY{o}{+} \PY{l+m+mi}{3} \PY{o}{*} \PY{n}{std\PYZus{}return}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+
+    \PY{n}{bins} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{n}{lower\PYZus{}bound}\PY{p}{,} \PY{n}{upper\PYZus{}bound}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{hist}\PY{p}{(}
+        \PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{[}\PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{==} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Future\PYZus{}Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+        \PY{n}{bins}\PY{o}{=}\PY{n}{bins}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{red}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{black}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.7}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Negative (\PYZhy{}1): }\PY{l+s+si}{\PYZob{}}\PY{n}{label\PYZus{}distribution}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{0}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.2\PYZpc{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}
+    \PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{hist}\PY{p}{(}
+        \PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{[}\PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Future\PYZus{}Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+        \PY{n}{bins}\PY{o}{=}\PY{n}{bins}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gray}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{black}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.7}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Neutral (0): }\PY{l+s+si}{\PYZob{}}\PY{n}{label\PYZus{}distribution}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{0}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.2\PYZpc{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}
+    \PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{hist}\PY{p}{(}
+        \PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{[}\PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Future\PYZus{}Pct\PYZus{}Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+        \PY{n}{bins}\PY{o}{=}\PY{n}{bins}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{green}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{black}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.7}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Positive (+1): }\PY{l+s+si}{\PYZob{}}\PY{n}{label\PYZus{}distribution}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{0}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.2\PYZpc{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}
+    \PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Future Pct Return}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Frequency}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{stock}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ Future Percentage Return Distribution (Labeled)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{stock}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZus{}future\PYZus{}pct\PYZus{}return\PYZus{}distribution.pdf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{249}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{stock\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}stock\PYZus{}data}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AMZN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{D}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{normalized\PYZus{}stock\PYZus{}data} \PY{o}{=} \PY{n}{normalize\PYZus{}stock\PYZus{}data}\PY{p}{(}\PY{n}{stock\PYZus{}data}\PY{p}{)}
+\PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{,} \PY{n}{tau}\PY{p}{,} \PY{n}{label\PYZus{}counts} \PY{o}{=} \PY{n}{label\PYZus{}data}\PY{p}{(}\PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{p}{)}
+\PY{n}{plot\PYZus{}labeled\PYZus{}histogram}\PY{p}{(}\PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AMZN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{label\PYZus{}counts}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{fitting_files/fitting_7_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{250}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{calculate\PYZus{}center\PYZus{}of\PYZus{}mass\PYZus{}and\PYZus{}std}\PY{p}{(}\PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{train\PYZus{}date}\PY{p}{:} \PY{n+nb}{str} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{2020\PYZhy{}12\PYZhy{}31}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n+nb}{tuple}\PY{p}{:}
+    \PY{n}{train\PYZus{}mask} \PY{o}{=} \PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{o}{.}\PY{n}{index} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{train\PYZus{}date}
+    \PY{n}{train\PYZus{}data} \PY{o}{=} \PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{train\PYZus{}mask}\PY{p}{]}
+
+    \PY{n}{feature\PYZus{}columns} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pct\PYZus{}Return\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volume\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volatility}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    \PY{n}{label\PYZus{}categories} \PY{o}{=} \PY{n}{train\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{center\PYZus{}of\PYZus{}mass} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{n}{std\PYZus{}values} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+
+    \PY{k}{for} \PY{n}{feature} \PY{o+ow}{in} \PY{n}{feature\PYZus{}columns}\PY{p}{:}
+        \PY{n}{center\PYZus{}of\PYZus{}mass}\PY{p}{[}\PY{n}{feature}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+        \PY{n}{std\PYZus{}values}\PY{p}{[}\PY{n}{feature}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{0}
+
+        \PY{k}{for} \PY{n}{label} \PY{o+ow}{in} \PY{n}{label\PYZus{}categories}\PY{p}{:}
+            \PY{n}{label\PYZus{}mask} \PY{o}{=} \PY{n}{train\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{==} \PY{n}{label}
+            \PY{n}{center\PYZus{}of\PYZus{}mass}\PY{p}{[}\PY{n}{feature}\PY{p}{]}\PY{p}{[}\PY{n}{label}\PY{p}{]} \PY{o}{=} \PY{n}{train\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{label\PYZus{}mask}\PY{p}{,} \PY{n}{feature}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+
+        \PY{n}{N} \PY{o}{=} \PY{n}{train\PYZus{}data}\PY{p}{[}\PY{n}{feature}\PY{p}{]}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Number of non\PYZhy{}NA samples}
+        \PY{n}{K} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{label\PYZus{}categories}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Number of label categories}
+
+        \PY{k}{if} \PY{n}{N} \PY{o}{\PYZgt{}} \PY{n}{K}\PY{p}{:}
+            \PY{n}{variance\PYZus{}sum} \PY{o}{=} \PY{l+m+mi}{0}
+
+            \PY{k}{for} \PY{n}{label} \PY{o+ow}{in} \PY{n}{label\PYZus{}categories}\PY{p}{:}
+                \PY{n}{label\PYZus{}mask} \PY{o}{=} \PY{n}{train\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{==} \PY{n}{label}
+                \PY{n}{mu\PYZus{}k} \PY{o}{=} \PY{n}{center\PYZus{}of\PYZus{}mass}\PY{p}{[}\PY{n}{feature}\PY{p}{]}\PY{p}{[}\PY{n}{label}\PY{p}{]}
+
+                \PY{n}{variance\PYZus{}sum} \PY{o}{+}\PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{n}{train\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{label\PYZus{}mask}\PY{p}{,} \PY{n}{feature}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{mu\PYZus{}k}\PY{p}{)} \PY{o}{*}\PY{o}{*} \PY{l+m+mi}{2}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+
+            \PY{n}{std\PYZus{}values}\PY{p}{[}\PY{n}{feature}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{variance\PYZus{}sum} \PY{o}{/} \PY{p}{(}\PY{n}{N} \PY{o}{\PYZhy{}} \PY{n}{K}\PY{p}{)}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{center\PYZus{}of\PYZus{}mass}\PY{p}{,} \PY{n}{std\PYZus{}values}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{251}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{stock\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}stock\PYZus{}data}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AMZN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{D}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{normalized\PYZus{}stock\PYZus{}data} \PY{o}{=} \PY{n}{normalize\PYZus{}stock\PYZus{}data}\PY{p}{(}\PY{n}{stock\PYZus{}data}\PY{p}{)}
+\PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{,} \PY{n}{tau}\PY{p}{,} \PY{n}{label\PYZus{}counts} \PY{o}{=} \PY{n}{label\PYZus{}data}\PY{p}{(}\PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{p}{)}
+\PY{n}{com}\PY{p}{,} \PY{n}{std} \PY{o}{=} \PY{n}{calculate\PYZus{}center\PYZus{}of\PYZus{}mass\PYZus{}and\PYZus{}std}\PY{p}{(}\PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{252}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{create\PYZus{}center\PYZus{}of\PYZus{}mass\PYZus{}df}\PY{p}{(}\PY{n}{center\PYZus{}of\PYZus{}mass}\PY{p}{:} \PY{n+nb}{dict}\PY{p}{,} \PY{n}{std\PYZus{}values}\PY{p}{:} \PY{n+nb}{dict}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{:}
+    \PY{n}{df\PYZus{}data} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+    \PY{k}{for} \PY{n}{feature}\PY{p}{,} \PY{n}{label\PYZus{}dict} \PY{o+ow}{in} \PY{n}{center\PYZus{}of\PYZus{}mass}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+        \PY{n}{row} \PY{o}{=} \PY{p}{\PYZob{}}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Feature}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{feature}\PY{p}{,}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CoM\PYZus{}\PYZhy{}1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{label\PYZus{}dict}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{)}\PY{p}{,}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CoM\PYZus{}0}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{label\PYZus{}dict}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{)}\PY{p}{,}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CoM\PYZus{}1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{label\PYZus{}dict}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{)}\PY{p}{,}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Std}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{std\PYZus{}values}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{feature}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{)}\PY{p}{,}
+        \PY{p}{\PYZcb{}}
+        \PY{n}{df\PYZus{}data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{row}\PY{p}{)}
+
+    \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{df\PYZus{}data}\PY{p}{)}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Feature}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{return} \PY{n}{df}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{253}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{create\PYZus{}center\PYZus{}of\PYZus{}mass\PYZus{}df}\PY{p}{(}\PY{n}{com}\PY{p}{,} \PY{n}{std}\PY{p}{)}\PY{o}{.}\PY{n}{to\PYZus{}latex}\PY{p}{(}\PY{n}{caption}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Center of Mass and Standard Deviation for Each Feature for AMZN. CoM: center of mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tab:com\PYZus{}std}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{float\PYZus{}format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}:.2f\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{format}\PY{p}{,} \PY{n}{escape}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbackslash{}begin\{table\}
+\textbackslash{}caption\{Center of Mass and Standard Deviation for Each Feature for AMZN. CoM:
+center of mass\}
+\textbackslash{}label\{tab:com\_std\}
+\textbackslash{}begin\{tabular\}\{lrrrr\}
+\textbackslash{}toprule
+ \& CoM\textbackslash{}\_-1 \& CoM\textbackslash{}\_0 \& CoM\textbackslash{}\_1 \& Std \textbackslash{}\textbackslash{}
+Feature \&  \&  \&  \&  \textbackslash{}\textbackslash{}
+\textbackslash{}midrule
+Pct\textbackslash{}\_Return\textbackslash{}\_MA \& 0.17 \& 0.24 \& 0.10 \& 0.96 \textbackslash{}\textbackslash{}
+Volume\textbackslash{}\_MA \& 2.10 \& 1.81 \& 2.05 \& 1.04 \textbackslash{}\textbackslash{}
+Volatility \& 1.55 \& 1.30 \& 1.52 \& 0.98 \textbackslash{}\textbackslash{}
+\textbackslash{}bottomrule
+\textbackslash{}end\{tabular\}
+\textbackslash{}end\{table\}
+
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{254}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{classify\PYZus{}test\PYZus{}set}\PY{p}{(}\PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{center\PYZus{}of\PYZus{}mass}\PY{p}{:} \PY{n+nb}{dict}\PY{p}{,} \PY{n}{std\PYZus{}values}\PY{p}{:} \PY{n+nb}{dict}\PY{p}{,} \PY{n}{label\PYZus{}distribution}\PY{p}{:} \PY{n+nb}{dict}\PY{p}{,} \PY{n}{train\PYZus{}date}\PY{p}{:} \PY{n+nb}{str} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{2020\PYZhy{}12\PYZhy{}31}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{:}
+    \PY{n}{test\PYZus{}mask} \PY{o}{=} \PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{o}{.}\PY{n}{index} \PY{o}{\PYZgt{}} \PY{n}{train\PYZus{}date}
+    \PY{n}{test\PYZus{}data} \PY{o}{=} \PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{test\PYZus{}mask}\PY{p}{]}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+    \PY{n}{feature\PYZus{}columns} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pct\PYZus{}Return\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volume\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volatility}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+
+    \PY{n}{sigma\PYZus{}squared} \PY{o}{=} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{square}\PY{p}{(}\PY{n+nb}{list}\PY{p}{(}\PY{n}{std\PYZus{}values}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Sum of sigma squares across features}
+
+    \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{:}
+        \PY{n}{prior} \PY{o}{=} \PY{n}{label\PYZus{}distribution}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{k}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}  \PY{c+c1}{\PYZsh{} P(y = k)}
+
+        \PY{c+c1}{\PYZsh{} Compute squared Euclidean distance from center of mass}
+        \PY{n}{distance\PYZus{}squared} \PY{o}{=} \PY{n+nb}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{test\PYZus{}data}\PY{p}{[}\PY{n}{feature}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{center\PYZus{}of\PYZus{}mass}\PY{p}{[}\PY{n}{feature}\PY{p}{]}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{k}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)} \PY{o}{*}\PY{o}{*} \PY{l+m+mi}{2} \PY{k}{for} \PY{n}{feature} \PY{o+ow}{in} \PY{n}{feature\PYZus{}columns}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} Compute likelihood using the Gaussian formula}
+        \PY{n}{likelihood} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{1} \PY{o}{/} \PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mi}{2} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi} \PY{o}{*} \PY{n}{sigma\PYZus{}squared}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{distance\PYZus{}squared} \PY{o}{/} \PY{p}{(}\PY{l+m+mi}{2} \PY{o}{*} \PY{n}{sigma\PYZus{}squared}\PY{p}{)}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} Compute posterior probability}
+        \PY{n}{test\PYZus{}data}\PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Prob\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{k}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{prior} \PY{o}{*} \PY{n}{likelihood}
+
+    \PY{n}{test\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Predicted\PYZus{}Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{test\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Prob\PYZus{}\PYZhy{}1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Prob\PYZus{}0}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Prob\PYZus{}1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{idxmax}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{extract}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{(\PYZhy{}?}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{d+)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{test\PYZus{}data}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{255}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{test\PYZus{}predictions} \PY{o}{=} \PY{n}{classify\PYZus{}test\PYZus{}set}\PY{p}{(}\PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{p}{,} \PY{n}{com}\PY{p}{,} \PY{n}{std}\PY{p}{,} \PY{n}{label\PYZus{}counts}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{256}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{test\PYZus{}predictions}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{256}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Price            Close        High         Low        Open    Volume  \textbackslash{}
+Date
+2021-01-04  159.331497  163.600006  157.201004  163.500000  88228000
+2021-01-05  160.925507  161.169006  158.253006  158.300507  53110000
+2021-01-06  156.919006  159.875504  156.557999  157.324005  87896000
+2021-01-07  158.108002  160.427002  157.750000  157.850006  70290000
+2021-01-08  159.134995  159.531998  157.110001  159.000000  70754000
+{\ldots}                {\ldots}         {\ldots}         {\ldots}         {\ldots}       {\ldots}
+2022-12-22   83.790001   85.680000   82.250000   85.519997  81431300
+2022-12-23   85.250000   85.779999   82.930000   83.250000  57433700
+2022-12-27   83.040001   85.349998   83.000000   84.970001  57284000
+2022-12-28   81.820000   83.480003   81.690002   82.800003  58228600
+2022-12-29   84.180000   84.550003   82.550003   82.870003  54995900
+
+Price       Pct\_Return  Pct\_Return\_MA  Volume\_MA  Volatility  \textbackslash{}
+Date
+2021-01-04   -0.985448       0.112857   1.715273    1.829893
+2021-01-05    0.456747      -0.412328   1.469289    1.164844
+2021-01-06   -1.136651      -1.176641   1.430492    1.115654
+2021-01-07    0.345933      -0.789895   1.455259    1.310703
+2021-01-08    0.296552      -0.469403   1.502365    1.401527
+{\ldots}                {\ldots}            {\ldots}        {\ldots}         {\ldots}
+2022-12-22   -1.567952      -1.105191   1.804415    1.883958
+2022-12-23    0.795513      -0.600368   1.444482    2.151523
+2022-12-27   -1.183544      -0.442424   1.337986    2.002840
+2022-12-28   -0.670748      -0.816852   1.272582    1.999074
+2022-12-29    1.316859      -0.601113   1.255251    2.244146
+
+Price       Future\_Pct\_Return   Prob\_-1    Prob\_0    Prob\_1  Predicted\_Label
+Date
+2021-01-04           0.456747  0.067705  0.073341  0.081242                1
+2021-01-05          -1.136651  0.060663  0.070372  0.074495                1
+2021-01-06           0.345933  0.046628  0.053512  0.058342                1
+2021-01-07           0.296552  0.055697  0.063303  0.068901                1
+2021-01-08          -0.982467  0.061671  0.069774  0.075600                1
+{\ldots}                       {\ldots}       {\ldots}       {\ldots}       {\ldots}              {\ldots}
+2022-12-22           0.795513  0.051811  0.053738  0.063810                1
+2022-12-23          -1.183544  0.055761  0.059297  0.068080                1
+2022-12-27          -0.670748  0.057900  0.063268  0.070667                1
+2022-12-28           1.316859  0.051479  0.056115  0.063443                1
+2022-12-29                NaN  0.052073  0.055970  0.063709                1
+
+[502 rows x 14 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{257}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{test\PYZus{}predictions}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Predicted\PYZus{}Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{257}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Predicted\_Label
+1    384
+0    118
+Name: count, dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{258}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{evaluate\PYZus{}classification}\PY{p}{(}\PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{center\PYZus{}of\PYZus{}mass}\PY{p}{:} \PY{n+nb}{dict}\PY{p}{,} \PY{n}{std\PYZus{}values}\PY{p}{:} \PY{n+nb}{dict}\PY{p}{,} \PY{n}{label\PYZus{}distribution}\PY{p}{:} \PY{n+nb}{dict}\PY{p}{,} \PY{n}{train\PYZus{}date}\PY{p}{:} \PY{n+nb}{str}\PY{p}{,} \PY{n}{end\PYZus{}date}\PY{p}{:} \PY{n+nb}{str}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n+nb}{float}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} Label the full dataset using the full available data range}
+    \PY{n}{labeled\PYZus{}data}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{label\PYZus{}data}\PY{p}{(}\PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{p}{,} \PY{n}{cut\PYZus{}date}\PY{o}{=}\PY{n}{end\PYZus{}date}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Keep only test samples (i.e., those after train\PYZus{}date)}
+    \PY{n}{test\PYZus{}data} \PY{o}{=} \PY{n}{labeled\PYZus{}data}\PY{p}{[}\PY{n}{labeled\PYZus{}data}\PY{o}{.}\PY{n}{index} \PY{o}{\PYZgt{}} \PY{n}{train\PYZus{}date}\PY{p}{]}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Perform classification on the test set}
+    \PY{n}{test\PYZus{}predictions} \PY{o}{=} \PY{n}{classify\PYZus{}test\PYZus{}set}\PY{p}{(}\PY{n}{test\PYZus{}data}\PY{p}{,} \PY{n}{center\PYZus{}of\PYZus{}mass}\PY{p}{,} \PY{n}{std\PYZus{}values}\PY{p}{,} \PY{n}{label\PYZus{}distribution}\PY{p}{,} \PY{n}{train\PYZus{}date}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Compute accuracy}
+    \PY{n}{correct\PYZus{}predictions} \PY{o}{=} \PY{p}{(}\PY{n}{test\PYZus{}predictions}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{==} \PY{n}{test\PYZus{}predictions}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Predicted\PYZus{}Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+    \PY{n}{total\PYZus{}predictions} \PY{o}{=} \PY{n}{test\PYZus{}predictions}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{accuracy} \PY{o}{=} \PY{n}{correct\PYZus{}predictions} \PY{o}{/} \PY{n}{total\PYZus{}predictions} \PY{k}{if} \PY{n}{total\PYZus{}predictions} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+m+mi}{0}
+
+    \PY{k}{return} \PY{n}{accuracy}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{259}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{evaluate\PYZus{}classification}\PY{p}{(}\PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{p}{,} \PY{n}{com}\PY{p}{,} \PY{n}{std}\PY{p}{,} \PY{n}{label\PYZus{}counts}\PY{p}{,} \PY{n}{train\PYZus{}date}\PY{p}{,} \PY{n}{end\PYZus{}date}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{259}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.3466135458167331
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{278}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{process\PYZus{}stock}\PY{p}{(}\PY{n}{stock}\PY{p}{:} \PY{n+nb}{str}\PY{p}{,} \PY{n}{data}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{freq}\PY{p}{:} \PY{n+nb}{str}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n+nb}{float}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} Get stock data for the given frequency}
+    \PY{n}{stock\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}stock\PYZus{}data}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{stock}\PY{p}{,} \PY{n}{freq}\PY{o}{=}\PY{n}{freq}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Normalize stock data}
+    \PY{n}{normalized\PYZus{}stock\PYZus{}data} \PY{o}{=} \PY{n}{normalize\PYZus{}stock\PYZus{}data}\PY{p}{(}\PY{n}{stock\PYZus{}data}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Label the data}
+    \PY{n}{labeled\PYZus{}data}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{label\PYZus{}distribution} \PY{o}{=} \PY{n}{label\PYZus{}data}\PY{p}{(}\PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{p}{,} \PY{n}{cut\PYZus{}date}\PY{o}{=}\PY{n}{end\PYZus{}date}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Compute center of mass and standard deviation}
+    \PY{n}{center\PYZus{}of\PYZus{}mass}\PY{p}{,} \PY{n}{std\PYZus{}values} \PY{o}{=} \PY{n}{calculate\PYZus{}center\PYZus{}of\PYZus{}mass\PYZus{}and\PYZus{}std}\PY{p}{(}\PY{n}{labeled\PYZus{}data}\PY{p}{,} \PY{n}{train\PYZus{}date}\PY{o}{=}\PY{n}{train\PYZus{}date}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Classify test set}
+    \PY{n}{classification\PYZus{}accuracy} \PY{o}{=} \PY{n}{evaluate\PYZus{}classification}\PY{p}{(}\PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{p}{,} \PY{n}{center\PYZus{}of\PYZus{}mass}\PY{p}{,} \PY{n}{std\PYZus{}values}\PY{p}{,} \PY{n}{label\PYZus{}distribution}\PY{p}{,} \PY{n}{train\PYZus{}date}\PY{p}{,} \PY{n}{end\PYZus{}date}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{classification\PYZus{}accuracy}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{261}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{process\PYZus{}stock}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AMZN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{data}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{261}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.3466135458167331
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{279}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Define frequencies to test}
+\PY{n}{frequencies} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{D}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{M}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Create DataFrame to store results for all frequencies}
+\PY{n}{results} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{index}\PY{o}{=}\PY{n}{tickers}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Accuracy\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{freq}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}} \PY{k}{for} \PY{n}{freq} \PY{o+ow}{in} \PY{n}{frequencies}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Populate DataFrame with results for each stock and frequency}
+\PY{k}{for} \PY{n}{stock} \PY{o+ow}{in} \PY{n}{tickers}\PY{p}{:}
+    \PY{k}{for} \PY{n}{freq} \PY{o+ow}{in} \PY{n}{frequencies}\PY{p}{:}
+        \PY{n}{results}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{stock}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Accuracy\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{freq}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{process\PYZus{}stock}\PY{p}{(}\PY{n}{stock}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{n}{freq}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Compute average accuracy across all stocks for each frequency}
+\PY{n}{average\PYZus{}accuracies} \PY{o}{=} \PY{n}{results}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Print LaTeX table output}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{results}\PY{o}{.}\PY{n}{to\PYZus{}latex}\PY{p}{(}\PY{n}{caption}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Stock Classification Accuracy Results for Different Frequencies}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                       \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tab:results}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{float\PYZus{}format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}:.2f\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{format}\PY{p}{,} \PY{n}{escape}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbackslash{}begin\{table\}
+\textbackslash{}caption\{Stock Classification Accuracy Results for Different Frequencies\}
+\textbackslash{}label\{tab:results\}
+\textbackslash{}begin\{tabular\}\{llll\}
+\textbackslash{}toprule
+ \& Accuracy\textbackslash{}\_D \& Accuracy\textbackslash{}\_W \& Accuracy\textbackslash{}\_M \textbackslash{}\textbackslash{}
+\textbackslash{}midrule
+AMZN \& 0.36 \& 0.30 \& 0.25 \textbackslash{}\textbackslash{}
+GOOG \& 0.38 \& 0.36 \& 0.38 \textbackslash{}\textbackslash{}
+TSLA \& 0.31 \& 0.30 \& 0.25 \textbackslash{}\textbackslash{}
+CRM \& 0.38 \& 0.30 \& 0.25 \textbackslash{}\textbackslash{}
+ADBE \& 0.38 \& 0.43 \& 0.38 \textbackslash{}\textbackslash{}
+BIIB \& 0.35 \& 0.34 \& 0.17 \textbackslash{}\textbackslash{}
+ISRG \& 0.37 \& 0.34 \& 0.42 \textbackslash{}\textbackslash{}
+VRTX \& 0.40 \& 0.32 \& 0.21 \textbackslash{}\textbackslash{}
+REGN \& 0.39 \& 0.37 \& 0.33 \textbackslash{}\textbackslash{}
+ILMN \& 0.36 \& 0.34 \& 0.21 \textbackslash{}\textbackslash{}
+EBAY \& 0.37 \& 0.26 \& 0.38 \textbackslash{}\textbackslash{}
+BIDU \& 0.30 \& 0.30 \& 0.33 \textbackslash{}\textbackslash{}
+NFLX \& 0.41 \& 0.30 \& 0.29 \textbackslash{}\textbackslash{}
+BKNG \& 0.36 \& 0.39 \& 0.33 \textbackslash{}\textbackslash{}
+LULU \& 0.37 \& 0.35 \& 0.33 \textbackslash{}\textbackslash{}
+ADSK \& 0.31 \& 0.30 \& 0.46 \textbackslash{}\textbackslash{}
+BRK-B \& 0.37 \& 0.39 \& 0.54 \textbackslash{}\textbackslash{}
+BMRN \& 0.39 \& 0.31 \& 0.29 \textbackslash{}\textbackslash{}
+ALGN \& 0.37 \& 0.33 \& 0.29 \textbackslash{}\textbackslash{}
+META \& 0.24 \& 0.32 \& 0.50 \textbackslash{}\textbackslash{}
+EA \& 0.38 \& 0.37 \& 0.25 \textbackslash{}\textbackslash{}
+\textbackslash{}bottomrule
+\textbackslash{}end\{tabular\}
+\textbackslash{}end\{table\}
+
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{276}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{from} \PY{n+nn}{mpl\PYZus{}toolkits}\PY{n+nn}{.}\PY{n+nn}{mplot3d} \PY{k+kn}{import} \PY{n}{Axes3D}
+
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}3d\PYZus{}training\PYZus{}data}\PY{p}{(}\PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{)}\PY{p}{:}
+    \PY{n}{train\PYZus{}data} \PY{o}{=} \PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{p}{[}\PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{o}{.}\PY{n}{index} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{train\PYZus{}date}\PY{p}{]}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}
+    \PY{n}{ax} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{l+m+mi}{111}\PY{p}{,} \PY{n}{projection}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{3d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{n}{colors} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+m+mi}{1}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{green}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gray}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{red}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}
+
+    \PY{k}{for} \PY{n}{label} \PY{o+ow}{in} \PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{:}
+        \PY{n}{subset} \PY{o}{=} \PY{n}{train\PYZus{}data}\PY{p}{[}\PY{n}{train\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{==} \PY{n}{label}\PY{p}{]}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}
+            \PY{n}{subset}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pct\PYZus{}Return\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} 
+            \PY{n}{subset}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volume\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} 
+            \PY{n}{subset}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volatility}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} 
+            \PY{n}{c}\PY{o}{=}\PY{n}{colors}\PY{p}{[}\PY{n}{label}\PY{p}{]}\PY{p}{,} 
+            \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Label }\PY{l+s+si}{\PYZob{}}\PY{n}{label}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} 
+            \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.4}
+        \PY{p}{)}
+
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pct\PYZus{}Return\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volume\PYZus{}MA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}zlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Volatility}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{3D Scatter Plot of Training Data}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{3d\PYZus{}scatter\PYZus{}plot.pdf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{277}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{stock\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}stock\PYZus{}data}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AMZN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{D}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{normalized\PYZus{}stock\PYZus{}data} \PY{o}{=} \PY{n}{normalize\PYZus{}stock\PYZus{}data}\PY{p}{(}\PY{n}{stock\PYZus{}data}\PY{p}{)}
+\PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{,} \PY{n}{tau}\PY{p}{,} \PY{n}{label\PYZus{}counts} \PY{o}{=} \PY{n}{label\PYZus{}data}\PY{p}{(}\PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{p}{)}
+\PY{n}{plot\PYZus{}3d\PYZus{}training\PYZus{}data}\PY{p}{(}\PY{n}{stock\PYZus{}data\PYZus{}labeled}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{fitting_files/fitting_22_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{270}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{normalized\PYZus{}stock\PYZus{}data}\PY{o}{.}\PY{n}{tail}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n+nf+fm}{\PYZus{}\PYZus{}repr\PYZus{}\PYZus{}}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Price           Close       High        Low       Open    Volume  Pct\_Return  \textbackslash{}
+Date
+2022-12-22  83.790001  85.680000  82.250000  85.519997  81431300   -1.567952
+2022-12-23  85.250000  85.779999  82.930000  83.250000  57433700    0.795513
+2022-12-27  83.040001  85.349998  83.000000  84.970001  57284000   -1.183544
+2022-12-28  81.820000  83.480003  81.690002  82.800003  58228600   -0.670748
+2022-12-29  84.180000  84.550003  82.550003  82.870003  54995900    1.316859
+
+Price       Pct\_Return\_MA  Volume\_MA  Volatility  Future\_Pct\_Return
+Date
+2022-12-22      -1.105191   1.804415    1.883958           0.795513
+2022-12-23      -0.600368   1.444482    2.151523          -1.183544
+2022-12-27      -0.442424   1.337986    2.002840          -0.670748
+2022-12-28      -0.816852   1.272582    1.999074           1.316859
+2022-12-29      -0.601113   1.255251    2.244146                NaN
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}

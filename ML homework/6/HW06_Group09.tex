@@ -19,7 +19,7 @@
 % insert table of contents here
 \tableofcontents
 
-\section*{Stock return classification}
+\section{Stock return classification}
 In this exercise, we will collect financial data on various companies,
 and potentially, further inputs that can affect stock prices to predict
 whether a stock will go up, stay the same, or go down in the next period.
@@ -34,7 +34,7 @@ can be defined, trained, and used for prediction. Our hope to predict
 market movement with any signicant accuracy is low.
     [But whou wouldn't want to be rich?]
 
-\subsection*{Feature selection}
+\subsection{Feature selection}
 For brainstorming, we considered the features in the appendix.
 We concluded in using the following features:
 
@@ -94,7 +94,7 @@ We concluded in using the following features:
 \end{figure}
 
 
-\subsection*{Data collection}
+\subsection{Data collection}
 We restrictred the model to features that are only stock specific and can be calculated from
 previous stock prices and volumes. See the collected data in fig \ref{fig:amazon_scaled_data}.
 Chartists were people who believed that
@@ -103,6 +103,9 @@ In this case, we are doing the same, on a small set of features,
 but we are using a machine learning model to predict the future price movement.
 
 For code of data collection and preparation, see the attached notebook in the appendix.
+
+\subsubsection{Training data and test data}
+We used the data from 2009 to 2020 for training, and the data from 2020 to 2022 for testing.
 
 \begin{figure}[ht]
     \centering
@@ -115,7 +118,7 @@ For code of data collection and preparation, see the attached notebook in the ap
     \label{fig:amazon_scaled_data}
 \end{figure}
 
-\subsection*{Labeling}
+\subsection{Labeling}
 We labeled the data based on the stock price movement.
 For every time point $t_i$,
 we calcualted moving averages and volatility over the past few data points.
@@ -139,7 +142,7 @@ is shown in fig \ref{fig:amazon_labelled_pct_return}.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\linewidth]{amzn_pct_return_distribution.pdf}
+    \includegraphics[width=\linewidth]{amzn_future_pct_return_distribution.pdf}
     \caption{Percentage daily return distribution for Amazon.
         The threshold is set so that the number of samples in the neutral band
         is $1/3$ of the total number of samples. The difference between the
@@ -148,12 +151,141 @@ is shown in fig \ref{fig:amazon_labelled_pct_return}.
     \label{fig:amazon_labelled_pct_return}
 \end{figure}
 
+\subsection{Model training}
+We calculate the center of mass for different classes,
+\[{\mu _k} = \frac{1}{{{N_k}}}\sum\limits_{i = 1}^{{N_k}} {{x_i}} \]
+where $N_k$ is the number of samples in class $k$,
+and $x_i$ is the feature vector of sample $i$.
+
+We calculate the standard deviation as
+\[{\sigma ^2} = \frac{1}{{N - K}}\sum\limits_{k = 1}^K {\sum\limits_{i = 1}^N {{{\left( {{x_i} - {\mu _k}} \right)}^2}} } \]
+Here we supposed that the features are independent, so the covariance matrix is diagonal,
+hence the higher-dimensional Euclidean distance can be calculated as the sum of the
+squared differences of the features,
+and the standard deviation can be calculated
+as the sum of the standard deviations of the features.
+
+The training outcome for Amazon is shown in table \ref{tab:com_std} below.
+We can see that the features share a similar center of mass for the different classes,
+and the standard deviation is similar for all features. The concern that the features
+are not distinguishing the classes well enough is further supported by the
+a 3D scatter plot in fig \ref{fig:3d_scatter_plot}.
+
+
+
+\begin{table}
+    \caption{Center of Mass and Standard Deviation for Each Feature for AMZN. CoM: center of mass}
+    \label{tab:com_std}
+    \begin{tabular}{lrrrr}
+        \toprule
+                        & CoM\_-1 & CoM\_0 & CoM\_1 & Std  \\
+        Feature         &         &        &        &      \\
+        \midrule
+        Pct\_Return\_MA & 0.17    & 0.24   & 0.10   & 0.96 \\
+        Volume\_MA      & 2.10    & 1.81   & 2.05   & 1.04 \\
+        Volatility      & 1.55    & 1.30   & 1.52   & 0.98 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% include the pdf of 3d_scatter_plot.pdf
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{3d_scatter_plot.pdf}
+    \caption{3D scatter plot of the features for Amazon. The features are not
+        distinguishing the classes well enough.}
+    \label{fig:3d_scatter_plot}
+\end{figure}
+
+\subsection{Prediction and evaluation}
+To classify a new sample, we calculate the Euclidean distance and the relative frequency,
+and use the Bayes formula to calculate the probability of the sample belonging to
+a class,
+\[P\left( {y = k|x} \right) = \frac{{P\left( {y = k} \right)P\left( {x|y = k} \right)}}{{\sum\limits_{k = 1}^K {P\left( {y = k} \right)P\left( {x|y = k} \right)} }}\]
+
+where $P(y=k)$ is the relative frequency of class $k$,
+and $P(x|y=k)$ is the probability of the sample $x$ given that it belongs to class $k$.
+
+We then take the class with the highest probability as the prediction.
+Note that denominator is the same for all classes, so we can skip it for the
+classification. For the conditional probability, we use the Gaussian distribution,
+\[P\left( {x|y = k} \right) \propto \exp \left( { - \frac{{{{\left( {x - {\mu _k}} \right)}^2}}}{{2{\sigma}^2}}} \right)\]
+where $\mu_k$ is the center of mass for class $k$,
+and $\sigma$ is the standard deviation, $\sigma^2 = \sum\limits_{i = 1}^N {\sigma _i^2}$,
+and where the normalization constant is omitted, as it is the same for all classes.
+
+The results are  shown in table \ref{tab:results} below. We can see that the accuracy
+is around $1/3$, which is not better than random guessing.
+
+\begin{table}
+    \caption{Stock Classification Accuracy Results for Different Frequencies}
+    \label{tab:results}
+    \begin{tabular}{llll}
+        \toprule
+              & Accuracy\_D & Accuracy\_W & Accuracy\_M \\
+        \midrule
+        AMZN  & 0.36        & 0.30        & 0.25        \\
+        GOOG  & 0.38        & 0.36        & 0.38        \\
+        TSLA  & 0.31        & 0.30        & 0.25        \\
+        CRM   & 0.38        & 0.30        & 0.25        \\
+        ADBE  & 0.38        & 0.43        & 0.38        \\
+        BIIB  & 0.35        & 0.34        & 0.17        \\
+        ISRG  & 0.37        & 0.34        & 0.42        \\
+        VRTX  & 0.40        & 0.32        & 0.21        \\
+        REGN  & 0.39        & 0.37        & 0.33        \\
+        ILMN  & 0.36        & 0.34        & 0.21        \\
+        EBAY  & 0.37        & 0.26        & 0.38        \\
+        BIDU  & 0.30        & 0.30        & 0.33        \\
+        NFLX  & 0.41        & 0.30        & 0.29        \\
+        BKNG  & 0.36        & 0.39        & 0.33        \\
+        LULU  & 0.37        & 0.35        & 0.33        \\
+        ADSK  & 0.31        & 0.30        & 0.46        \\
+        BRK-B & 0.37        & 0.39        & 0.54        \\
+        BMRN  & 0.39        & 0.31        & 0.29        \\
+        ALGN  & 0.37        & 0.33        & 0.29        \\
+        META  & 0.24        & 0.32        & 0.50        \\
+        EA    & 0.38        & 0.37        & 0.25        \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Improvement possibilities}
+
+\subsubsection*{Number of features}
+Using only 3 features should be enough, if a well-founded model is used,
+and if the market didn't eliminate any "alpha" as soon as there is a hint of it.
+While in general, using more features should improve the model,
+we wouldn't expect a significant improvement in the accuracy
+because of the financial benefit for the ones who could first find them and use them.
+Using only 3 of them gave the opportunity to keep the model, code and evaluation simple,
+and it was even possible to visualize the data in 3D (or at least a 2D projection of it).
+
+By adding more features, we would also need to consider regularization,
+as the model could overfit the data. For this, we could look for regularization methods
+that tells the relevance of the features.
+
+\subsubsection*{Averaging windows and shift}
+The averages we are taking is rolling averages, which means that each of the
+points in the average is equally weighted. We could use an exponential average,
+where the weights decrease exponentially as we go back in time.
+
+Some Chartists believe that there is a predictable periodicity in the stock prices,
+so we could use a shift in the data, so that the model could learn the periodicity.
+
+
+\subsubsection*{Handling non-independent features}
+The assumption that the features are independent is not true in general.
+One possible way for improving the model is to use a covariance matrix,
+\[{\Sigma} = \frac{1}{{N - K}}\sum\limits_{k = 1}^K {\sum\limits_{i = 1}^N {\left( {{x_i} - {\mu _k}} \right){{\left( {{x_i} - {\mu _k}} \right)}^T}} } \]
+And then use the multivariate Gaussian distribution for the conditional probability,
+\[P\left( {x|y = k} \right) \propto \exp \left( { - \frac{1}{2}{{\left( {x - {\mu _k}} \right)}^T}{\Sigma ^{ - 1}}\left( {x - {\mu _k}} \right)} \right)\]
+where the normalization constant is omitted, as it is the same for all classes.
 
 
 % appendix
 
-\section*{Appendix}
-\subsection*{Brainstorming on the list of features}
+\section{Appendix}
+\subsection{Brainstorming on the list of features}
 \small
 
 Price-Based Features:
@@ -203,7 +335,7 @@ Time-Based Features:
     \item Seasonality: Monthly or quarterly trends.
 \end{itemize}
 
-\subsection*{Calculation notebook}
+\subsection{Calculation notebook}
 The notebook used for the homework is attached.
 The document was prepared with the commands
 \begin{verbatim}
