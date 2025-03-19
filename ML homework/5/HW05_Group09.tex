@@ -89,12 +89,16 @@ and differences in frequencies are resolved by resampling (backfilling).
 We can see that most of the indicators went up around 2022,
 and decreased since then a bit, while CPI kept increasing.
 This changing trend cannot be captured by the model,
-since this is observable only for recent year.
+since this is observable only for recent years.
 We expect the model to not to be able to predict well after 2022.
 
-We did the linear regression, ridge and lasso regression at different alphas
-on the first 12 years of data from 2010 till 2022, and inspected the output on the whole time range,
-which includes data from end of 2022 till 2025. Plotted results are shown in the figures \ref{fig:ridge_predictions} and \ref{fig:lasso_predictions}.
+After doing OLS and seeing how poorly the model performs,
+we did ridge and lasso regression at different alphas
+on the first 12 years of data from 2010 till 2022,
+and inspected the output on the whole time range,
+which includes data from end of 2022 till 2025.
+Plotted results are shown in
+the figures \ref{fig:ridge_predictions} and \ref{fig:lasso_predictions}.
 
 \begin{figure}[ht]
       \centering
@@ -113,40 +117,46 @@ which includes data from end of 2022 till 2025. Plotted results are shown in the
       \label{fig:lasso_predictions}
 \end{figure}
 
-The fitted paramters and R-squared are shown in the table \ref{tab:ridge_coefficients}.
-
+The fitted paramters and $R^2$ are shown in the table \ref{tab:ridge_coefficients}
+for both on the training set and on the test (predicted) set.
 \begin{table}
-      \caption{Coefficient values and their names for ridge regression. in.cpt: axis intercept, lin reg: linear regression, rid: ridge regression, las: lasso regression}
+      \caption{Coefficient values and their names for ridge regression. in.cpt: axis intercept, subscript t: training set, subscript p: test set (prediction),lin reg: linear regression, rid: ridge regression, las: lasso regression}
       \label{tab:ridge_coefficients}
       \begin{tabular}{lrrrrrrr}
             \toprule
-                   & Lin Reg & rid $\alpha_{0.1}$ & rid $\alpha_{1}$ & rid $\alpha_{10}$ & las $\alpha_{0.2}$ & las $\alpha_{1}$ & las $\alpha_{5}$ \\
+                    & Lin Reg & rid $\alpha_{0.1}$ & rid $\alpha_{1}$ & rid $\alpha_{10}$ & las $\alpha_{0.2}$ & las $\alpha_{1}$ & las $\alpha_{5}$ \\
             \midrule
-            IR     & 15.27   & 13.7               & 8.587            & 4.296             & 7.1                & 0                & 0                \\
-            WG     & 17.41   & 15.53              & 15.05            & 13.23             & 19.06              & 1.029            & 0                \\
-            CI     & 14.42   & 15.22              & 12.43            & 6.074             & 4.976              & 0                & 0                \\
-            OG     & -2.206  & -1.533             & 2.732            & 8.932             & 2.403              & 3.091            & 0                \\
-            UR     & -3.361  & -4.33              & -5.727           & -5.138            & -0                 & -0               & -0               \\
-            M2     & 48.4    & 45.7               & 36.11            & 21.41             & 45.83              & 49.71            & 7.824            \\
-            ER     & 1.544   & 5.574              & 12.14            & 12.02             & 0                  & 0                & 0                \\
-            CCI    & 4.729   & 3.165              & -3.095           & -6.137            & -0                 & -0               & -0               \\
-            in.cpt & 212.5   & 213.1              & 217.8            & 225.7             & 218.1              & 224.5            & 242.6            \\
-            $R^2$  & 0.9927  & 0.9925             & 0.9864           & 0.9216            & 0.9842             & 0.9176           & 0.2161           \\
-            MSE    & 2.83    & 2.921              & 5.275            & 30.38             & 6.111              & 31.9             & 303.6            \\
+            IR      & 15.69   & 13.96              & 8.422            & 3.98              & 7.1                & 0                & 0                \\
+            WG      & 14.22   & 13.64              & 16.17            & 13.96             & 19.06              & 1.029            & 0                \\
+            CI      & 11.15   & 12.99              & 14.49            & 8.331             & 4.976              & 0                & 0                \\
+            OG      & -1.695  & -1.128             & 2.143            & 8.041             & 2.403              & 3.091            & 0                \\
+            UR      & -7.065  & -6.631             & -4.207           & -4.046            & -0                 & -0               & -0               \\
+            M2      & 48.23   & 45.5               & 36.67            & 22.29             & 45.83              & 49.71            & 7.824            \\
+            ER      & 1.909   & 5.746              & 11.91            & 11.5              & 0                  & 0                & 0                \\
+            in.cpt  & 218.2   & 216.8              & 214.5            & 220.9             & 220.9              & 220.9            & 220.9            \\
+            $R^2_t$ & 0.9922  & 0.992              & 0.9874           & 0.9135            & 0.9842             & 0.9176           & 0.2161           \\
+            $R^2_p$ & -8.966  & -10.43             & -17.3            & -38.08            & -19.62             & -42.03           & -126.4           \\
+            $MSE_t$ & 3.022   & 3.095              & 4.88             & 33.5              & 6.111              & 31.9             & 303.6            \\
+            $MSE_p$ & 279.3   & 320.4              & 512.9            & 1095              & 578.1              & 1206             & 3571             \\
             \bottomrule
       \end{tabular}
 \end{table}
+We can see that none of the models were able to predict well after 2022,
+a simple ffill of the data would have been a better prediction.
+
 From the ridge and lasso regression,
-we can see the differences in how differently they reduced the feature coefficients:
+we can see how differently they reduced the feature coefficients:
 lasso regression eliminates the features, while ridge regression reduces them.
 
 The parameter $\alpha$ has more severe effect on MSE and $R^2$ in lasso regression,
 which is also reflected in the worsening fitting. To have a similar severity,
 one needs to lower the $\alpha$ for the lasso regression.
 
-From an econometrics point of view, we see the following:
+From an econometrics point of view,
+if we would be satisfied with the results,
+we could state the following:
 \begin{enumerate}
-      \item  money supply (M2) and wage growth (WG) are the most important features
+      \item money supply (M2) and wage growth (WG) are the most important features
       \item while ouput gap (OG) is not eliminated by lasso regression,
             it changes its sign depending on the strength and type of regularization
       \item interest rate (IR), suprisingly, lost its weight in the ridge regression,
@@ -157,7 +167,8 @@ From an econometrics point of view, we see the following:
 \end{enumerate}
 
 It is surprising, how well the data can be fit till 2022, but breaks down after that.
-By extending the fitting regime till 2025, the fitted curve still wouldn't align well with the
+By extending the fitting regime till 2025,
+the fitted curve still wouldn't align well with the
 period 2022-2025.
 
 On the other hand, by shrinking the fitted time frame till 2018,
@@ -165,7 +176,7 @@ in figure \ref{fig:ridge_predictions_2018},
 we can see that the model predicts the CPI well till 2022.
 It doesn't mean that the model would be any better,
 but a good example that in lucky times we can have good predictions,
-but it is not more than luck.
+but this cannot be attributed to the merit of the model.
 
 \begin{figure}
       \centering
@@ -173,7 +184,8 @@ but it is not more than luck.
       \caption{Predictions of the model using OLS only.
             Training data ends at end of 2018.
             The prediction looks good till 2022,
-            but it more due to luck than model quality.}
+            but it is rather a lucky coincidence,
+            and not a good model.}
       \label{fig:ridge_predictions_2018}
 \end{figure}
 
@@ -183,7 +195,7 @@ The CPI can be well-captured by the model in a limited period of time,
 but the model fails to predict properly after 2022. Till 2022,
 only 3 features would be enough to capture most part of the curve,
 $R^2 = 0.97$, see attached notebook and coefficients in table \ref{tab:ridge_coefficients_small}.
-
+Here, we did lasso and ridge regression again, but starting with only 3 features.
 
 \begin{table}
       \caption{Coefficient values and their names for ridge regression.
@@ -210,18 +222,24 @@ does not necessarily improve the quality of prediction.
 The model is limited by its linear nature two fold:
 \begin{enumerate}
       \item it cannot capture the time delay of the features,
-            e.g. interest rate and money supply have a time delay effect on CPI (with different time scales),
+            e.g. interest rate and money supply have a
+            time delay effect on CPI (with different time scales),
       \item it cannot capture non-linear effects, e.g. the unemployment rate,
-            which is alredy a weak feature, and even its supposedly effect is not linear
+            which is alredy a weak feature,
+            and even its supposedly effect is not linear
 \end{enumerate}
 
 We expected to a have a larger weight on interest rate,
 as it is a direct tool of the Federal Reserve to control inflation,
-but this regression didn't conculde that. We believe that bringing in more features
-can not help in giving more meaningful predictions without building a more thourough financial model,
-because either the changes in the new features are coused by or directly related to the inflation
+but this regression didn't conculde that.
+We believe that bringing in more features
+can not help in giving more meaningful predictions
+without building a more thourough financial model,
+because either the changes in the new features are coused by
+or directly related to the inflation
 (like a subset of goods, different basket, etc),
-and they are not causing the inflation (however, the goal of such model would be to predict it),
+and they are not causing the inflation
+(however, the goal of such model would be to predict it),
 or the time delay of the features cannot be captured by such a linear model.
 
 However, CCI, the costumer confidence index, may be a good candidate in predicting the CPI.
