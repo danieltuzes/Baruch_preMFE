@@ -7,6 +7,7 @@
 \usepackage{caption}  % (Optional) For customizing captions
 \usepackage{siunitx}
 \usepackage{pdfpages}
+\usepackage{physics} % For abs
 \PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
 
 \title{Baruch ML HW 6}
@@ -62,9 +63,10 @@ We concluded in using the following features:
     \item As we were not familiar with technical indicators,
           we omitted them from our list.
     \item Price to earning is a widely used metric,
-          and we incorporated it into our model. The earnings
-          are reported quarterly, so we used the most recent
-          value for every quarter, and using the daily returns.
+          and we wanted to incorporate it, however,
+          it would require earnings data and total number of shares too,
+          and our free source yfinance had no data before 2020 for some
+          of the stocks.
     \item we selected stocks which pay little to no dividends,
           so we omitted the dividend yield.
     \item We considered the interest rate, however,
@@ -93,11 +95,65 @@ We concluded in using the following features:
 
 
 \subsection*{Data collection}
-We restrictred the model to features that are only stock specific.
+We restrictred the model to features that are only stock specific and can be calculated from
+previous stock prices and volumes. See the collected data in fig \ref{fig:amazon_scaled_data}.
+Chartists were people who believed that
+the stock price movement can be predicted by previous data patterns.
+In this case, we are doing the same, on a small set of features,
+but we are using a machine learning model to predict the future price movement.
+
+For code of data collection and preparation, see the attached notebook in the appendix.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\linewidth]{amzn_stock_data_trends.pdf}
+    \caption{Stock prices for Amazon, their volatility and trading volume.
+        Weekly sampling and moving average window of size 5 is used.
+        Normalization is applied, so that the standard deviation of the
+        different features and the percentage change of the stock price
+        is 1.}
+    \label{fig:amazon_scaled_data}
+\end{figure}
+
+\subsection*{Labeling}
+We labeled the data based on the stock price movement.
+For every time point $t_i$,
+we calcualted moving averages and volatility over the past few data points.
+We ensure that the time point $i$ is not included in the calculation,
+see technical details in the notebook and how we shifted the data by 1 cell.
+
+We defined a symmetric threshold $\tau$, and labeled the data as follows:
+\begin{itemize}
+    \item pozitive, $y_i = 1$ if $p_{t_i} > \tau$
+    \item neutral, $y_i = 0$ if $\abs{p_{t_i}} < \tau$
+    \item negative, $y_i = -1$ if $p_{t_i} < - \tau$,
+\end{itemize}
+
+where $p_{t_i}$ is the stock price movement (Pct\_Return) at time $t_i$.
+
+We defined the value for the threshold so that
+the number of samples in the neutral band is $1/3$ of the total number of samples.
+The number of samples in the positive and negative classes are not necessarily equal.
+The distribution of the percentage daily return and the result of the labeling
+is shown in fig \ref{fig:amazon_labelled_pct_return}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\linewidth]{amzn_pct_return_distribution.pdf}
+    \caption{Percentage daily return distribution for Amazon.
+        The threshold is set so that the number of samples in the neutral band
+        is $1/3$ of the total number of samples. The difference between the
+        positive and negative classes is a sign of the asymmetry of the
+        stock price movements.}
+    \label{fig:amazon_labelled_pct_return}
+\end{figure}
+
+
+
+% appendix
 
 \section*{Appendix}
 \subsection*{Brainstorming on the list of features}
-
 \small
 
 Price-Based Features:
@@ -147,5 +203,14 @@ Time-Based Features:
     \item Seasonality: Monthly or quarterly trends.
 \end{itemize}
 
+\subsection*{Calculation notebook}
+The notebook used for the homework is attached.
+The document was prepared with the commands
+\begin{verbatim}
+jupyter nbconvert --to latex fitting.ipynb
+pdflatex fitting.tex
+\end{verbatim}
+
+\includepdf[pages={1-}]{fitting.pdf}
 
 \end{document}
