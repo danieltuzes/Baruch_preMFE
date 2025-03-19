@@ -397,7 +397,7 @@
     \section{CPI prediction}\label{cpi-prediction}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{2}{\boxspacing}
+\prompt{In}{incolor}{3}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
 \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k+kn}{import} \PY{n}{LinearRegression}\PY{p}{,} \PY{n}{Ridge}\PY{p}{,} \PY{n}{Lasso}
@@ -415,7 +415,7 @@ document, manully copied into a file ``joined.csv''.
     \subsubsection{OG: output gap}\label{og-output-gap}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{162}{\boxspacing}
+\prompt{In}{incolor}{ }{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{OG} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{data/output\PYZus{}gap.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
 \PY{n}{OG}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{date}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}datetime}\PY{p}{(}\PY{n}{OG}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{year}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{Y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
@@ -463,7 +463,7 @@ document, manully copied into a file ``joined.csv''.
     \subsubsection{plot and show}\label{plot-and-show}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{3}{\boxspacing}
+\prompt{In}{incolor}{4}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{data/joined.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
 \PY{k}{if} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CCI}\PY{l+s+s2}{\PYZdq{}} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{:}
@@ -575,7 +575,7 @@ May-10 \& 218.178 \& 0.2 \& 1.6 \& 140.402 \& -2.326 \& 9.6 \& 8609.3 \& 92.8423
     \subsubsection{Scale and split}\label{scale-and-split}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{216}{\boxspacing}
+\prompt{In}{incolor}{8}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{y} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CPI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
 \PY{n}{X} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CPI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
@@ -584,8 +584,8 @@ May-10 \& 218.178 \& 0.2 \& 1.6 \& 140.402 \& -2.326 \& 9.6 \& 8609.3 \& 92.8423
 \PY{c+c1}{\PYZsh{} drop data in X and y after 2023 jan}
 \PY{n}{X\PYZus{}fit} \PY{o}{=} \PY{n}{X}\PY{p}{[}\PY{n}{X}\PY{o}{.}\PY{n}{index} \PY{o}{\PYZlt{}} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{2023\PYZhy{}01\PYZhy{}01}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}  \PY{c+c1}{\PYZsh{} fit only here}
 \PY{n}{y\PYZus{}fit} \PY{o}{=} \PY{n}{y}\PY{p}{[}\PY{n}{y}\PY{o}{.}\PY{n}{index} \PY{o}{\PYZlt{}} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{2023\PYZhy{}01\PYZhy{}01}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
-\PY{n}{x\PYZus{}pred} \PY{o}{=} \PY{n}{X}\PY{p}{[}\PY{n}{X}\PY{o}{.}\PY{n}{index} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{2023\PYZhy{}01\PYZhy{}01}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{c+c1}{\PYZsh{} used for prediction}
-\PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{y}\PY{p}{[}\PY{n}{y}\PY{o}{.}\PY{n}{index} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{2023\PYZhy{}01\PYZhy{}01}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\PY{n}{x\PYZus{}valid} \PY{o}{=} \PY{n}{X}\PY{p}{[}\PY{n}{X}\PY{o}{.}\PY{n}{index} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{2023\PYZhy{}01\PYZhy{}01}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{c+c1}{\PYZsh{} used for prediction}
+\PY{n}{y\PYZus{}valid} \PY{o}{=} \PY{n}{y}\PY{p}{[}\PY{n}{y}\PY{o}{.}\PY{n}{index} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{2023\PYZhy{}01\PYZhy{}01}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -593,7 +593,7 @@ May-10 \& 218.178 \& 0.2 \& 1.6 \& 140.402 \& -2.326 \& 9.6 \& 8609.3 \& 92.8423
 ridge}\label{fitting-without-lasso-or-ridge}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{219}{\boxspacing}
+\prompt{In}{incolor}{9}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{linmodel} \PY{o}{=} \PY{n}{LinearRegression}\PY{p}{(}\PY{n}{fit\PYZus{}intercept}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
 \PY{n}{linmodel}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}fit}\PY{p}{,} \PY{n}{y\PYZus{}fit}\PY{p}{)}
@@ -605,13 +605,17 @@ ridge}\label{fitting-without-lasso-or-ridge}
 \PY{n}{intercept\PYZus{}value} \PY{o}{=} \PY{n}{linmodel}\PY{o}{.}\PY{n}{intercept\PYZus{}}
 \PY{n}{r\PYZus{}squared\PYZus{}value} \PY{o}{=} \PY{n}{linmodel}\PY{o}{.}\PY{n}{score}\PY{p}{(}\PY{n}{X\PYZus{}fit}\PY{p}{,} \PY{n}{y\PYZus{}fit}\PY{p}{)}
 
-\PY{n}{pred} \PY{o}{=} \PY{n}{linmodel}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X}\PY{p}{)}
-\PY{n}{pred\PYZus{}mse} \PY{o}{=} \PY{n}{linmodel}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}fit}\PY{p}{)}
-\PY{n}{mse} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}fit}\PY{p}{,} \PY{n}{pred\PYZus{}mse}\PY{p}{)}
+\PY{n}{full\PYZus{}pred} \PY{o}{=} \PY{n}{linmodel}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X}\PY{p}{)}
+\PY{n}{mse\PYZus{}train} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}fit}\PY{p}{,} \PY{n}{linmodel}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}fit}\PY{p}{)}\PY{p}{)}
+\PY{n}{mse\PYZus{}predicted} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}valid}\PY{p}{,} \PY{n}{linmodel}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}valid}\PY{p}{)}\PY{p}{)}
+\PY{n}{r\PYZus{}squared\PYZus{}train} \PY{o}{=} \PY{n}{linmodel}\PY{o}{.}\PY{n}{score}\PY{p}{(}\PY{n}{X\PYZus{}fit}\PY{p}{,} \PY{n}{y\PYZus{}fit}\PY{p}{)}
+\PY{n}{r\PYZus{}squared\PYZus{}predicted} \PY{o}{=} \PY{n}{linmodel}\PY{o}{.}\PY{n}{score}\PY{p}{(}\PY{n}{x\PYZus{}valid}\PY{p}{,} \PY{n}{y\PYZus{}valid}\PY{p}{)}
 
 \PY{n}{result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{in.cpt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{intercept\PYZus{}value}\PY{p}{]}
-\PY{n}{result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}R\PYZca{}2\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{r\PYZus{}squared\PYZus{}value}\PY{p}{]}
-\PY{n}{result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MSE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{mse}\PY{p}{]}
+\PY{n}{result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}R\PYZca{}2\PYZus{}t\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{r\PYZus{}squared\PYZus{}train}\PY{p}{]}
+\PY{n}{result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}R\PYZca{}2\PYZus{}p\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{r\PYZus{}squared\PYZus{}predicted}\PY{p}{]}
+\PY{n}{result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}MSE\PYZus{}t\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{mse\PYZus{}train}\PY{p}{]}
+\PY{n}{result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}MSE\PYZus{}p\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{mse\PYZus{}predicted}\PY{p}{]}
 
 \PY{c+c1}{\PYZsh{} Print LaTeX output}
 \PY{n}{latex\PYZus{}output} \PY{o}{=} \PY{n}{result}\PY{o}{.}\PY{n}{to\PYZus{}latex}\PY{p}{(}\PY{n}{caption}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Coefficient values and their names}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
@@ -620,17 +624,38 @@ ridge}\label{fitting-without-lasso-or-ridge}
 \end{tcolorbox}
 
     \begin{Verbatim}[commandchars=\\\{\}]
+\textbackslash{}begin\{table\}
+\textbackslash{}caption\{Coefficient values and their names\}
+\textbackslash{}begin\{tabular\}\{lr\}
+\textbackslash{}toprule
+ \& Lin Reg \textbackslash{}\textbackslash{}
+\textbackslash{}midrule
+IR \& 15.693951 \textbackslash{}\textbackslash{}
+WG \& 14.219535 \textbackslash{}\textbackslash{}
+CI \& 11.149360 \textbackslash{}\textbackslash{}
+OG \& -1.694559 \textbackslash{}\textbackslash{}
+UR \& -7.065261 \textbackslash{}\textbackslash{}
+M2 \& 48.228987 \textbackslash{}\textbackslash{}
+ER \& 1.908637 \textbackslash{}\textbackslash{}
+in.cpt \& 218.195622 \textbackslash{}\textbackslash{}
+\$R\^{}2\_t\$ \& 0.992197 \textbackslash{}\textbackslash{}
+\$R\^{}2\_p\$ \& -8.965529 \textbackslash{}\textbackslash{}
+\$MSE\_t\$ \& 3.022217 \textbackslash{}\textbackslash{}
+\$MSE\_p\$ \& 279.333791 \textbackslash{}\textbackslash{}
+\textbackslash{}bottomrule
+\textbackslash{}end\{tabular\}
+\textbackslash{}end\{table\}
 
     \end{Verbatim}
 
     \subsubsection{Show predicted vs actual}\label{show-predicted-vs-actual}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{220}{\boxspacing}
+\prompt{In}{incolor}{11}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
 \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Actual CPI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{pred}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{n}{y}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predicted CPI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{full\PYZus{}pred}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{n}{y}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predicted CPI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{plt}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}datetime}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{2023\PYZhy{}01\PYZhy{}01}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Prediction Start}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CPI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
@@ -640,14 +665,15 @@ ridge}\label{fitting-without-lasso-or-ridge}
 \end{Verbatim}
 \end{tcolorbox}
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-
-    \end{Verbatim}
-
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{fitting_files/fitting_17_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
     \subsection{Ridge regression}\label{ridge-regression}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{ }{\boxspacing}
+\prompt{In}{incolor}{15}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} do 3 ridge gression with alpha 0.1, 1 and 10}
 \PY{n}{alphas} \PY{o}{=} \PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{]}
@@ -661,12 +687,17 @@ ridge}\label{fitting-without-lasso-or-ridge}
     \PY{n}{\PYZus{}result} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{coef\PYZus{}}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{n}{X\PYZus{}fit}\PY{o}{.}\PY{n}{columns}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rid \PYZdl{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{alpha\PYZus{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{n}{alpha}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
     
     \PY{n}{intercept\PYZus{}value} \PY{o}{=} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{intercept\PYZus{}}
-    \PY{n}{r\PYZus{}squared\PYZus{}value} \PY{o}{=} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{score}\PY{p}{(}\PY{n}{X\PYZus{}fit}\PY{p}{,} \PY{n}{y\PYZus{}fit}\PY{p}{)}
-    \PY{n}{pred\PYZus{}MSE} \PY{o}{=} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}fit}\PY{p}{)}
-    \PY{n}{mse} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}fit}\PY{p}{,} \PY{n}{pred\PYZus{}MSE}\PY{p}{)}
-    \PY{n}{\PYZus{}result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MSE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{mse}\PY{p}{]}
+    
+    \PY{n}{mse\PYZus{}train} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}fit}\PY{p}{,} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}fit}\PY{p}{)}\PY{p}{)}
+    \PY{n}{mse\PYZus{}predicted} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}valid}\PY{p}{,} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}valid}\PY{p}{)}\PY{p}{)}
+    \PY{n}{r\PYZus{}squared\PYZus{}train} \PY{o}{=} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{score}\PY{p}{(}\PY{n}{X\PYZus{}fit}\PY{p}{,} \PY{n}{y\PYZus{}fit}\PY{p}{)}
+    \PY{n}{r\PYZus{}squared\PYZus{}predicted} \PY{o}{=} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{score}\PY{p}{(}\PY{n}{x\PYZus{}valid}\PY{p}{,} \PY{n}{y\PYZus{}valid}\PY{p}{)}
+
     \PY{n}{\PYZus{}result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{in.cpt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{intercept\PYZus{}value}\PY{p}{]}
-    \PY{n}{\PYZus{}result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}R\PYZca{}2\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{r\PYZus{}squared\PYZus{}value}\PY{p}{]}
+    \PY{n}{\PYZus{}result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}R\PYZca{}2\PYZus{}t\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{r\PYZus{}squared\PYZus{}train}\PY{p}{]}
+    \PY{n}{\PYZus{}result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}R\PYZca{}2\PYZus{}p\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{r\PYZus{}squared\PYZus{}predicted}\PY{p}{]}
+    \PY{n}{\PYZus{}result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}MSE\PYZus{}t\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{mse\PYZus{}train}\PY{p}{]}
+    \PY{n}{\PYZus{}result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}MSE\PYZus{}p\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{mse\PYZus{}predicted}\PY{p}{]}
 
     \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{feature coefficients for alpha}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{alpha}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{coef\PYZus{}}\PY{p}{)}
 
@@ -691,17 +722,48 @@ ridge}\label{fitting-without-lasso-or-ridge}
 \end{tcolorbox}
 
     \begin{Verbatim}[commandchars=\\\{\}]
+feature coefficients for alpha 0.1 : [13.95919526 13.64108809 12.9865159
+-1.12791193 -6.63112417 45.49897131
+  5.74569799]
+feature coefficients for alpha 1 : [ 8.42200109 16.16735226 14.49063849
+2.14261476 -4.20706146 36.66720024
+ 11.91430427]
+feature coefficients for alpha 10 : [ 3.98023712 13.96429636  8.33119899
+8.04082269 -4.04626582 22.28717481
+ 11.4992021 ]
+\textbackslash{}begin\{table\}
+\textbackslash{}caption\{Coefficient values and their names for ridge regression\}
+\textbackslash{}begin\{tabular\}\{lrrrr\}
+\textbackslash{}toprule
+ \& Lin Reg \& rid \$\textbackslash{}alpha\_\{0.1\}\$ \& rid \$\textbackslash{}alpha\_\{1\}\$ \& rid \$\textbackslash{}alpha\_\{10\}\$ \textbackslash{}\textbackslash{}
+\textbackslash{}midrule
+IR \& 15.693951 \& 13.959195 \& 8.422001 \& 3.980237 \textbackslash{}\textbackslash{}
+WG \& 14.219535 \& 13.641088 \& 16.167352 \& 13.964296 \textbackslash{}\textbackslash{}
+CI \& 11.149360 \& 12.986516 \& 14.490638 \& 8.331199 \textbackslash{}\textbackslash{}
+OG \& -1.694559 \& -1.127912 \& 2.142615 \& 8.040823 \textbackslash{}\textbackslash{}
+UR \& -7.065261 \& -6.631124 \& -4.207061 \& -4.046266 \textbackslash{}\textbackslash{}
+M2 \& 48.228987 \& 45.498971 \& 36.667200 \& 22.287175 \textbackslash{}\textbackslash{}
+ER \& 1.908637 \& 5.745698 \& 11.914304 \& 11.499202 \textbackslash{}\textbackslash{}
+in.cpt \& 218.195622 \& 216.807650 \& 214.542920 \& 220.908152 \textbackslash{}\textbackslash{}
+\$R\^{}2\_t\$ \& 0.992197 \& 0.992008 \& 0.987399 \& 0.913501 \textbackslash{}\textbackslash{}
+\$R\^{}2\_p\$ \& -8.965529 \& -10.431181 \& -17.298698 \& -38.080626 \textbackslash{}\textbackslash{}
+\$MSE\_t\$ \& 3.022217 \& 3.095251 \& 4.880338 \& 33.502171 \textbackslash{}\textbackslash{}
+\$MSE\_p\$ \& 279.333791 \& 320.416003 \& 512.912498 \& 1095.429948 \textbackslash{}\textbackslash{}
+\textbackslash{}bottomrule
+\textbackslash{}end\{tabular\}
+\textbackslash{}end\{table\}
 
     \end{Verbatim}
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-
-    \end{Verbatim}
-
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{fitting_files/fitting_19_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
     \subsubsection{lasso regression}\label{lasso-regression}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{ }{\boxspacing}
+\prompt{In}{incolor}{17}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} do 3 lasso gression with alpha 0.1, 1 and 10}
 \PY{n}{alphas} \PY{o}{=} \PY{p}{[}\PY{l+m+mf}{0.2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{]}
@@ -714,21 +776,22 @@ ridge}\label{fitting-without-lasso-or-ridge}
     \PY{n}{pred}\PY{p}{[}\PY{n}{alpha}\PY{p}{]} \PY{o}{=} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X}\PY{p}{)}
     \PY{n}{\PYZus{}result} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{coef\PYZus{}}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{n}{X\PYZus{}fit}\PY{o}{.}\PY{n}{columns}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{las \PYZdl{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{alpha\PYZus{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{n}{alpha}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
     
-    \PY{n}{intercept\PYZus{}value} \PY{o}{=} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{intercept\PYZus{}}
-    \PY{n}{r\PYZus{}squared\PYZus{}value} \PY{o}{=} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{score}\PY{p}{(}\PY{n}{X\PYZus{}fit}\PY{p}{,} \PY{n}{y\PYZus{}fit}\PY{p}{)}
+    \PY{n}{mse\PYZus{}train} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}fit}\PY{p}{,} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}fit}\PY{p}{)}\PY{p}{)}
+    \PY{n}{mse\PYZus{}predicted} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}valid}\PY{p}{,} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}valid}\PY{p}{)}\PY{p}{)}
+    \PY{n}{r\PYZus{}squared\PYZus{}train} \PY{o}{=} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{score}\PY{p}{(}\PY{n}{X\PYZus{}fit}\PY{p}{,} \PY{n}{y\PYZus{}fit}\PY{p}{)}
+    \PY{n}{r\PYZus{}squared\PYZus{}predicted} \PY{o}{=} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{score}\PY{p}{(}\PY{n}{x\PYZus{}valid}\PY{p}{,} \PY{n}{y\PYZus{}valid}\PY{p}{)}
 
-    \PY{n}{pred\PYZus{}MSE} \PY{o}{=} \PY{n}{model}\PY{p}{[}\PY{n}{alpha}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}fit}\PY{p}{)}
-    \PY{n}{mse} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}fit}\PY{p}{,} \PY{n}{pred\PYZus{}MSE}\PY{p}{)}
-    \PY{n}{\PYZus{}result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MSE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{mse}\PY{p}{]}
     \PY{n}{\PYZus{}result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{in.cpt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{intercept\PYZus{}value}\PY{p}{]}
-    \PY{n}{\PYZus{}result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}R\PYZca{}2\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{r\PYZus{}squared\PYZus{}value}\PY{p}{]}
-
-    \PY{c+c1}{\PYZsh{} print(\PYZdq{}feature coefficients for alpha\PYZdq{}, alpha, \PYZdq{}:\PYZdq{}, model[alpha].coef\PYZus{})}
+    \PY{n}{\PYZus{}result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}R\PYZca{}2\PYZus{}t\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{r\PYZus{}squared\PYZus{}train}\PY{p}{]}
+    \PY{n}{\PYZus{}result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}R\PYZca{}2\PYZus{}p\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{r\PYZus{}squared\PYZus{}predicted}\PY{p}{]}
+    \PY{n}{\PYZus{}result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}MSE\PYZus{}t\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{mse\PYZus{}train}\PY{p}{]}
+    \PY{n}{\PYZus{}result}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}MSE\PYZus{}p\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{mse\PYZus{}predicted}\PY{p}{]}
 
     \PY{n}{lasso\PYZus{}ridge\PYZus{}result} \PY{o}{=} \PY{n}{lasso\PYZus{}ridge\PYZus{}result}\PY{o}{.}\PY{n}{merge}\PY{p}{(}\PY{n}{\PYZus{}result}\PY{p}{,} \PY{n}{left\PYZus{}index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{right\PYZus{}index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
 \PY{n+nb}{print}\PY{p}{(}\PY{n}{lasso\PYZus{}ridge\PYZus{}result}\PY{o}{.}\PY{n}{to\PYZus{}latex}\PY{p}{(}
     \PY{n}{caption}\PY{o}{=}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Coefficient values and their names for ridge regression. }\PY{l+s+s2}{\PYZdq{}}
-             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{in.cpt: axis intercept, lin reg: linear regression, }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{in.cpt: axis intercept, subscript t: training set, }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{subscript p: test set (prediction),lin reg: linear regression, }\PY{l+s+s2}{\PYZdq{}}
              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rid: ridge regression, las: lasso regression}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,}
     \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tab:ridge\PYZus{}coefficients}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
     \PY{n}{float\PYZus{}format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZpc{}.4g}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
@@ -752,13 +815,39 @@ ridge}\label{fitting-without-lasso-or-ridge}
 \end{tcolorbox}
 
     \begin{Verbatim}[commandchars=\\\{\}]
+\textbackslash{}begin\{table\}
+\textbackslash{}caption\{Coefficient values and their names for ridge regression. in.cpt: axis
+intercept, subscript t: training set, subscript p: test set (prediction),lin
+reg: linear regression, rid: ridge regression, las: lasso regression\}
+\textbackslash{}label\{tab:ridge\_coefficients\}
+\textbackslash{}begin\{tabular\}\{lrrrrrrr\}
+\textbackslash{}toprule
+ \& Lin Reg \& rid \$\textbackslash{}alpha\_\{0.1\}\$ \& rid \$\textbackslash{}alpha\_\{1\}\$ \& rid \$\textbackslash{}alpha\_\{10\}\$ \& las
+\$\textbackslash{}alpha\_\{0.2\}\$ \& las \$\textbackslash{}alpha\_\{1\}\$ \& las \$\textbackslash{}alpha\_\{5\}\$ \textbackslash{}\textbackslash{}
+\textbackslash{}midrule
+IR \& 15.69 \& 13.96 \& 8.422 \& 3.98 \& 7.1 \& 0 \& 0 \textbackslash{}\textbackslash{}
+WG \& 14.22 \& 13.64 \& 16.17 \& 13.96 \& 19.06 \& 1.029 \& 0 \textbackslash{}\textbackslash{}
+CI \& 11.15 \& 12.99 \& 14.49 \& 8.331 \& 4.976 \& 0 \& 0 \textbackslash{}\textbackslash{}
+OG \& -1.695 \& -1.128 \& 2.143 \& 8.041 \& 2.403 \& 3.091 \& 0 \textbackslash{}\textbackslash{}
+UR \& -7.065 \& -6.631 \& -4.207 \& -4.046 \& -0 \& -0 \& -0 \textbackslash{}\textbackslash{}
+M2 \& 48.23 \& 45.5 \& 36.67 \& 22.29 \& 45.83 \& 49.71 \& 7.824 \textbackslash{}\textbackslash{}
+ER \& 1.909 \& 5.746 \& 11.91 \& 11.5 \& 0 \& 0 \& 0 \textbackslash{}\textbackslash{}
+in.cpt \& 218.2 \& 216.8 \& 214.5 \& 220.9 \& 220.9 \& 220.9 \& 220.9 \textbackslash{}\textbackslash{}
+\$R\^{}2\_t\$ \& 0.9922 \& 0.992 \& 0.9874 \& 0.9135 \& 0.9842 \& 0.9176 \& 0.2161 \textbackslash{}\textbackslash{}
+\$R\^{}2\_p\$ \& -8.966 \& -10.43 \& -17.3 \& -38.08 \& -19.62 \& -42.03 \& -126.4 \textbackslash{}\textbackslash{}
+\$MSE\_t\$ \& 3.022 \& 3.095 \& 4.88 \& 33.5 \& 6.111 \& 31.9 \& 303.6 \textbackslash{}\textbackslash{}
+\$MSE\_p\$ \& 279.3 \& 320.4 \& 512.9 \& 1095 \& 578.1 \& 1206 \& 3571 \textbackslash{}\textbackslash{}
+\textbackslash{}bottomrule
+\textbackslash{}end\{tabular\}
+\textbackslash{}end\{table\}
 
     \end{Verbatim}
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-
-    \end{Verbatim}
-
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{fitting_files/fitting_21_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
     \subsection{select best model}\label{select-best-model}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
