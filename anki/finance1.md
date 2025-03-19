@@ -167,10 +167,14 @@ They both add a penalty term to the loss function.
 In Ridge regression, the penalty term is the sum of the squares of the coefficients.
 In Lasso regression, the penalty term is the sum of the absolute values of the coefficients.
 
+$$J(\beta) = \sum_{i=1}^{n} (y_i - X_i \beta)^2 + \lambda \sum_{j=1}^{p} \beta_j^2$$
+
 Ridge regression tends to shrink the coefficients towards zero,
 but it doesn't set them exactly to zero.
 Lasso regression tends to set some coefficients exactly to zero,
 so it can be used for feature selection.
+
+$$J(\beta) = \sum_{i=1}^{n} (y_i - X_i \beta)^2 + \lambda \sum_{j=1}^{p} |\beta_j|$$
 
 ## What is $Var(X+Y)$?
 
