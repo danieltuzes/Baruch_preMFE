@@ -1,0 +1,1 @@
+Let $U\left( {x,y} \right)$ a differentiable utility function
