@@ -98,6 +98,8 @@ $${\left. {MR{S_{xy}}} \right|_{{x_0},{U_0}}} = {\left. { - \frac{{dy}}{{dx}}} \
 
 ## What is the elasticity of demand? What are the meaning of corner values?
 
+<!-- notecardId: 1742519796067 -->
+
 $$\varepsilon  = \frac{{\Delta Q/Q_0}}{{\Delta P/P_0}} \leqslant 0$$
 $\varepsilon \approx 0$: ineleastic, like buying insulin.
 
@@ -105,12 +107,16 @@ $\varepsilon = -\infty$: elastic, when there are perfect subtitues, like burgers
 
 ## What is the income elasticity of demand? What are cases for different values of it?
 
+<!-- notecardId: 1742519796072 -->
+
 $$\gamma  = \frac{{\Delta Q/{Q_0}}}{{\Delta I/{I_0}}}$$
 If $\gamma > 0$: are normal goods, if $0<\gamma <1$: necessities, $\gamma > 1$: luxuries.
 
 if $\gamma < 0$, they are inferior goods, like fast food: the richer I am, the less I want to buy.
 
 ## What is the income effect and the substitution effect?
+
+<!-- notecardId: 1742519796075 -->
 
 $${\left. {\frac{{\delta Q}}{{\delta P}}} \right|_{y = {y_0}}} = {\left. {\frac{{\delta Q}}{{\delta P}}} \right|_{{U_0}}} + {\left. {\frac{{\partial Q}}{{\partial I}}} \right|_P} \cdot I$$
 
@@ -129,21 +135,37 @@ Summary in a table:
 
 ## Wha is the marginal product of labor?
 
+<!-- notecardId: 1742519796077 -->
+
 It is calculated as the derivative of the production function with respect to labor.
 $$MP_L = \frac{{\partial q}}{{\partial L}}$$
 For high labor values, it is a decreasing function.
 
+## What is marginal product of capital?
+
+<!-- notecardId: 1742519796079 -->
+It is calculated as the derivative of the production function with respect to capital.
+$$MP_K = \frac{{\partial q}}{{\partial K}}$$
+
 ## What is isoquant?
+
+<!-- notecardId: 1742519796081 -->
 
 It is a curve that represents all the combinations of labor and capital that produce the same level of output.
 $$q = f(L,K)$$
 
 ## What is the marginal rate of technical substitution?
 
+<!-- notecardId: 1742519796083 -->
+
 The marginal rate of technical substitution (MRTS) is the rate at which one input (e.g., labor) can be substituted for another input (e.g., capital) while keeping the level of output constant. It is calculated as the negative of the slope of the isoquant curve.
 $$MRTS = -\frac{{\partial K}}{{\partial L}}$$
+It is equal to the ratio of the marginal products of the inputs:
+$$MRTS = \frac{{MP_L}}{{MP_K}}$$
 
 ## What is returns to scale?
+
+<!-- notecardId: 1742519796086 -->
 
 Tell the value for $n$ in
 $$f(tL,tK) = t^n f(L,K)$$
@@ -151,3 +173,18 @@ $$f(tL,tK) = t^n f(L,K)$$
 - if $n=1$, constant returns to scale
 - if $n>1$, increasing returns to scale
 - if $n<1$, decreasing returns to scale
+
+## How to derive the short term cost function?
+
+<!-- notecardId: 1742521036310 -->
+
+$$
+\begin{aligned}
+&\text{Given: } q = f(L, K), \quad K = \bar{K} \text{ (fixed in short run)} \\
+&\text{Solve for } L: \quad L = f^{-1}(q, \bar{K}) \\
+&\text{Variable Cost: } VC(q) = w \cdot L(q) \\
+&\text{Fixed Cost: } FC = r \cdot \bar{K} \\
+&\text{Total Cost: } C(q) = VC(q) + FC = w \cdot L(q) + r \cdot \bar{K}
+\end{aligned}
+$$
+
