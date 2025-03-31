@@ -1,0 +1,227 @@
+\documentclass{article}
+\usepackage{amsmath} % for matrices
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{booktabs} % For better looking tables
+\usepackage{graphicx} % For including images
+\usepackage{caption}  % (Optional) For customizing captions
+\usepackage{siunitx}
+\usepackage{pdfpages}
+\usepackage{placeins}
+\usepackage{tocbibind}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+
+\title{Baruch ML HW 8}
+\author{Annie Yi, Daniel Tuzes, group 9}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{Digit recognition with PCA}
+The python package sklearn provides a sample dataset of handwritten digits.
+The dataset contains 1797 samples of 8x8 images of handwritten digits (0-9).
+Each image is flattened into a 1D array.
+The goal of this homework is to use PCA to reduce the dimensionality of the data and
+then use a classifier to predict the digit from the reduced data.
+
+\subsection{Load the data and scale it}
+The data is loaded using the example from the website \cite{sklearn_digits}.
+By using different functions, a larger dataset can be loaded \cite{sklearn_openml}
+but for this homework, we will do the PCA with the smaller dataset.
+After loading the data we can see it is already flattened.
+We scaled it to the range of 0 to 1,
+and subtracted the mean from each pixel value to center the data.
+The center of the data is shown in Figure \ref{fig:average_digit}.
+
+\begin{figure}
+
+    \centering
+    \includegraphics[width=0.5\textwidth]{average_digit.pdf}
+    \caption{Average digit from the sklearn dataset.
+        The intensities are non-trivial,
+        and not-removing it would cause problems for PCA,
+        and when reconstructing the images from the PCA components,
+        forgetting to add the mean back would result in images that are hard to interpret.}
+    \label{fig:average_digit}
+\end{figure}
+
+The first sample is shown in Figure \ref{fig:digits_sample}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{sample_digit.pdf}
+    \caption{Sample of handwritten digits from the sklearn dataset.}
+    \label{fig:digits_sample}
+\end{figure}
+
+\subsection{Compute PCA}
+We define the covariance matrix calculation function and
+do the calculation of the covariance matrix.
+The eigenvalues and eigenvectors are computed from the covariance matrix
+using numpy's linear algebra module.
+
+We ordered the eigenvalues in decreasing order to see
+how the importance of the components changes with the index.
+The analysis shows that after the first 4 components,
+theres is steeper drop in the eigenvalue,
+followed by a gradual (exponential) decrease in the eigenvalues.
+At the index value of 48, the eigenvalues start decreasing every faster.
+See Figure \ref{fig:eigenvalues} for the plot of the eigenvalues.
+We expect that the first 4 components will capture the most variance in the data,
+then there are gradual improvement until the 48th component,
+after which we practically get no improvement.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{eigenvalues.pdf}
+    \caption{Eigenvalues of the covariance matrix in decreasing order.}
+    \label{fig:eigenvalues}
+\end{figure}
+
+We have a total of 64 features (8x8 pixels) in the dataset,
+so we have 64 eigenvalues and eigenvectors.
+The eigenvectors of the covariance matrix are the principal components,
+which represent the directions of maximum variance in the data,
+but they don't visally represent the numbers themselves.
+To visualize the principal components,
+we can reshape the eigenvectors back to 8x8 images, as shown in Figure \ref{fig:principal_components}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{principal_components.pdf}
+    \caption{Principal components reshaped to 8x8 images.}
+    \label{fig:principal_components}
+\end{figure}
+
+\subsection{Reconstruct the data}
+We will reconstruct the first 10 samples of the dataset using the first
+4, 8, 16, 32, 48 and 64 principal components.
+To do that, we will take the first K eigenvectors (principal components)
+in the order of the largest eigenvalues,
+and calculate the weight corresponding to the eigenvectors
+by calculating the scalar product of the data with the first the eigenvectors.
+This is equivalent to projecting the data onto the subspace spanned by the first K eigenvectors.
+
+Then we can reconstruct the data by
+summing the contributions of each of the K eigenvectors with weights.
+We add back the mean to the reconstructed data.
+We wouldn't need to do scaling, as the color range can be set to automatic,
+but we will do it nevertheless.
+The reconstructed images can be seen in Figure \ref{fig:reconstruction_with_pcs}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{reconstruction_with_pcs.pdf}
+    \caption{Reconstructed digits using different number of principal components (K).
+        The color scale is set from 0 till 16.
+        In the last column, we can see the original images for comparison,
+        as using 64 components should give us the original images back.}
+    \label{fig:reconstruction_with_pcs}
+\end{figure}
+
+\subsection{Classification}
+Now we will do the classification of the digits using the PCA components,
+with different number of components.
+We will use the first 4, 8, 16, 32, 48 and 64 components to train a classifier.
+The data is already centered and scaled. To classification, we will ise LDA.
+We will then check how the accuracy of the classifier changes with the number of components used.
+We will use the library `sklearn` to do the classification,
+from where the class `LinearDiscriminantAnalysis` is used for LDA.
+
+We split the data into training and testing sets,
+with 80\% of the data used for training and 20\% for testing.
+
+The LDA is trained on the training set for $K=4$ first, and then on the test set,
+we evaluated the accuracy of the classifier.
+The confusion matrix is shown in Figure \ref{fig:confusion_matrix_4}.
+We observed that the confusion matrix has sensitivity on the random number generator
+used to split the data into train and test set.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{confusion_matrix_4.pdf}
+    \caption{Confusion matrix for K=4 components. It is interesting to see
+        which digits are confused with each other. E.g.\ digit 5 is often confused with 9,
+        but not the other way around.
+        Digit 4 is recognised the best, and digit 8 is recognised the worst.
+        The matrix is sensitive to the seed used to initialize the sample splitter random engine.}
+    \label{fig:confusion_matrix_4}
+\end{figure}
+
+We observed that the confusion matrix has sensitivity on the random number generator
+used to split the data into train and test set. To mitigate this,
+we used KFold cross-validation to get a more robust estimate of the accuracy.
+(Alternatively, we could use different random seeds to split the data into train and test sets,
+and then average the results to get a more robust estimate of the accuracy.)
+The averaged confusion matrix for K=4 is shown in Figure \ref{fig:confusion_matrix_4_kfold}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{average_confusion_matrix_4_KFold.pdf}
+    \caption{Averaged confusion matrix for K=4 components using KFold cross-validation.
+        This is less sensitive to the random (42) we used.}
+    \label{fig:confusion_matrix_4_kfold}
+\end{figure}
+
+\subsubsection{Training on different number of components}
+By using different number of principal components,
+we can see how PCA worsens or improves the accuracy of the prediction.
+While in general the more details we have the better,
+but higher level of dimensionality can cause problems for some classifiers,
+e.g.\ to the K-means unsupervised classifier.
+
+On figure \ref{fig:confusion_matrix_4_kfold_K},
+we can see that the classification improves for most of the digits for the first increments in K.
+However, after $K=32$, the trend does not hold for every digit.
+By checking the trace of the confusion matrix, we can see how on average (over the different digits)
+the classification improves.
+The result shows that after 32 components, the classification does not improve.
+
+Storing fewer details is not only more space efficient,
+but classification is also faster.
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{average_confusion_matrix_vsK_KFold.pdf}
+    \caption{Averaged confusion matrix for different number of principal components,
+        using K-fold cross validation.}
+    \label{fig:confusion_matrix_4_kfold_K}
+\end{figure}
+
+
+% flush all content
+\clearpage
+\section{Appendix}
+
+\begin{thebibliography}{9}
+    \bibitem{sklearn_digits}
+    \textit{Plot classification of digits, 8x8},
+    \url{https://scikit-learn.org/stable/auto_examples/classification/plot_digits_classification.html}
+
+    \bibitem{sklearn_openml}
+    \textit{Digits dataset from OpenML, 28x28},
+    \url{https://www.openml.org/d/554},
+    \url{https://stackoverflow.com/questions/54365045/scikit-learn-cannot-load-mnist-original-dataset-using-fetch-openml-in-python}
+\end{thebibliography}
+
+\subsection{Calculation notebook}
+
+The notebook used for the homework is attached.
+The document was prepared with the commands
+\begin{verbatim}
+jupyter nbconvert --to latex fitting.ipynb
+pdflatex fitting.tex
+\end{verbatim}
+
+\includepdf[pages={1-}]{fitting.pdf}
+
+% add references to sklearn_digits
+% https://scikit-learn.org/stable/auto_examples/classification/plot_digits_classification.html
+
+
+
+
+\end{document}
