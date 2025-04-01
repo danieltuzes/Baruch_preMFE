@@ -49,7 +49,7 @@ The center of the data is shown in Figure \ref{fig:average_digit}.
 
 The first sample is shown in Figure \ref{fig:digits_sample}.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
     \centering
     \includegraphics[width=0.8\textwidth]{sample_digit.pdf}
     \caption{Sample of handwritten digits from the sklearn dataset.}
@@ -73,7 +73,7 @@ We expect that the first 4 components will capture the most variance in the data
 then there are gradual improvement until the 48th component,
 after which we practically get no improvement.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
     \centering
     \includegraphics[width=0.8\textwidth]{eigenvalues.pdf}
     \caption{Eigenvalues of the covariance matrix in decreasing order.}
@@ -88,7 +88,7 @@ but they don't visally represent the numbers themselves.
 To visualize the principal components,
 we can reshape the eigenvectors back to 8x8 images, as shown in Figure \ref{fig:principal_components}.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
     \centering
     \includegraphics[width=0.8\textwidth]{principal_components.pdf}
     \caption{Principal components reshaped to 8x8 images.}
@@ -111,7 +111,7 @@ We wouldn't need to do scaling, as the color range can be set to automatic,
 but we will do it nevertheless.
 The reconstructed images can be seen in Figure \ref{fig:reconstruction_with_pcs}.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
     \centering
     \includegraphics[width=0.8\textwidth]{reconstruction_with_pcs.pdf}
     \caption{Reconstructed digits using different number of principal components (K).
@@ -121,7 +121,7 @@ The reconstructed images can be seen in Figure \ref{fig:reconstruction_with_pcs}
     \label{fig:reconstruction_with_pcs}
 \end{figure}
 
-\subsection{Classification}
+\section{Classification}
 Now we will do the classification of the digits using the PCA components,
 with different number of components.
 We will use the first 4, 8, 16, 32, 48 and 64 components to train a classifier.
@@ -139,7 +139,7 @@ The confusion matrix is shown in Figure \ref{fig:confusion_matrix_4}.
 We observed that the confusion matrix has sensitivity on the random number generator
 used to split the data into train and test set.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
     \centering
     \includegraphics[width=0.8\textwidth]{confusion_matrix_4.pdf}
     \caption{Confusion matrix for K=4 components. It is interesting to see
@@ -157,7 +157,7 @@ we used KFold cross-validation to get a more robust estimate of the accuracy.
 and then average the results to get a more robust estimate of the accuracy.)
 The averaged confusion matrix for K=4 is shown in Figure \ref{fig:confusion_matrix_4_kfold}.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
     \centering
     \includegraphics[width=0.8\textwidth]{average_confusion_matrix_4_KFold.pdf}
     \caption{Averaged confusion matrix for K=4 components using KFold cross-validation.
@@ -165,7 +165,7 @@ The averaged confusion matrix for K=4 is shown in Figure \ref{fig:confusion_matr
     \label{fig:confusion_matrix_4_kfold}
 \end{figure}
 
-\subsubsection{Training on different number of components}
+\subsection{Training on different number of components}
 By using different number of principal components,
 we can see how PCA worsens or improves the accuracy of the prediction.
 While in general the more details we have the better,
@@ -183,7 +183,7 @@ Storing fewer details is not only more space efficient,
 but classification is also faster.
 
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
     \centering
     \includegraphics[width=0.8\textwidth]{average_confusion_matrix_vsK_KFold.pdf}
     \caption{Averaged confusion matrix for different number of principal components,
@@ -220,8 +220,6 @@ pdflatex fitting.tex
 
 % add references to sklearn_digits
 % https://scikit-learn.org/stable/auto_examples/classification/plot_digits_classification.html
-
-
 
 
 \end{document}
