@@ -69,7 +69,7 @@ theres is steeper drop in the eigenvalue,
 followed by a gradual (exponential) decrease in the eigenvalues.
 At the index value of 48, the eigenvalues start decreasing every faster.
 See Figure \ref{fig:eigenvalues} for the plot of the eigenvalues.
-We expect that the first 4 components will capture the most variance in the data,
+We expect that the first 4 components will capture most of the variance in the data,
 then there are gradual improvement until the 48th component,
 after which we practically get no improvement.
 
@@ -91,7 +91,7 @@ we can reshape the eigenvectors back to 8x8 images, as shown in Figure \ref{fig:
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.8\textwidth]{principal_components.pdf}
-    \caption{Principal components reshaped to 8x8 images.}
+    \caption{The first 16 principal components reshaped to 8x8 images.}
     \label{fig:principal_components}
 \end{figure}
 
@@ -101,21 +101,22 @@ We will reconstruct the first 10 samples of the dataset using the first
 To do that, we will take the first K eigenvectors (principal components)
 in the order of the largest eigenvalues,
 and calculate the weight corresponding to the eigenvectors
-by calculating the scalar product of the data with the first the eigenvectors.
-This is equivalent to projecting the data onto the subspace spanned by the first K eigenvectors.
+by calculating the scalar product of the data with the eigenvectors.
 
 Then we can reconstruct the data by
 summing the contributions of each of the K eigenvectors with weights.
 We add back the mean to the reconstructed data.
-We wouldn't need to do scaling, as the color range can be set to automatic,
+We wouldn't need to do scaling, as the grayscale range can be set to automatic,
 but we will do it nevertheless.
 The reconstructed images can be seen in Figure \ref{fig:reconstruction_with_pcs}.
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=0.8\textwidth]{reconstruction_with_pcs.pdf}
-    \caption{Reconstructed digits using different number of principal components (K).
-        The color scale is set from 0 till 16.
+    \includegraphics[width=0.78\textwidth]{reconstruction_with_pcs.pdf}
+    \caption{Reconstructed digits using different number of
+        principal components (K) in the horizontal axis,
+        and different digits along the vertical axis.
+        The grayscale range is set from 0 till 16.
         In the last column, we can see the original images for comparison,
         as using 64 components should give us the original images back.}
     \label{fig:reconstruction_with_pcs}
@@ -136,8 +137,6 @@ with 80\% of the data used for training and 20\% for testing.
 The LDA is trained on the training set for $K=4$ first, and then on the test set,
 we evaluated the accuracy of the classifier.
 The confusion matrix is shown in Figure \ref{fig:confusion_matrix_4}.
-We observed that the confusion matrix has sensitivity on the random number generator
-used to split the data into train and test set.
 
 \begin{figure}[ht!]
     \centering
@@ -161,7 +160,7 @@ The averaged confusion matrix for K=4 is shown in Figure \ref{fig:confusion_matr
     \centering
     \includegraphics[width=0.8\textwidth]{average_confusion_matrix_4_KFold.pdf}
     \caption{Averaged confusion matrix for K=4 components using KFold cross-validation.
-        This is less sensitive to the random (42) we used.}
+        This is less sensitive to the random seed (42) we used.}
     \label{fig:confusion_matrix_4_kfold}
 \end{figure}
 
@@ -178,9 +177,13 @@ However, after $K=32$, the trend does not hold for every digit.
 By checking the trace of the confusion matrix, we can see how on average (over the different digits)
 the classification improves.
 The result shows that after 32 components, the classification does not improve.
+(The number 32 is just an estimate,
+as we didn't do the analysis for every number of components in the range 1 to 64,
+nor did we check it for different random seeds.)
 
 Storing fewer details is not only more space efficient,
-but classification is also faster.
+but classification is also faster in many of the cases.
+For only a few thousand samples and with LDA, the difference is not that big.
 
 
 \begin{figure}[ht!]
