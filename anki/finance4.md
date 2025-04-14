@@ -77,19 +77,10 @@ $$
 - The algebraic multiplicity equals the geometric multiplicity so we can always find a complete set of orthogonal eigenvectors.
 - Thus, every symmetric matrix can be diagonalized by an orthogonal matrix.
 
-## A robot performs fair coin tossing. Scientist A has 80% chance of successfully predicting the outcome, while the scientist B is successful 60% of the time. Scientist A predicts the coin will land tails, scientist B predicts the coin will land heads. What is the probability that the coin will land heads?
-
-<!-- notecardId: 1743474280056 -->
-
-$$
-\begin{aligned}
-\Pr(H \mid A=T, B=H) &= \frac{\Pr(A=T, B=H \mid H)\Pr(H)}{\Pr(A=T, B=H \mid H)\Pr(H) + \Pr(A=T, B=H \mid T)\Pr(T)} \\\\
-&= \frac{(0.2)(0.6)(0.5)}{(0.2)(0.6)(0.5) + (0.8)(0.4)(0.5)} \\\\
-&= \frac{0.06}{0.06 + 0.16} = \frac{3}{11} \approx 0.2727
-\end{aligned}
-$$
 
 ## There are $n$ passengers waiting to board the airplane. Each passenger has an assigned seat. However, the first passenger lost the ticket and forgot the seat number. The first passenger then decides to take a random seat.  Each subsequent passenger tries to sit in their assigned seat if it is available, otherwise chooses a random unoccupied seat. What is the probability that the last, $n$th passenger, will be able to sit in his/her assigned seat? For $k \in \{2, 3, \dots, n\}$, what is the probability that the $k$th passenger will be able to sit in his/her assigned seat?
+
+<!-- notecardId: 1743474280058 -->
 
 The first passenger chooses their own seat and the last seat with equal probability. If they don't choose their own seat, but the $k$th passanger's seat, then all passanger till $k$ can sit in their assigned seats. When the $n$th passenger tries to sit down, they choose between the $1$st and $n$th seats with equal probability again, etc. When the $n$th comes, the probability that his seat is taken is $1/2$.
 
@@ -178,3 +169,52 @@ A matrix $A$ has a **Cholesky decomposition** if it can be expressed as $A = LL^
 
    The expression $||L^T x||^2$ is zero if and only if $L^T x = 0$, which implies $x = 0$ since $L$ has positive diagonal entries. Thus, $A$ is positive definite.
 
+## What is a negative binomial distribution?
+
+<!-- notecardId: 1743806008203 -->
+
+$P(\text{head}) = p$, and we toss a coin till we get $n$ heads. Let $X$ the number of tails.
+$$f_X(k) = \underbrace{\binom{k+n-1}{k}}_{\substack{\text{\# ways to have }\\n{\text{ head, ending with head}}}}\cdot \underbrace{p^n(1-p)^k}_{\substack{\text{probability of getting }\\ n\text{ heads and }k\text{ tails}}}$$
+
+
+## What is the Jensen's inequality?
+
+<!-- notecardId: 1743806008208 -->
+
+Let $f$ a convex function and $p_i \geq 0$ with $\sum_{i=1}^{n} p_i = 1$. Then:
+$$f\left( \sum_{i=1}^{n} p_i x_i \right) 
+\leq 
+\sum_{i=1}^{n} p_i f(x_i)$$
+$$f\left( \mathbb{E}[X] \right) \leq \mathbb{E}[f(X)]$$
+and equality holds if and only if $x_1 = x_2 = \ldots = x_n$ or $f$ is linear. If $f$ is concave, the inequality is reversed.
+
+## What is the reflection principle on random walks? How many paths are there from $(0,4)$ to $(25,3)$ which don't cross the line $y=0$?
+
+<!-- notecardId: 	1743907967801 -->
+
+- $N_n(a,b)$: number of total paths that ends in $b$ and starts in $a$, taking $n$ steps, $N_n(a,b) = \binom{n}{\frac{n+b-a}{2}}$.
+- $B_n(a,b)$: number of paths crossing the line $y=0$ 
+- $G_n(a,b)$: the number of paths that don't cross the line $y=0$, $G_n(a,b) = N_n(a,b) - B_n(a,b)$
+
+Reflection principle: $B_n(a,b) = B_n(-a,b)$, therefore
+$$G_n(a,b) = N_n(a,b) - N_n(-a,b) = \binom{n}{\frac{n+b-a}{2}} - \binom{n}{\frac{n+b+a}{2}}$$
+
+Using $n=25$, $a=4$, $b=3$:
+$$\frac{25!}{12!\cdot\left(25-12\right)!}-\frac{25!}{16!\cdot\left(25-16\right)!} = 3'157'325$$
+
+## Does uncorrelatedness imply independence? Example?
+
+<!-- notecardId: 1743907967809 -->
+
+No. $X\sim\mathcal{U}(-1,1)$ and $Y = X^2$.
+
+$$Cov(X,Y) = E[XY] - \underbrace{E[X]}_{0}\cdot E[Y] = \underbrace{E[X^3]}_{\int_{-1}^{1} x^3 \cdot \frac{1}{2} dx = 0} = 0$$
+
+But they are not independent,
+$$\begin{alignat*}{3}
+0.5 =& P\left({-0.5 < X < 0.5}\right) \\
+=& P\left({-0.5 < X < 0.5}\cap{Y < 0.25}\right)\\
+\neq& P\left({-0.5 < X < 0.5}\right)\cdot P(Y < 0.25)\\
+=& 0.5 \cdot \underbrace{\int_{0}^{1} f_Y(y) dy}_{<1}\\
+\end{alignat*}
+$$
