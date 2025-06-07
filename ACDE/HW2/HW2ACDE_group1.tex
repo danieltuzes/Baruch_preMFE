@@ -15,37 +15,113 @@
 
 \begin{document}
 \maketitle
-\section*{exercise 1}
-\subsection*{i}
-Hao (proposed by Daniel)
-\subsection*{ii}
-Hongjun (proposed by Daniel)
-\subsection*{iii}
-Daniel (proposed by Daniel)
+\tableofcontents
+\section{exercise 1}
+\subsection{i Hao}
+\subsection{ii Hongjun}
+\subsection{iii Daniel}
+The value of a put option is:
+\[P(0) = K e^{-rT} N(-d_2) - S(0) N(-d_1)\]
+where
+\begin{align*}
+    d_1 & = \frac{\ln\left(\frac{S(0)}{K}\right) + \left(r + \frac{\sigma^2}{2}\right)T}{\sigma\sqrt{T}} \\
+    d_2 & = d_1 - \sigma\sqrt{T}
+\end{align*}
+Calculating the value of the put option with spots 100 and 102,
+strike 100, $\sigma = 0.30$, $r = 0.05$, and $T = 0.5$,
+the difference for 1000 options is $786.66USD$.
 
-\section*{exercise 2}
-\subsection*{i}
+Considering that 1 day has passed, and a year has 252 trading days,
+we can calculate the new value with $T = 0.5 - \frac{1}{252}$.
+The difference for 1000 options is $787.20USD$.
 
-Hongjun (proposed by Daniel)
-\subsection*{ii}
-Hao (proposed by Daniel)
-\subsection*{iii}
-Daniel (proposed by Daniel)
+Sanity check: the $\Delta$ of a put option tends to $-0.5$ as $T$ approaches 0.
+With $T=0.5$ at the beginning, the $\Delta$ is around $-0.4114$.
+The negative sign shows that the value of the put option decreases as the stock price increases,
+and indeed, we lost some value as the stock price increased from 100 to 102.
+And after a day, when $\Delta$ is a bit closer to $-0.5$,
+the value of the put option decreased a bit more.
 
-\section*{exercise 3}
-\subsection*{i}
-Hao (proposed by Daniel)
-\subsection*{ii}
-Hongjun (proposed by Daniel)
-\subsection*{iii}
-Daniel (proposed by Daniel)
 
-\section*{exercise 4}
-Hao (proposed by Daniel)
+\section{exercise 2}
+\subsection{i Daniel}
 
-\section*{exercise 5}
-\subsection*{i}
-(Daniel)
+
+\begin{align*}
+    d_1                    & = \frac{\ln(S/K) + \left(r + \frac{1}{2} \sigma^2\right) T}{\sigma \sqrt{T}} \\
+    d_2                    & = d_1 - \sigma \sqrt{T}                                                      \\
+    P                      & = K e^{-rT} N(-d_2) - S N(-d_1)                                              \\
+    \text{Portfolio Value} & = 2000 \cdot P + 400 \cdot S + 10,\!000
+\end{align*}
+
+After calculating the value of the portfolio with the given parameters:
+\begin{itemize}
+    \item Put price: $5.4076USD$
+    \item Value of puts: $10815.14USD$
+    \item Value of stock: $14000.00USD$
+\end{itemize}
+
+So the portfolio value is $34815.14USD$.
+
+\subsection{ii Daniel}
+We can calculate the $\Delta$ of the portfolio, and
+\begin{itemize}
+    \item sell or buy the asset to make it delta-neutral
+    \item sell or buy puts
+    \item sell of buy calls
+\end{itemize}
+Shorting the asset and puts are also possibilities, but as we have a long position in them, to save on the expenses,
+we will not consider them. Introducing calls would add complexity to the portfolio,
+so we will not consider them either. In the standard delta-hedging strategies,
+we operate with the amount of the underlying assets, so we'll buy or sell the asset to make the portfolio delta-neutral.
+
+Strategy: calculate the $\Delta$ of the portfolio, and buy or sell the asset to make it delta-neutral.
+The $\Delta$ of the asset is 1, and the $\Delta$ of the put is $$N(d_1)-1 = -0.78285$$
+So we need to own 2000 times the $\Delta$ in shares, i.e. we need to buy further stock in the amount of $-1165.71$.
+Let's suppose that fractional shares are allowed, so we can buy $1165.71$ shares.
+To do that, we need $1165.71 \cdot 35 = 40900USD$, out which $10,000$ is already in the portfolio.
+So we need to borrow $30900USD$ to buy the shares.
+\subsection{iii Daniel}
+
+\begin{tabular}{lrrrrrrrr}
+    \toprule
+              & puts & assets & cash        & $S$ & $T$    & $\Delta_{1P}$ & $\Delta_{puts}$ & $\Delta_{total}$ \\
+    \midrule
+    week 0 BH & 2000 & 400    & 10000.0000  & 35  & 0.2500 & -0.7829       & -1565.7125      & -1165.7125       \\
+    week 0 AH & 2000 & 1566   & -30810.0000 & 35  & 0.2500 & -0.7829       & -1565.7125      & 0.2875           \\
+    week 1 BH & 2000 & 1566   & -30821.8523 & 40  & 0.2308 & -0.4586       & -917.1032       & 648.8968         \\
+    week 1 AH & 2000 & 917    & -4861.8523  & 40  & 0.2308 & -0.4586       & -917.1032       & -0.1032          \\
+    week 2 BH & 2000 & 917    & -4863.7226  & 36  & 0.2115 & -0.7466       & -1493.2718      & -576.2718        \\
+    week 2 AH & 2000 & 1493   & -25599.7226 & 36  & 0.2115 & -0.7466       & -1493.2718      & -0.2718          \\
+    week 3 BH & 2000 & 1493   & -25609.5705 & 32  & 0.1923 & -0.9453       & -1890.6535      & -397.6535        \\
+    week 3 AH & 2000 & 1891   & -38345.5705 & 32  & 0.1923 & -0.9453       & -1890.6535      & 0.3465           \\
+    week 4 BH & 2000 & 1891   & -38360.3217 & 37  & 0.1731 & -0.7035       & -1407.0149      & 483.9851         \\
+    week 4 AH & 2000 & 1407   & -20452.3217 & 37  & 0.1731 & -0.7035       & -1407.0149      & -0.0149          \\
+    \bottomrule
+\end{tabular}
+
+\begin{tabular}{|c|c|}
+    \hline
+    \textbf{Week} & \textbf{Asset Change at AH} \\
+    \hline
+    Week 0        & +1166                       \\
+    Week 1        & -649                        \\
+    Week 2        & +974                        \\
+    Week 3        & -983                        \\
+    Week 4        & +479                        \\
+    \hline
+\end{tabular}
+
+
+\section{exercise 3}
+\subsection{i Hao}
+\subsection{ii Hongjun}
+\subsection{iii Hongjun}
+
+\section{exercise 4 Hao}
+
+\section{exercise 5}
+\subsection{i Daniel}
 \begin{align}
      & f\left( a+h \right) = f\left( a \right)+f'\left( a \right)h+\frac{f''\left( a \right){{h}^{2}}}{2}+O\left( {{h}^{3}} \right)\quad \text{just reminder}                                                                           \\
      & {{f}_{2}}:=f\left( a+2h \right) = f\left( a \right)+f'\left( a \right)2h+\frac{f''\left( a \right)4{{h}^{2}}}{2}+O\left( {{h}^{3}} \right):={{f}_{0}}+f{{'}_{0}}\cdot 2h+f'{{'}_{0}}\cdot 2{{h}^{2}}+O\left( {{h}^{3}} \right)   \\
@@ -54,8 +130,7 @@ Hao (proposed by Daniel)
 \end{align}
 Therefore:
 \[f'\left( a \right)=f{{'}_{0}}=\frac{9{{f}_{2}}-4{{f}_{3}}-5{{f}_{0}}}{6h}+O\left( {{h}^{2}} \right)=\frac{9f\left( a+2h \right)-4f\left( a+3h \right)-5f\left( a \right)}{6h}+O\left( {{h}^{2}} \right)\]
-\subsection*{ii}
-Hongjun and Daniel (proposed by Daniel)
+\subsection{ii Daniel}
 
 \begin{align}
      & {{f}_{1}}:=f\left( a+h \right)={{f}_{0}}+f{{'}_{0}}h+\frac{f'{{'}_{0}}{{h}^{2}}}{2}+f''{{'}_{0}}\frac{{{h}^{3}}}{6}+O\left( {{h}^{4}} \right)\quad \text{just reminder} \\
@@ -80,14 +155,12 @@ What remained:
 
 So the result is
 \[f''\left( a \right)=\frac{16f\left( a-h \right)+10f\left( a+2h \right)-f\left( a+4h \right)-25f\left( a \right)}{20{{h}^{2}}}+O\left( {{h}^{2}} \right)\]
-\subsection*{iii}
-Hao (proposed by Daniel)
+\subsection{iii Hao}
 
-\section*{exercise 6}
-Hongjun (proposed by Daniel)
+\section{exercise 6 Hongjun}
 
-\section*{exercise 7}
- (Daniel) The payoff defined in the exercise is not in the units of currency. In the solution I suppose that the payoff is
+\section{exercise 7 Daniel}
+The payoff defined in the exercise is not in the units of currency. In the solution I suppose that the payoff is
 
 \[{{\Pi }_{7}}\left( T \right)=\max \left( \frac{S{{\left( T \right)}^{2}}}{{{\$}^{2}}}-\frac{K}{\$},0 \right)\quad S\left( T \right)=S\left( 0 \right){{e}^{\left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T+\sigma \sqrt{T}\cdot Z}}\]
 where $\$$ denotes the currency and omitted in the exercise later. The value of the option at time $T$ is given by the risk-neutral expectation of the payoff:
@@ -112,10 +185,8 @@ Now let's take care about the integral with $S$ inside.
 We put it back to the equation for $V_7(T)$, and discount it to $t=0$.
 \[{{V}_{7}}\left( 0 \right)=-K\cdot N\left( {{d}_{2}} \right) e^{-rT} +S{{\left( 0 \right)}^{2}}{{e}^{\left( r - 2q + {\sigma }^{2} \right)T}}N\left( {{{\hat{d}}}_{1}} \right)\]
 Note that $\hat{d}_1$ is defined differently than in the standard Black-Scholes formula.
-\section*{exercise 8}
-Hao (proposed by Daniel)
+\section{exercise 8 Hao}
 
-\section*{exercise 9}
-Hongjun (proposed by Daniel)
+\section{exercise 9 Hongjun}
 
 \end{document}
