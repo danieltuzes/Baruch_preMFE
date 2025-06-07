@@ -9,6 +9,7 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{verbatim}
+\usepackage[extreme]{savetrees} % tighter margins
 \title{Baruch ACDE HW 2}
 \author{group 1}
 
@@ -54,8 +55,31 @@ Hao (proposed by Daniel)
 Hongjun (proposed by Daniel)
 
 \section*{exercise 7}
-Daniel (proposed by Daniel)
+The payoff defined in the exercise is not in the units of currency. In the solution I suppose that the payoff is
 
+\[{{\Pi }_{7}}\left( T \right)=\max \left( \frac{S{{\left( T \right)}^{2}}}{{{\$}^{2}}}-\frac{K}{\$},0 \right)\quad S\left( T \right)=S\left( 0 \right){{e}^{\left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T+\sigma \sqrt{T}\cdot Z}}\]
+where $\$$ denotes the currency and omitted in the exercise later. The value of the option at time $T$ is given by the risk-neutral expectation of the payoff:
+
+\[\begin{matrix}
+        {{V}_{7}}\left( T \right)={{E}_{RN}}\left( {{\Pi }_{7}}\left( T \right) \right)=\int_{S{{\left( T \right)}^{2}}>K}{\left( S{{\left( T \right)}^{2}}-K \right)d\mathsf{\mathcal{P}}}\quad S{{\left( T \right)}^{2}}>K\Leftrightarrow & S{{\left( 0 \right)}^{2}}{{e}^{2\left[ \left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T+\sigma \sqrt{T}\cdot Z \right]}}>K                               \\
+        {}                                                                                                                                                                                                                                  & \ln \left( \frac{K}{S{{\left( 0 \right)}^{2}}} \right)<2\left[ \left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T+\sigma \sqrt{T}\cdot Z \right]           \\
+        {}                                                                                                                                                                                                                                  & Z>\frac{\frac{1}{2}\ln \left( \frac{K}{S{{\left( 0 \right)}^{2}}} \right)-\left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T}{\sigma \sqrt{T}}:=-{{d}_{2}} \\
+    \end{matrix}\]
+Here we model the stock price as a geometric Brownian motion, and $Z$ is a standard normal random variable. The risk-neutral expectation is given by the integral over the probability density function $\mathsf{\mathcal{P}}$ of $Z$.
+\[{{V}_{7}}\left( T \right)=\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{z}^{2}}}}\left( S{{\left( T \right)}^{2}}-K \right)dz}\]
+\[{{V}_{7}}\left( T \right)=-K\cdot N\left( {{d}_{2}} \right)+\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{z}^{2}}}}S{{\left( T \right)}^{2}}\frac{dz}{\sqrt{2\pi }}}\]
+
+Now let's take care about the integral with $S$ inside.
+\[\begin{aligned}
+         & I=\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{z}^{2}}}}S{{\left( T \right)}^{2}}\frac{dz}{\sqrt{2\pi }}}=\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{z}^{2}}}}S{{\left( 0 \right)}^{2}}{{e}^{2\left[ \left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T+\sigma \sqrt{T}\cdot z \right]}}\frac{dz}{\sqrt{2\pi }}} \\
+         & I=S{{\left( 0 \right)}^{2}}{{e}^{2\left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T}}\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{z}^{2}}+2\sigma \sqrt{T}\cdot z}}\frac{dz}{\sqrt{2\pi }}}\qquad -\frac{1}{2}{{z}^{2}}+2\sigma \sqrt{T}\cdot z=-\frac{1}{2}{{\left( z-2\sigma \sqrt{T} \right)}^{2}}+2{{\sigma }^{2}}T     \\
+         & I=S{{\left( 0 \right)}^{2}}{{e}^{2\left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T+2{{\sigma }^{2}}T}}\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{\left( z-2\sigma \sqrt{T} \right)}^{2}}}}\frac{dz}{\sqrt{2\pi }}}\qquad z-2\sigma \sqrt{T}:=\hat{z}\quad -{{d}_{2}}-2\sigma \sqrt{T}:=-{{{\hat{d}}}_{1}}                \\
+         & I=S{{\left( 0 \right)}^{2}}{{e}^{2\left( r-q+\frac{{{\sigma }^{2}}}{2} \right)T}}\int\limits_{-{{{\hat{d}}}_{1}}}^{\infty }{{{e}^{-\frac{1}{2}{{{\hat{z}}}^{2}}}}\frac{d\hat{z}}{\sqrt{2\pi }}}                                                                                                                                   \\
+         & I=S{{\left( 0 \right)}^{2}}{{e}^{2\left( r-q+\frac{{{\sigma }^{2}}}{2} \right)T}}N\left( {{{\hat{d}}}_{1}} \right)                                                                                                                                                                                                                \\
+    \end{aligned}\]
+We put it back to the equation for $V_7(T)$, and discount it to $t=0$.
+\[{{V}_{7}}\left( 0 \right)=-K\cdot N\left( {{d}_{2}} \right) e^{-rT} +S{{\left( 0 \right)}^{2}}{{e}^{\left( r - 2q + {\sigma }^{2} \right)T}}N\left( {{{\hat{d}}}_{1}} \right)\]
+Note that $\hat{d}_1$ is defined differently than in the standard Black-Scholes formula.
 \section*{exercise 8}
 Hao (proposed by Daniel)
 
