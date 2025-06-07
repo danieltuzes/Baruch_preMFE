@@ -45,9 +45,41 @@ Hao (proposed by Daniel)
 
 \section*{exercise 5}
 \subsection*{i}
-Daniel (proposed by Daniel)
+(Daniel)
+\begin{align}
+     & f\left( a+h \right) = f\left( a \right)+f'\left( a \right)h+\frac{f''\left( a \right){{h}^{2}}}{2}+O\left( {{h}^{3}} \right)\quad \text{just reminder}                                                                           \\
+     & {{f}_{2}}:=f\left( a+2h \right) = f\left( a \right)+f'\left( a \right)2h+\frac{f''\left( a \right)4{{h}^{2}}}{2}+O\left( {{h}^{3}} \right):={{f}_{0}}+f{{'}_{0}}\cdot 2h+f'{{'}_{0}}\cdot 2{{h}^{2}}+O\left( {{h}^{3}} \right)   \\
+     & {{f}_{3}}:=f\left( a+3h \right) = f\left( a \right)+f'\left( a \right)3h+\frac{f''\left( a \right)9{{h}^{2}}}{2}+O\left( {{h}^{3}} \right):={{f}_{0}}+f{{'}_{0}}\cdot 3h+f'{{'}_{0}}\cdot 4.5{{h}^{2}}+O\left( {{h}^{3}} \right) \\
+     & 9{{f}_{2}}-4{{f}_{3}}=5{{f}_{0}}+6f{{'}_{0}}h+O\left( {{h}^{3}} \right)                                                                                                                                                          \\
+\end{align}
+Therefore:
+\[f'\left( a \right)=f{{'}_{0}}=\frac{9{{f}_{2}}-4{{f}_{3}}-5{{f}_{0}}}{6h}+O\left( {{h}^{2}} \right)=\frac{9f\left( a+2h \right)-4f\left( a+3h \right)-5f\left( a \right)}{6h}+O\left( {{h}^{2}} \right)\]
 \subsection*{ii}
-Hongjun (proposed by Daniel)
+Hongjun and Daniel (proposed by Daniel)
+
+\begin{align}
+     & {{f}_{1}}:=f\left( a+h \right)={{f}_{0}}+f{{'}_{0}}h+\frac{f'{{'}_{0}}{{h}^{2}}}{2}+f''{{'}_{0}}\frac{{{h}^{3}}}{6}+O\left( {{h}^{4}} \right)\quad \text{just reminder} \\
+     & {{f}_{-1}}:=f\left( a-h \right)={{f}_{0}}-f{{'}_{0}}\cdot h+\frac{f'{{'}_{0}}\cdot {{h}^{2}}}{2}-f''{{'}_{0}}\frac{{{h}^{3}}}{6}+O\left( {{h}^{4}} \right)              \\
+     & {{f}_{2}}:=f\left( a+2h \right)={{f}_{0}}+f{{'}_{0}}\cdot 2h+f'{{'}_{0}}\cdot 2{{h}^{2}}+f''{{'}_{0}}\frac{8{{h}^{3}}}{6}+O\left( {{h}^{4}} \right)                     \\
+     & {{f}_{4}}:=f\left( a+4h \right)={{f}_{0}}+f{{'}_{0}}\cdot 4h+f'{{'}_{0}}\cdot 8{{h}^{2}}+f''{{'}_{0}}\frac{64{{h}^{3}}}{6}+O\left( {{h}^{4}} \right)                    \\
+\end{align}
+
+Take $A$ of $f_{-1}$ and $B$ of $f_{2}$ and $C$ of $f_4$,
+then we want to eliminate $f'_0$ and $f'''_0$.
+
+With a choice of $A=-16$, $B=-10$ and $C=1$, and summing them uo, eliminate the unwanted terms:
+\begin{itemize}
+    \item $f'_0 [-(-16) + (-10)2 + 1\cdot 4] = 0$.
+    \item $f'''_0 [(-16)\cdot \frac{-1}{6} + (-10)\cdot \frac{8}{6} + 1\cdot \frac{64}{6}] = 0$.
+\end{itemize}
+What remained:
+\begin{itemize}
+    \item $f_0 [(-16) + (-10) + 1] = -25f_0$.
+    \item $f''_0 [(-16)\cdot \frac{1}{2} + (-10)\cdot 2 + 1\cdot 8] = -20f''_0$.
+\end{itemize}
+
+So the result is
+\[f''\left( a \right)=\frac{16f\left( a-h \right)+10f\left( a+2h \right)-f\left( a+4h \right)-25f\left( a \right)}{20{{h}^{2}}}+O\left( {{h}^{2}} \right)\]
 \subsection*{iii}
 Hao (proposed by Daniel)
 
@@ -55,7 +87,7 @@ Hao (proposed by Daniel)
 Hongjun (proposed by Daniel)
 
 \section*{exercise 7}
-The payoff defined in the exercise is not in the units of currency. In the solution I suppose that the payoff is
+ (Daniel) The payoff defined in the exercise is not in the units of currency. In the solution I suppose that the payoff is
 
 \[{{\Pi }_{7}}\left( T \right)=\max \left( \frac{S{{\left( T \right)}^{2}}}{{{\$}^{2}}}-\frac{K}{\$},0 \right)\quad S\left( T \right)=S\left( 0 \right){{e}^{\left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T+\sigma \sqrt{T}\cdot Z}}\]
 where $\$$ denotes the currency and omitted in the exercise later. The value of the option at time $T$ is given by the risk-neutral expectation of the payoff:
@@ -65,18 +97,18 @@ where $\$$ denotes the currency and omitted in the exercise later. The value of 
         {}                                                                                                                                                                                                                                  & \ln \left( \frac{K}{S{{\left( 0 \right)}^{2}}} \right)<2\left[ \left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T+\sigma \sqrt{T}\cdot Z \right]           \\
         {}                                                                                                                                                                                                                                  & Z>\frac{\frac{1}{2}\ln \left( \frac{K}{S{{\left( 0 \right)}^{2}}} \right)-\left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T}{\sigma \sqrt{T}}:=-{{d}_{2}} \\
     \end{matrix}\]
-Here we model the stock price as a geometric Brownian motion, and $Z$ is a standard normal random variable. The risk-neutral expectation is given by the integral over the probability density function $\mathsf{\mathcal{P}}$ of $Z$.
+Here we model the stock price as a geometric Brownian motion, and $Z$ is a standard normal random variable. The risk-neutral expectation is given by the integral over the probability density function of $Z$.
 \[{{V}_{7}}\left( T \right)=\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{z}^{2}}}}\left( S{{\left( T \right)}^{2}}-K \right)dz}\]
 \[{{V}_{7}}\left( T \right)=-K\cdot N\left( {{d}_{2}} \right)+\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{z}^{2}}}}S{{\left( T \right)}^{2}}\frac{dz}{\sqrt{2\pi }}}\]
 
 Now let's take care about the integral with $S$ inside.
-\[\begin{aligned}
-         & I=\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{z}^{2}}}}S{{\left( T \right)}^{2}}\frac{dz}{\sqrt{2\pi }}}=\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{z}^{2}}}}S{{\left( 0 \right)}^{2}}{{e}^{2\left[ \left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T+\sigma \sqrt{T}\cdot z \right]}}\frac{dz}{\sqrt{2\pi }}} \\
-         & I=S{{\left( 0 \right)}^{2}}{{e}^{2\left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T}}\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{z}^{2}}+2\sigma \sqrt{T}\cdot z}}\frac{dz}{\sqrt{2\pi }}}\qquad -\frac{1}{2}{{z}^{2}}+2\sigma \sqrt{T}\cdot z=-\frac{1}{2}{{\left( z-2\sigma \sqrt{T} \right)}^{2}}+2{{\sigma }^{2}}T     \\
-         & I=S{{\left( 0 \right)}^{2}}{{e}^{2\left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T+2{{\sigma }^{2}}T}}\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{\left( z-2\sigma \sqrt{T} \right)}^{2}}}}\frac{dz}{\sqrt{2\pi }}}\qquad z-2\sigma \sqrt{T}:=\hat{z}\quad -{{d}_{2}}-2\sigma \sqrt{T}:=-{{{\hat{d}}}_{1}}                \\
-         & I=S{{\left( 0 \right)}^{2}}{{e}^{2\left( r-q+\frac{{{\sigma }^{2}}}{2} \right)T}}\int\limits_{-{{{\hat{d}}}_{1}}}^{\infty }{{{e}^{-\frac{1}{2}{{{\hat{z}}}^{2}}}}\frac{d\hat{z}}{\sqrt{2\pi }}}                                                                                                                                   \\
-         & I=S{{\left( 0 \right)}^{2}}{{e}^{2\left( r-q+\frac{{{\sigma }^{2}}}{2} \right)T}}N\left( {{{\hat{d}}}_{1}} \right)                                                                                                                                                                                                                \\
-    \end{aligned}\]
+\begin{align}
+     & I=\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{z}^{2}}}}S{{\left( T \right)}^{2}}\frac{dz}{\sqrt{2\pi }}}=\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{z}^{2}}}}S{{\left( 0 \right)}^{2}}{{e}^{2\left[ \left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T+\sigma \sqrt{T}\cdot z \right]}}\frac{dz}{\sqrt{2\pi }}} \\
+     & I=S{{\left( 0 \right)}^{2}}{{e}^{2\left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T}}\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{z}^{2}}+2\sigma \sqrt{T}\cdot z}}\frac{dz}{\sqrt{2\pi }}}\qquad -\frac{1}{2}{{z}^{2}}+2\sigma \sqrt{T}\cdot z=-\frac{1}{2}{{\left( z-2\sigma \sqrt{T} \right)}^{2}}+2{{\sigma }^{2}}T     \\
+     & I=S{{\left( 0 \right)}^{2}}{{e}^{2\left( r-q-\frac{{{\sigma }^{2}}}{2} \right)T+2{{\sigma }^{2}}T}}\int\limits_{-{{d}_{2}}}^{\infty }{{{e}^{-\frac{1}{2}{{\left( z-2\sigma \sqrt{T} \right)}^{2}}}}\frac{dz}{\sqrt{2\pi }}}\qquad z-2\sigma \sqrt{T}:=\hat{z}\quad -{{d}_{2}}-2\sigma \sqrt{T}:=-{{{\hat{d}}}_{1}}                \\
+     & I=S{{\left( 0 \right)}^{2}}{{e}^{2\left( r-q+\frac{{{\sigma }^{2}}}{2} \right)T}}\int\limits_{-{{{\hat{d}}}_{1}}}^{\infty }{{{e}^{-\frac{1}{2}{{{\hat{z}}}^{2}}}}\frac{d\hat{z}}{\sqrt{2\pi }}}                                                                                                                                   \\
+     & I=S{{\left( 0 \right)}^{2}}{{e}^{2\left( r-q+\frac{{{\sigma }^{2}}}{2} \right)T}}N\left( {{{\hat{d}}}_{1}} \right)                                                                                                                                                                                                                \\
+\end{align}
 We put it back to the equation for $V_7(T)$, and discount it to $t=0$.
 \[{{V}_{7}}\left( 0 \right)=-K\cdot N\left( {{d}_{2}} \right) e^{-rT} +S{{\left( 0 \right)}^{2}}{{e}^{\left( r - 2q + {\sigma }^{2} \right)T}}N\left( {{{\hat{d}}}_{1}} \right)\]
 Note that $\hat{d}_1$ is defined differently than in the standard Black-Scholes formula.
