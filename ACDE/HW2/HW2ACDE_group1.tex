@@ -364,6 +364,33 @@ What remained:
 So the result is
 \[f''\left( a \right)=\frac{16f\left( a-h \right)+10f\left( a+2h \right)-f\left( a+4h \right)-25f\left( a \right)}{20{{h}^{2}}}+O\left( {{h}^{2}} \right)\]
 \subsection{iii Hao}
+\begin{align}
+     & f_{-2}:=f\left( a-2h \right)=f_{0}-f'_{0}\cdot 2h+f''_{0}\cdot 2h^{2}-f'''_{0}\frac{8h^{3}}{6}+O\left(h^{4}\right) \\
+     & f_{-1}:=f\left( a-h \right)=f_{0}-f'_{0}h+\frac{f''_{0}h^{2}}{2}-f'''_{0}\frac{h^{3}}{6}+O\left(h^{4}\right) \\
+     & f_{1}:=f\left( a+h \right)=f_{0}+f'_{0}h+\frac{f''_{0}h^{2}}{2}+f'''_{0}\frac{h^{3}}{6}+O\left(h^{4}\right) \\
+     & f_{2}:=f\left( a+2h \right)=f_{0}+f'_{0}\cdot 2h+f''_{0}\cdot 2h^{2}+f'''_{0}\frac{8h^{3}}{6}+O\left(h^{4}\right)
+\end{align}
+
+Take $A$ of $f_{-2}$, $B$ of $f_{-1}$, $C$ of $f_{1}$, $D$ of $f_{2}$ and $E$ of $f_{0}$,
+then we want to eliminate $f'_0$ and $f'''_0$.
+
+With a choice of $A=-1$, $B=16$, $C=16$, $D=-1$ and $E=-30$, and summing them up, eliminate the unwanted terms:
+\begin{itemize}
+    \item $f'_0 [-2(-1) - 1(16) + 1(16) + 2(-1)] = 0$
+    \item $f'''_0 [-\frac{8}{6}(-1) - \frac{1}{6}(16) + \frac{1}{6}(16) + \frac{8}{6}(-1)] = 0$
+\end{itemize}
+
+What remained:
+\begin{itemize}
+    \item $f_0 [(-1) + 16 + 16 + (-1) + (-30)] = 0$
+    \item $f''_0 [2(-1) + \frac{1}{2}(16) + \frac{1}{2}(16) + 2(-1)] = 12$
+\end{itemize}
+
+So the result is
+\[
+f''\left(a\right)=\frac{-f\left(a-2h\right)+16f\left(a-h\right)+16f\left(a+h\right)-f\left(a+2h\right)-30f\left(a\right)}{12h^{2}}+O\left(h^{4}\right)
+\]
+
 
 \section{exercise 6 Hongjun}
 
