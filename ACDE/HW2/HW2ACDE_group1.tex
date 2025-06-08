@@ -115,8 +115,160 @@ So we need to borrow $30900USD$ to buy the shares.
 
 \section{exercise 3}
 \subsection{i Hao}
-\subsection{ii Hongjun}
-\subsection{iii Hongjun}
+Compute deltas for call and put options:
+\[
+\Delta_C = e^{-qT}N(d_1), \quad \Delta_P = -e^{-qT}N(-d_1)
+\]
+where
+\[
+d_1 = \frac{\ln(S_0/K)+(r-q+\sigma^2/2)T}{\sigma\sqrt{T}}
+\]
+
+For call (K=55, T=0.5):
+\[
+d_1 = \frac{\ln(50/55)+0.03}{0.2\sqrt{0.5}} \approx -0.741 \Rightarrow \Delta_C \approx 0.227
+\]
+
+For put (K=45, T=0.5):
+\[
+d_1 = \frac{\ln(50/45)+0.03}{0.2\sqrt{0.5}} \approx 0.911 \Rightarrow \Delta_P \approx -0.179
+\]
+
+Portfolio delta:
+\[
+1000\times0.227 + 600\times(-0.179) \approx 119.6
+\]
+
+Hedge: Short 119.6 shares.
+
+Cash borrowed:
+\[
+\text{Cash} = 119.6 \times 50 = 5980
+\]
+
+\subsection{ii Hao}
+
+Gamma for all options:
+\[
+\Gamma = \frac{e^{-qT}N'(d_1)}{S_0\sigma\sqrt{T}} \approx 0.042
+\]
+
+Portfolio gamma:
+\[
+1000\times0.042 + 600\times0.042 = 67.2
+\]
+
+Compute delta for ATM call (K=50, T=0.75):
+\[
+d_1^{ATM} = \frac{\ln(50/50)+(0.04-0.02+0.2^2/2)0.75}{0.2\sqrt{0.75}} \approx 0.306
+\]
+\[
+\Delta_{ATM} = e^{-qT}N(d_1) = e^{-0.015}\times0.620 \approx 0.62
+\]
+
+Gamma for ATM call:
+\[
+\Gamma_{ATM} = \frac{e^{-0.015}\times\frac{1}{\sqrt{2\pi}}e^{-0.306^2/2}}{50\times0.2\sqrt{0.75}} \approx 0.035
+\]
+
+Gamma hedge using 9M ATM call ($\Gamma_{ATM}\approx0.035$):
+\[
+\text{Short } \frac{67.2}{0.035} \approx 1920 \text{ calls}
+\]
+
+New delta after gamma hedge:
+\[
+119.6 - 1920\times0.62 \approx -1070.8
+\]
+
+Final hedge: Long 1070.8 shares.
+
+\subsection{iii Hao}
+\subsection*{1. Original Option Prices (S=50, $\sigma$=0.2)}
+
+Call (K=55):
+\[
+d_1 = \frac{\ln(50/55)+(0.04-0.02+0.2^2/2)0.5}{0.2\sqrt{0.5}} \approx -0.741
+\]
+\[
+N(d_1) \approx 0.229,\ N(d_2) \approx 0.189
+\]
+\[
+C = 50e^{-0.01}\times0.229 - 55e^{-0.02}\times0.189 \approx 1.21
+\]
+
+Put (K=45):
+\[
+d_1 = \frac{\ln(50/45)+0.03}{0.2\sqrt{0.5}} \approx 0.911
+\]
+\[
+N(-d_1) \approx 0.181,\ N(-d_2) \approx 0.221
+\]
+\[
+P = 45e^{-0.02}\times0.221 - 50e^{-0.01}\times0.181 \approx 0.89
+\]
+
+\subsection*{2. New Option Prices (S=54, $\sigma$=0.3)}
+
+Call (K=55):
+\[
+d_1 = \frac{\ln(54/55)+(0.04-0.02+0.3^2/2)0.5}{0.3\sqrt{0.5}} \approx -0.078
+\]
+\[
+N(d_1) \approx 0.469,\ N(d_2) \approx 0.386
+\]
+\[
+C_{new} = 54e^{-0.01}\times0.469 - 55e^{-0.02}\times0.386 \approx 2.86
+\]
+
+Put (K=45):
+\[
+d_1 = \frac{\ln(54/45)+0.065}{0.3\sqrt{0.5}} \approx 1.428
+\]
+\[
+N(-d_1) \approx 0.077,\ N(-d_2) \approx 0.112
+\]
+\[
+P_{new} = 45e^{-0.02}\times0.112 - 54e^{-0.01}\times0.077 \approx 0.38
+\]
+
+\subsection*{3. 9M ATM Call Prices}
+
+Original (S=50, $\sigma$=0.2):
+\[
+d_1 = \frac{0+0.03\times0.75}{0.2\sqrt{0.75}} \approx 0.306
+\]
+\[
+C_{ATM} = 50e^{-0.015}\times0.620 - 50e^{-0.03}\times0.559 \approx 2.47
+\]
+
+New (S=54, $\sigma$=0.3):
+\[
+d_1 = \frac{\ln(54/50)+0.065\times0.75}{0.3\sqrt{0.75}} \approx 0.793
+\]
+\[
+C_{ATM}^{new} = 54e^{-0.015}\times0.786 - 50e^{-0.03}\times0.714 \approx 6.38
+\]
+
+\subsection*{4. Portfolio Value Changes}
+
+Initial portfolio value change:
+\begin{align*}
+\Delta V_{\text{initial}} &= 1000 \times (C_{\text{new}} - C_{\text{original}}) + 600 \times (P_{\text{new}} - P_{\text{original}}) \\
+&= 1000 \times (2.86 - 1.21) + 600 \times (0.38 - 0.89) \\
+&= +1344
+\end{align*}
+
+Delta-hedged P\&L:
+\[
+\Delta V_{\text{delta}} = 1344 - 119.6 \times (54 - 50) = +865.6
+\]
+
+Delta+gamma-hedged P\&L:
+\[
+1344 - 1920\times(6.38-2.47) + 1070.8\times (54 - 50) = -1880
+\]
+
 
 \section{exercise 4 Hao}
 
