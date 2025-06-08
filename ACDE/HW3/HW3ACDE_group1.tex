@@ -51,6 +51,7 @@ Make substitution of \[\ln \left( x \right)=-t\] so
     1024 & NaN             & NaN             & 0.8413447460685 \\
     \bottomrule
 \end{tabular}
+
 Nan means calculation was not required as convergence was reached.
 
 \section{exercise 13}
@@ -66,8 +67,100 @@ Nan means calculation was not required as convergence was reached.
     32 & NaN        & NaN        & NaN        & 0.91404131 \\
     \bottomrule
 \end{tabular}
+
 Nan means calculation was not required as convergence was reached.
 \section{exercise 14}
+
+\textbf{Objective:} Compute the value of a European-style option with the payoff
+\[
+    \sqrt{\ln\left(\frac{S(T)}{K}\right)} \cdot \mathbf{1}_{\{S(T) > K\}}
+\]
+at maturity \( T = 0.25 \).
+
+\vspace{1em}
+
+\textbf{Step 1: Risk-neutral valuation formula}
+\[
+    V = e^{-rT} \mathbb{E}^{\mathbb{Q}}\left[\sqrt{\ln\left(\frac{S(T)}{K}\right)} \cdot \mathbf{1}_{\{S(T) > K\}} \right]
+\]
+
+\vspace{1em}
+
+\textbf{Step 2: Distribution of \( S(T) \) under risk-neutral measure}
+
+Assuming the asset pays a continuous dividend yield \( q \), volatility \( \sigma \), and follows a geometric Brownian motion under the risk-neutral measure:
+\[
+    S(T) = S(0) \exp\left((r - q - \tfrac{1}{2}\sigma^2)T + \sigma \sqrt{T} Z\right), \quad Z \sim \mathcal{N}(0, 1)
+\]
+
+Taking logarithms:
+\[
+    \ln\left(\frac{S(T)}{K}\right) = \ln\left(\frac{S(0)}{K}\right) + (r - q - \tfrac{1}{2}\sigma^2)T + \sigma \sqrt{T} Z
+\]
+
+Define:
+\[
+    X := \ln\left(\frac{S(T)}{K}\right) \sim \mathcal{N}(\mu, \sigma_X^2)
+\]
+where
+\[
+    \mu = \ln\left(\frac{S(0)}{K}\right) + (r - q - \tfrac{1}{2}\sigma^2)T,\quad \sigma_X^2 = \sigma^2 T
+\]
+
+Then the value becomes:
+\[
+    V = e^{-rT} \mathbb{E}^{\mathbb{Q}}\left[\sqrt{X} \cdot \mathbf{1}_{\{X > 0\}} \right]
+    = e^{-rT} \int_0^{\infty} \sqrt{x} \cdot f_X(x) \, dx
+\]
+where
+\[
+    f_X(x) = \frac{1}{\sqrt{2\pi \sigma_X^2}} \exp\left( -\frac{(x - \mu)^2}{2 \sigma_X^2} \right)
+\]
+
+\vspace{1em}
+
+\textbf{Step 3: Suggested substitution}
+
+Use the substitution \( x \in [0, \infty) \rightarrow y \in (0, 1] \) via
+\[
+    y = e^{-x} \quad \Rightarrow \quad x = -\ln y, \quad dx = -\frac{1}{y} dy
+\]
+
+Then the integral becomes:
+\[
+    V = e^{-rT} \int_0^1 \sqrt{-\ln y} \cdot \frac{1}{y \sqrt{2\pi \sigma_X^2}}
+    \exp\left( -\frac{(-\ln y - \mu)^2}{2\sigma_X^2} \right) dy
+\]
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{ccc}
+        \toprule
+        \textbf{n} & \textbf{Value} & \textbf{Difference} \\
+        \midrule
+        4          & 0.252179245276 & {}                  \\
+        8          & 0.284557236478 & 3.26e-02            \\
+        16         & 0.281420173997 & 3.16e-03            \\
+        32         & 0.283062151035 & 1.65e-03            \\
+        64         & 0.283681879287 & 6.24e-04            \\
+        128        & 0.283907525376 & 2.27e-04            \\
+        256        & 0.283988416587 & 8.15e-05            \\
+        512        & 0.284017211120 & 2.90e-05            \\
+        1024       & 0.284027425999 & 1.03e-05            \\
+        2048       & 0.284031043601 & 3.64e-06            \\
+        4096       & 0.284032323695 & 1.29e-06            \\
+        8192       & 0.284032776467 & 4.56e-07            \\
+        16384      & 0.284032936580 & 1.61e-07            \\
+        32768      & 0.284032993194 & 5.70e-08            \\
+        65536      & 0.284033013212 & 2.02e-08            \\
+        131072     & 0.284033020289 & 7.13e-09            \\
+        262144     & 0.284033022791 & 2.52e-09            \\
+        524288     & 0.284033023676 & 8.91e-10            \\
+        \bottomrule
+    \end{tabular}
+    \caption{Convergence of option value using Simpson's Rule for increasing \( n \)}
+\end{table}
+
 \section{exercise 15}
 
 \end{document}
