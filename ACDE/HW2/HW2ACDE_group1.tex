@@ -19,6 +19,44 @@
 \section{exercise 1}
 \subsection{i Hao}
 \subsection{ii Hongjun}
+Value of the hedged position at \(S_{1}=102\).
+
+\begin{enumerate}
+  \item[\(\bullet\)] Recompute \(d_{1}', d_{2}'\) at \(S_{1}=102\):
+  \[
+  d_{1}'
+  = \frac{\ln(102/100) + (0.05 + 0.045)\times 0.5}
+  {0.30\sqrt{0.5}}
+  \approx 0.317,
+  \quad
+  d_{2}'
+  \approx 0.317 - 0.212 = 0.105.
+  \]
+  The new put price is
+  \[
+  P_{1}
+  = K e^{-rT}\,N(-d_{2}') \;-\; S_{1}\,N(-d_{1}')
+  \approx 100e^{-0.05\times0.5}\times0.4582 \;-\; 102\times0.3752
+  \approx \$6.45
+  \quad\text{(per put).}
+  \]
+  \item[\(\bullet\)] The hedged portfolio comprises
+  \[
+  1000 \times P_{1}
+  = 1000 \times 6.45 = \$6\,450
+  \]
+  in puts, plus
+  \[
+  411.2 \times 102 = \$41\,942.40
+  \]
+  in shares.  Hence its total market value is
+  \[
+  V_{\rm hedge}
+  = 6\,450 + 41\,942.40
+  = \$48\,392.40.
+  \]
+\end{enumerate}
+
 \subsection{iii Daniel}
 The value of a put option is:
 \[P(0) = K e^{-rT} N(-d_2) - S(0) N(-d_1)\]
