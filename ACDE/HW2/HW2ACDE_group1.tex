@@ -113,8 +113,8 @@ So we need to borrow $30900USD$ to buy the shares.
 \end{tabular}
 
 
-\section{exercise 3}
-\subsection{i Hao}
+\section{exercise 3 Hao}
+\subsection{i}
 Compute deltas for call and put options:
 \[
 \Delta_C = e^{-qT}N(d_1), \quad \Delta_P = -e^{-qT}N(-d_1)
@@ -146,7 +146,7 @@ Cash borrowed:
 \text{Cash} = 119.6 \times 50 = 5980
 \]
 
-\subsection{ii Hao}
+\subsection{ii}
 
 Gamma for all options:
 \[
@@ -183,8 +183,8 @@ New delta after gamma hedge:
 
 Final hedge: Long 1070.8 shares.
 
-\subsection{iii Hao}
-\subsection*{1. Original Option Prices (S=50, $\sigma$=0.2)}
+\subsection{iii}
+\subsubsection*{Original Option Prices (S=50, $\sigma$=0.2)}
 
 Call (K=55):
 \[
@@ -208,7 +208,7 @@ N(-d_1) \approx 0.181,\ N(-d_2) \approx 0.221
 P = 45e^{-0.02}\times0.221 - 50e^{-0.01}\times0.181 \approx 0.89
 \]
 
-\subsection*{2. New Option Prices (S=54, $\sigma$=0.3)}
+\subsubsection*{New Option Prices (S=54, $\sigma$=0.3)}
 
 Call (K=55):
 \[
@@ -232,7 +232,7 @@ N(-d_1) \approx 0.077,\ N(-d_2) \approx 0.112
 P_{new} = 45e^{-0.02}\times0.112 - 54e^{-0.01}\times0.077 \approx 0.38
 \]
 
-\subsection*{3. 9M ATM Call Prices}
+\subsubsection*{9M ATM Call Prices}
 
 Original (S=50, $\sigma$=0.2):
 \[
@@ -250,23 +250,21 @@ d_1 = \frac{\ln(54/50)+0.065\times0.75}{0.3\sqrt{0.75}} \approx 0.793
 C_{ATM}^{new} = 54e^{-0.015}\times0.786 - 50e^{-0.03}\times0.714 \approx 6.38
 \]
 
-\subsection*{4. Portfolio Value Changes}
+\subsubsection*{Portfolio Value Changes}
 
 Initial portfolio value change:
-\begin{align*}
-\Delta V_{\text{initial}} &= 1000 \times (C_{\text{new}} - C_{\text{original}}) + 600 \times (P_{\text{new}} - P_{\text{original}}) \\
-&= 1000 \times (2.86 - 1.21) + 600 \times (0.38 - 0.89) \\
-&= +1344
-\end{align*}
+\[
+1000 \times (2.86 - 1.21) + 600 \times (0.38 - 0.89) = +1344
+\]
 
 Delta-hedged P\&L:
 \[
-\Delta V_{\text{delta}} = 1344 - 119.6 \times (54 - 50) = +865.6
+1344 - 119.6 \times (54 - 50) = +865.6
 \]
 
 Delta+gamma-hedged P\&L:
 \[
-1344 - 1920\times(6.38-2.47) + 1070.8\times (54 - 50) = -1880
+1344 - 1920\times(6.38-2.47) + 1070.8\times4 = -1880
 \]
 
 
@@ -274,7 +272,7 @@ Delta+gamma-hedged P\&L:
 
 Let $N(x)$ be the CDF of standard normal distribution with $N(0)=0.5$.
 
-\subsection*{Forward Difference Approximation}
+\subsubsection*{Forward Difference Approximation}
 The forward difference approximation:
 \[
 N'(0) \approx \frac{N(h)-N(0)}{h}
@@ -286,16 +284,11 @@ N(h) = N(0) + N'(0)h + \frac{N''(0)}{2}h^2 + \frac{N'''(0)}{6}h^3 + \mathcal{O}(
 \]
 
 Derivatives at $x=0$:
-\begin{align*}
-N'(x) &= \frac{1}{\sqrt{2\pi}}e^{-x^2/2} \\
-N'(0) &= \frac{1}{\sqrt{2\pi}} \\
-N''(x) &= -\frac{x}{\sqrt{2\pi}}e^{-x^2/2} \\
-N''(0) &= 0 \\
-N'''(x) &= (x^2-1)\frac{1}{\sqrt{2\pi}}e^{-x^2/2} \\
-N'''(0) &= -\frac{1}{\sqrt{2\pi}}
-\end{align*}
+\[
+N'(0) = \frac{1}{\sqrt{2\pi}}, \quad N''(0)=0, \quad N'''(0)=-\frac{1}{\sqrt{2\pi}}
+\]
 
-Substituting into forward difference:
+Substituting:
 \[
 \frac{N(h)-N(0)}{h} = \frac{1}{\sqrt{2\pi}} - \frac{h^2}{6\sqrt{2\pi}} + \mathcal{O}(h^4)
 \]
@@ -304,17 +297,19 @@ Error term:
 \left|\frac{N(h)-N(0)}{h}-N'(0)\right| = \mathcal{O}(h^2)
 \]
 
-\subsection*{Central Difference Approximation}
+\subsubsection*{Central Difference Approximation}
 The central difference approximation:
 \[
 N'(0) \approx \frac{N(h)-N(-h)}{2h}
 \]
 
 Taylor expansions:
-\begin{align*}
-N(h) &= 0.5 + \frac{h}{\sqrt{2\pi}} - \frac{h^3}{6\sqrt{2\pi}} + \mathcal{O}(h^5) \\
-N(-h) &= 0.5 - \frac{h}{\sqrt{2\pi}} + \frac{h^3}{6\sqrt{2\pi}} + \mathcal{O}(h^5)
-\end{align*}
+\[
+N(h) = 0.5 + \frac{h}{\sqrt{2\pi}} - \frac{h^3}{6\sqrt{2\pi}} + \mathcal{O}(h^5)
+\]
+\[
+N(-h) = 0.5 - \frac{h}{\sqrt{2\pi}} + \frac{h^3}{6\sqrt{2\pi}} + \mathcal{O}(h^5)
+\]
 
 Substituting:
 \[
@@ -325,11 +320,11 @@ Error term:
 \left|\frac{N(h)-N(-h)}{2h}-N'(0)\right| = \mathcal{O}(h^2)
 \]
 
-\subsection*{Conclusions}
+\subsubsection*{Conclusions}
 \begin{itemize}
 \item Forward difference is $\mathcal{O}(h^2)$ at $x=0$ (normally $\mathcal{O}(h)$)
 \item Central difference remains $\mathcal{O}(h^2)$
-\item Both share the same leading error term $-\frac{h^2}{6\sqrt{2\pi}}$
+\item Both have same leading error term $-\frac{h^2}{6\sqrt{2\pi}}$
 \end{itemize}
 
 
