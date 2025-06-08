@@ -391,6 +391,65 @@ f''(a) = \frac{-f(a-2h) + 16f(a-h) - 30f(a) + 16f(a+h) - f(a+2h)}{12h^2} + O(h^4
 \]
 
 \section{exercise 6 Hongjun}
+\subsection*{Quadratic Taylor Approximations of \(\ln(1+x^2)\)}
+
+Let
+\[
+f(x) = \ln(1 + x^2).
+\]
+Then
+\[
+f'(x) = \frac{2x}{1 + x^2}, 
+\qquad
+f''(x) = \frac{2(1 - x^2)}{(1 + x^2)^2},
+\]
+and the quadratic Taylor polynomial around \(x = a\) is
+\[
+T_2(x) = f(a) + f'(a)\,(x - a) + \frac{f''(a)}{2}\,(x - a)^2.
+\]
+
+\subsection*{Expansion at \(a=0\)}
+
+\[
+f(0) = 0, 
+\quad
+f'(0) = 0,
+\quad
+f''(0) = 2.
+\]
+Therefore,
+\[
+T_2(x) = 0 + 0\cdot x + \frac{2}{2}\,x^2 = x^2.
+\]
+
+\subsection*{Expansion at \(a=-1\)}
+
+\[
+f(-1) = \ln 2,
+\quad
+f'(-1) = -1,
+\quad
+f''(-1) = 0.
+\]
+Therefore,
+\[
+T_2(x) = \ln 2 - (x + 1).
+\]
+
+\subsection*{Expansion at \(a=1\)}
+
+\[
+f(1) = \ln 2,
+\quad
+f'(1) = 1,
+\quad
+f''(1) = 0.
+\]
+Therefore,
+\[
+T_2(x) = \ln 2 + (x - 1).
+\]
+
 
 \section{exercise 7 Daniel}
 The payoff defined in the exercise is not in the units of currency. In the solution I suppose that the payoff is
@@ -458,5 +517,20 @@ The final Delta formula is:
 
 
 \section{exercise 9 Hongjun}
+\[
+\text{Let }\tau = T - t,\quad m = \ln S_t + \bigl(r - q - \tfrac12\sigma^2\bigr)\tau,\quad
+\theta = \sigma\sqrt{\tau},\quad k = \ln K,
+\]
+\[
+d = \frac{m - k}{\theta}
+= \frac{\ln(S_t/K) + (r - q - \tfrac12\sigma^2)\,\tau}{\sigma\sqrt{\tau}}.
+\]
+Then the log‐option price is
+\[
+C(S_t,t)
+= e^{-r\tau}\Bigl[(m-k)\,\Phi(d) + \theta\,\varphi(d)\Bigr]
+= e^{-r\tau}\Bigl[\bigl(\ln\tfrac{S_t}{K}+(r-q-\tfrac12\sigma^2)\tau\bigr)\Phi(d)
++\sigma\sqrt{\tau}\,\varphi(d)\Bigr].
+\]
 
 \end{document}
