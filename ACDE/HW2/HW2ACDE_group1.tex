@@ -365,32 +365,30 @@ So the result is
 \[f''\left( a \right)=\frac{16f\left( a-h \right)+10f\left( a+2h \right)-f\left( a+4h \right)-25f\left( a \right)}{20{{h}^{2}}}+O\left( {{h}^{2}} \right)\]
 \subsection{iii Hao}
 \begin{align}
-     & f_{-2}:=f\left( a-2h \right)=f_{0}-f'_{0}\cdot 2h+f''_{0}\cdot 2h^{2}-f'''_{0}\frac{8h^{3}}{6}+O\left(h^{4}\right) \\
-     & f_{-1}:=f\left( a-h \right)=f_{0}-f'_{0}h+\frac{f''_{0}h^{2}}{2}-f'''_{0}\frac{h^{3}}{6}+O\left(h^{4}\right) \\
-     & f_{1}:=f\left( a+h \right)=f_{0}+f'_{0}h+\frac{f''_{0}h^{2}}{2}+f'''_{0}\frac{h^{3}}{6}+O\left(h^{4}\right) \\
-     & f_{2}:=f\left( a+2h \right)=f_{0}+f'_{0}\cdot 2h+f''_{0}\cdot 2h^{2}+f'''_{0}\frac{8h^{3}}{6}+O\left(h^{4}\right)
+ & f(a-h) = f(a) - hf'(a) + \frac{h^2}{2}f''(a) - \frac{h^3}{6}f'''(a) + \frac{h^4}{24}f^{(4)}(a) - \frac{h^5}{120}f^{(5)}(a) + O(h^6) \\
+ & f(a+h) = f(a) + hf'(a) + \frac{h^2}{2}f''(a) + \frac{h^3}{6}f'''(a) + \frac{h^4}{24}f^{(4)}(a) + \frac{h^5}{120}f^{(5)}(a) + O(h^6) \\
+ & f(a+2h) = f(a) + 2hf'(a) + 2h^2f''(a) + \frac{4h^3}{3}f'''(a) + \frac{2h^4}{3}f^{(4)}(a) + \frac{4h^5}{15}f^{(5)}(a) + O(h^6) \\
+ & f(a-2h) = f(a) - 2hf'(a) + 2h^2f''(a) - \frac{4h^3}{3}f'''(a) + \frac{2h^4}{3}f^{(4)}(a) - \frac{4h^5}{15}f^{(5)}(a) + O(h^6) \\
 \end{align}
 
-Take $A$ of $f_{-2}$, $B$ of $f_{-1}$, $C$ of $f_{1}$, $D$ of $f_{2}$ and $E$ of $f_{0}$,
-then we want to eliminate $f'_0$ and $f'''_0$.
+Set up equations for coefficients $c_{-2}, c_{-1}, c_1, c_2$:
+\begin{align}
+\text{(1st order)} & \quad -2c_{-2} - c_{-1} + c_1 + 2c_2 = 0 \\
+\text{(3rd order)} & \quad -\frac{4}{3}c_{-2} - \frac{1}{6}c_{-1} + \frac{1}{6}c_1 + \frac{4}{3}c_2 = 0 \\
+\text{(4th order)} & \quad \frac{2}{3}c_{-2} + \frac{1}{24}c_{-1} + \frac{1}{24}c_1 + \frac{2}{3}c_2 = 0 \\
+\text{(5th order)} & \quad -\frac{4}{15}c_{-2} - \frac{1}{120}c_{-1} + \frac{1}{120}c_1 + \frac{4}{15}c_2 = 0 \\
+\end{align}
 
-With a choice of $A=-1$, $B=16$, $C=16$, $D=-1$ and $E=-30$, and summing them up, eliminate the unwanted terms:
-\begin{itemize}
-    \item $f'_0 [-2(-1) - 1(16) + 1(16) + 2(-1)] = 0$
-    \item $f'''_0 [-\frac{8}{6}(-1) - \frac{1}{6}(16) + \frac{1}{6}(16) + \frac{8}{6}(-1)] = 0$
-\end{itemize}
 
-What remained:
-\begin{itemize}
-    \item $f_0 [(-1) + 16 + 16 + (-1) + (-30)] = 0$
-    \item $f''_0 [2(-1) + \frac{1}{2}(16) + \frac{1}{2}(16) + 2(-1)] = 12$
-\end{itemize}
-
-So the result is
+Solving yields:
 \[
-f''\left(a\right)=\frac{-f\left(a-2h\right)+16f\left(a-h\right)+16f\left(a+h\right)-f\left(a+2h\right)-30f\left(a\right)}{12h^{2}}+O\left(h^{4}\right)
+c_{-2} = -1, \quad c_{-1} = 16, \quad c_0 = -30, \quad c_1 = 16, \quad c_2 = -1
 \]
 
+Final fifth-order accurate approximation:
+\[
+f''(a) = \frac{-f(a-2h) + 16f(a-h) - 30f(a) + 16f(a+h) - f(a+2h)}{12h^2} + O(h^4)
+\]
 
 \section{exercise 6 Hongjun}
 
