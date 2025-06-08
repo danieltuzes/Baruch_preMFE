@@ -398,7 +398,44 @@ Now let's take care about the integral with $S$ inside.
 We put it back to the equation for $V_7(T)$, and discount it to $t=0$.
 \[{{V}_{7}}\left( 0 \right)=-K\cdot N\left( {{d}_{2}} \right) e^{-rT} +S{{\left( 0 \right)}^{2}}{{e}^{\left( r - 2q + {\sigma }^{2} \right)T}}N\left( {{{\hat{d}}}_{1}} \right)\]
 Note that $\hat{d}_1$ is defined differently than in the standard Black-Scholes formula.
+
+
 \section{exercise 8 Hao}
+The value of a European cash-or-nothing put option is given by:
+\[
+P_{CoN} = B e^{-rT} N(-d_2),
+\]
+where:
+\[
+d_2 = \frac{\ln(S/K) + (r - q - \sigma^2/2)T}{\sigma \sqrt{T}}.
+\]
+
+The Delta ($\Delta$) of the option is the partial derivative of $P_{CoN}$ with respect to $S$:
+\[
+\Delta_{CoN} = \frac{\partial P_{CoN}}{\partial S} = B e^{-rT} \cdot \frac{\partial N(-d_2)}{\partial S}.
+\]
+
+Since $N(-d_2)$ is the CDF of the standard normal distribution, its derivative is the PDF:
+\[
+\frac{\partial N(-d_2)}{\partial S} = -n(d_2) \cdot \frac{\partial d_2}{\partial S},
+\]
+where $n(d_2) = \frac{1}{\sqrt{2\pi}} e^{-d_2^2/2}$.
+
+The partial derivative of $d_2$ with respect to $S$ is:
+\[
+\frac{\partial d_2}{\partial S} = \frac{1}{S \sigma \sqrt{T}}.
+\]
+
+Substituting this into the Delta formula:
+\[
+\Delta_{CoN} = B e^{-rT} \cdot \left( -n(d_2) \cdot \frac{1}{S \sigma \sqrt{T}} \right) = -\frac{B e^{-rT} n(d_2)}{S \sigma \sqrt{T}}.
+\]
+
+The final Delta formula is:
+\[
+\Delta_{CoN} = -\frac{B e^{-rT}}{S \sigma \sqrt{2\piT}} \cdot e^{-d_2^2/2}.
+\]
+
 
 \section{exercise 9 Hongjun}
 
