@@ -18,6 +18,16 @@
 \tableofcontents
 \section{exercise 1}
 \subsection{i Hao}
+Calculate the $\Delta$ of the put option from the Black-Scholes formula,
+and buy or short as much assets as needed to make the portfolio delta-neutral.
+The $\Delta$ of the asset longed is $1$, and $-1$ if shorted. The $\Delta$ of the put option is:
+\begin{align}
+    \Delta_{1P}    & = N(d_1) - 1 = N(0.229) - 1 = -0.4114 \\
+    \Delta_{1000P} & = -411.4
+\end{align}
+So we need to buy $411.4$ shares to make the portfolio delta-neutral.
+With a sport price of $100$, the cost of buying $411.4$ shares is $41140USD$.
+This is the amount of cash we need to borrow with a continuosly compunded interest rate of $r=0.05$ to buy the shares.
 \subsection{ii Hongjun}
 \subsection{iii Daniel}
 The value of a put option is:
@@ -43,8 +53,8 @@ And after a day, when $\Delta$ is a bit closer to $-0.5$,
 the value of the put option decreased a bit more.
 
 
-\section{exercise 2}
-\subsection{i Daniel}
+\section{exercise 2 Daniel}
+\subsection{i}
 
 
 \begin{align*}
@@ -63,7 +73,7 @@ After calculating the value of the portfolio with the given parameters:
 
 So the portfolio value is $34815.14USD$.
 
-\subsection{ii Daniel}
+\subsection{ii}
 We can calculate the $\Delta$ of the portfolio, and
 \begin{itemize}
     \item sell or buy the asset to make it delta-neutral
@@ -81,7 +91,7 @@ So we need to own 2000 times the $\Delta$ in shares, i.e. we need to buy further
 Let's suppose that fractional shares are allowed, so we can buy $1165.71$ shares.
 To do that, we need $1165.71 \cdot 35 = 40900USD$, out which $10,000$ is already in the portfolio.
 So we need to borrow $30900USD$ to buy the shares.
-\subsection{iii Daniel}
+\subsection{iii}
 
 \begin{tabular}{lrrrrrrrr}
     \toprule
@@ -117,68 +127,68 @@ So we need to borrow $30900USD$ to buy the shares.
 \subsection{i}
 Compute deltas for call and put options:
 \[
-\Delta_C = e^{-qT}N(d_1), \quad \Delta_P = -e^{-qT}N(-d_1)
+    \Delta_C = e^{-qT}N(d_1), \quad \Delta_P = -e^{-qT}N(-d_1)
 \]
 where
 \[
-d_1 = \frac{\ln(S_0/K)+(r-q+\sigma^2/2)T}{\sigma\sqrt{T}}
+    d_1 = \frac{\ln(S_0/K)+(r-q+\sigma^2/2)T}{\sigma\sqrt{T}}
 \]
 
 For call (K=55, T=0.5):
 \[
-d_1 = \frac{\ln(50/55)+0.03}{0.2\sqrt{0.5}} \approx -0.741 \Rightarrow \Delta_C \approx 0.227
+    d_1 = \frac{\ln(50/55)+0.03}{0.2\sqrt{0.5}} \approx -0.741 \Rightarrow \Delta_C \approx 0.227
 \]
 
 For put (K=45, T=0.5):
 \[
-d_1 = \frac{\ln(50/45)+0.03}{0.2\sqrt{0.5}} \approx 0.911 \Rightarrow \Delta_P \approx -0.179
+    d_1 = \frac{\ln(50/45)+0.03}{0.2\sqrt{0.5}} \approx 0.911 \Rightarrow \Delta_P \approx -0.179
 \]
 
 Portfolio delta:
 \[
-1000\times0.227 + 600\times(-0.179) \approx 119.6
+    1000\times0.227 + 600\times(-0.179) \approx 119.6
 \]
 
 Hedge: Short 119.6 shares.
 
 Cash borrowed:
 \[
-\text{Cash} = 119.6 \times 50 = 5980
+    \text{Cash} = 119.6 \times 50 = 5980
 \]
 
 \subsection{ii}
 
 Gamma for all options:
 \[
-\Gamma = \frac{e^{-qT}N'(d_1)}{S_0\sigma\sqrt{T}} \approx 0.042
+    \Gamma = \frac{e^{-qT}N'(d_1)}{S_0\sigma\sqrt{T}} \approx 0.042
 \]
 
 Portfolio gamma:
 \[
-1000\times0.042 + 600\times0.042 = 67.2
+    1000\times0.042 + 600\times0.042 = 67.2
 \]
 
 Compute delta for ATM call (K=50, T=0.75):
 \[
-d_1^{ATM} = \frac{\ln(50/50)+(0.04-0.02+0.2^2/2)0.75}{0.2\sqrt{0.75}} \approx 0.306
+    d_1^{ATM} = \frac{\ln(50/50)+(0.04-0.02+0.2^2/2)0.75}{0.2\sqrt{0.75}} \approx 0.306
 \]
 \[
-\Delta_{ATM} = e^{-qT}N(d_1) = e^{-0.015}\times0.620 \approx 0.62
+    \Delta_{ATM} = e^{-qT}N(d_1) = e^{-0.015}\times0.620 \approx 0.62
 \]
 
 Gamma for ATM call:
 \[
-\Gamma_{ATM} = \frac{e^{-0.015}\times\frac{1}{\sqrt{2\pi}}e^{-0.306^2/2}}{50\times0.2\sqrt{0.75}} \approx 0.035
+    \Gamma_{ATM} = \frac{e^{-0.015}\times\frac{1}{\sqrt{2\pi}}e^{-0.306^2/2}}{50\times0.2\sqrt{0.75}} \approx 0.035
 \]
 
 Gamma hedge using 9M ATM call ($\Gamma_{ATM}\approx0.035$):
 \[
-\text{Short } \frac{67.2}{0.035} \approx 1920 \text{ calls}
+    \text{Short } \frac{67.2}{0.035} \approx 1920 \text{ calls}
 \]
 
 New delta after gamma hedge:
 \[
-119.6 - 1920\times0.62 \approx -1070.8
+    119.6 - 1920\times0.62 \approx -1070.8
 \]
 
 Final hedge: Long 1070.8 shares.
@@ -188,83 +198,83 @@ Final hedge: Long 1070.8 shares.
 
 Call (K=55):
 \[
-d_1 = \frac{\ln(50/55)+(0.04-0.02+0.2^2/2)0.5}{0.2\sqrt{0.5}} \approx -0.741
+    d_1 = \frac{\ln(50/55)+(0.04-0.02+0.2^2/2)0.5}{0.2\sqrt{0.5}} \approx -0.741
 \]
 \[
-N(d_1) \approx 0.229,\ N(d_2) \approx 0.189
+    N(d_1) \approx 0.229,\ N(d_2) \approx 0.189
 \]
 \[
-C = 50e^{-0.01}\times0.229 - 55e^{-0.02}\times0.189 \approx 1.21
+    C = 50e^{-0.01}\times0.229 - 55e^{-0.02}\times0.189 \approx 1.21
 \]
 
 Put (K=45):
 \[
-d_1 = \frac{\ln(50/45)+0.03}{0.2\sqrt{0.5}} \approx 0.911
+    d_1 = \frac{\ln(50/45)+0.03}{0.2\sqrt{0.5}} \approx 0.911
 \]
 \[
-N(-d_1) \approx 0.181,\ N(-d_2) \approx 0.221
+    N(-d_1) \approx 0.181,\ N(-d_2) \approx 0.221
 \]
 \[
-P = 45e^{-0.02}\times0.221 - 50e^{-0.01}\times0.181 \approx 0.89
+    P = 45e^{-0.02}\times0.221 - 50e^{-0.01}\times0.181 \approx 0.89
 \]
 
 \subsubsection*{New Option Prices (S=54, $\sigma$=0.3)}
 
 Call (K=55):
 \[
-d_1 = \frac{\ln(54/55)+(0.04-0.02+0.3^2/2)0.5}{0.3\sqrt{0.5}} \approx -0.078
+    d_1 = \frac{\ln(54/55)+(0.04-0.02+0.3^2/2)0.5}{0.3\sqrt{0.5}} \approx -0.078
 \]
 \[
-N(d_1) \approx 0.469,\ N(d_2) \approx 0.386
+    N(d_1) \approx 0.469,\ N(d_2) \approx 0.386
 \]
 \[
-C_{new} = 54e^{-0.01}\times0.469 - 55e^{-0.02}\times0.386 \approx 2.86
+    C_{new} = 54e^{-0.01}\times0.469 - 55e^{-0.02}\times0.386 \approx 2.86
 \]
 
 Put (K=45):
 \[
-d_1 = \frac{\ln(54/45)+0.065}{0.3\sqrt{0.5}} \approx 1.428
+    d_1 = \frac{\ln(54/45)+0.065}{0.3\sqrt{0.5}} \approx 1.428
 \]
 \[
-N(-d_1) \approx 0.077,\ N(-d_2) \approx 0.112
+    N(-d_1) \approx 0.077,\ N(-d_2) \approx 0.112
 \]
 \[
-P_{new} = 45e^{-0.02}\times0.112 - 54e^{-0.01}\times0.077 \approx 0.38
+    P_{new} = 45e^{-0.02}\times0.112 - 54e^{-0.01}\times0.077 \approx 0.38
 \]
 
 \subsubsection*{9M ATM Call Prices}
 
 Original (S=50, $\sigma$=0.2):
 \[
-d_1 = \frac{0+0.03\times0.75}{0.2\sqrt{0.75}} \approx 0.306
+    d_1 = \frac{0+0.03\times0.75}{0.2\sqrt{0.75}} \approx 0.306
 \]
 \[
-C_{ATM} = 50e^{-0.015}\times0.620 - 50e^{-0.03}\times0.559 \approx 2.47
+    C_{ATM} = 50e^{-0.015}\times0.620 - 50e^{-0.03}\times0.559 \approx 2.47
 \]
 
 New (S=54, $\sigma$=0.3):
 \[
-d_1 = \frac{\ln(54/50)+0.065\times0.75}{0.3\sqrt{0.75}} \approx 0.793
+    d_1 = \frac{\ln(54/50)+0.065\times0.75}{0.3\sqrt{0.75}} \approx 0.793
 \]
 \[
-C_{ATM}^{new} = 54e^{-0.015}\times0.786 - 50e^{-0.03}\times0.714 \approx 6.38
+    C_{ATM}^{new} = 54e^{-0.015}\times0.786 - 50e^{-0.03}\times0.714 \approx 6.38
 \]
 
 \subsubsection*{Portfolio Value Changes}
 
 Initial portfolio value change:
 \[
-1000 \times (2.86 - 1.21) + 600 \times (0.38 - 0.89) = +1344
+    1000 \times (2.86 - 1.21) + 600 \times (0.38 - 0.89) = +1344
 \]
 
 Delta-hedged P\&L:
 \[
-1344 - 119.6 \times (54 - 50) = +865.6
+    1344 - 119.6 \times (54 - 50) = +865.6
 \]
 
 Delta+gamma-hedged P\&L:
 \[
-1344 - 1920\times(6.38-2.47) + 1070.8\times4 = -1880
+    1344 - 1920\times(6.38-2.47) + 1070.8\times4 = -1880
 \]
 
 
@@ -275,56 +285,56 @@ Let $N(x)$ be the CDF of standard normal distribution with $N(0)=0.5$.
 \subsubsection*{Forward Difference Approximation}
 The forward difference approximation:
 \[
-N'(0) \approx \frac{N(h)-N(0)}{h}
+    N'(0) \approx \frac{N(h)-N(0)}{h}
 \]
 
 Taylor expansion of $N(h)$:
 \[
-N(h) = N(0) + N'(0)h + \frac{N''(0)}{2}h^2 + \frac{N'''(0)}{6}h^3 + \mathcal{O}(h^4)
+    N(h) = N(0) + N'(0)h + \frac{N''(0)}{2}h^2 + \frac{N'''(0)}{6}h^3 + \mathcal{O}(h^4)
 \]
 
 Derivatives at $x=0$:
 \[
-N'(0) = \frac{1}{\sqrt{2\pi}}, \quad N''(0)=0, \quad N'''(0)=-\frac{1}{\sqrt{2\pi}}
+    N'(0) = \frac{1}{\sqrt{2\pi}}, \quad N''(0)=0, \quad N'''(0)=-\frac{1}{\sqrt{2\pi}}
 \]
 
 Substituting:
 \[
-\frac{N(h)-N(0)}{h} = \frac{1}{\sqrt{2\pi}} - \frac{h^2}{6\sqrt{2\pi}} + \mathcal{O}(h^4)
+    \frac{N(h)-N(0)}{h} = \frac{1}{\sqrt{2\pi}} - \frac{h^2}{6\sqrt{2\pi}} + \mathcal{O}(h^4)
 \]
 Error term:
 \[
-\left|\frac{N(h)-N(0)}{h}-N'(0)\right| = \mathcal{O}(h^2)
+    \left|\frac{N(h)-N(0)}{h}-N'(0)\right| = \mathcal{O}(h^2)
 \]
 
 \subsubsection*{Central Difference Approximation}
 The central difference approximation:
 \[
-N'(0) \approx \frac{N(h)-N(-h)}{2h}
+    N'(0) \approx \frac{N(h)-N(-h)}{2h}
 \]
 
 Taylor expansions:
 \[
-N(h) = 0.5 + \frac{h}{\sqrt{2\pi}} - \frac{h^3}{6\sqrt{2\pi}} + \mathcal{O}(h^5)
+    N(h) = 0.5 + \frac{h}{\sqrt{2\pi}} - \frac{h^3}{6\sqrt{2\pi}} + \mathcal{O}(h^5)
 \]
 \[
-N(-h) = 0.5 - \frac{h}{\sqrt{2\pi}} + \frac{h^3}{6\sqrt{2\pi}} + \mathcal{O}(h^5)
+    N(-h) = 0.5 - \frac{h}{\sqrt{2\pi}} + \frac{h^3}{6\sqrt{2\pi}} + \mathcal{O}(h^5)
 \]
 
 Substituting:
 \[
-\frac{N(h)-N(-h)}{2h} = \frac{1}{\sqrt{2\pi}} - \frac{h^2}{6\sqrt{2\pi}} + \mathcal{O}(h^4)
+    \frac{N(h)-N(-h)}{2h} = \frac{1}{\sqrt{2\pi}} - \frac{h^2}{6\sqrt{2\pi}} + \mathcal{O}(h^4)
 \]
 Error term:
 \[
-\left|\frac{N(h)-N(-h)}{2h}-N'(0)\right| = \mathcal{O}(h^2)
+    \left|\frac{N(h)-N(-h)}{2h}-N'(0)\right| = \mathcal{O}(h^2)
 \]
 
 \subsubsection*{Conclusions}
 \begin{itemize}
-\item Forward difference is $\mathcal{O}(h^2)$ at $x=0$ (normally $\mathcal{O}(h)$)
-\item Central difference remains $\mathcal{O}(h^2)$
-\item Both have same leading error term $-\frac{h^2}{6\sqrt{2\pi}}$
+    \item Forward difference is $\mathcal{O}(h^2)$ at $x=0$ (normally $\mathcal{O}(h)$)
+    \item Central difference remains $\mathcal{O}(h^2)$
+    \item Both have same leading error term $-\frac{h^2}{6\sqrt{2\pi}}$
 \end{itemize}
 
 
@@ -365,29 +375,29 @@ So the result is
 \[f''\left( a \right)=\frac{16f\left( a-h \right)+10f\left( a+2h \right)-f\left( a+4h \right)-25f\left( a \right)}{20{{h}^{2}}}+O\left( {{h}^{2}} \right)\]
 \subsection{iii Hao}
 \begin{align}
- & f(a-h) = f(a) - hf'(a) + \frac{h^2}{2}f''(a) - \frac{h^3}{6}f'''(a) + \frac{h^4}{24}f^{(4)}(a) - \frac{h^5}{120}f^{(5)}(a) + O(h^6) \\
- & f(a+h) = f(a) + hf'(a) + \frac{h^2}{2}f''(a) + \frac{h^3}{6}f'''(a) + \frac{h^4}{24}f^{(4)}(a) + \frac{h^5}{120}f^{(5)}(a) + O(h^6) \\
- & f(a+2h) = f(a) + 2hf'(a) + 2h^2f''(a) + \frac{4h^3}{3}f'''(a) + \frac{2h^4}{3}f^{(4)}(a) + \frac{4h^5}{15}f^{(5)}(a) + O(h^6) \\
- & f(a-2h) = f(a) - 2hf'(a) + 2h^2f''(a) - \frac{4h^3}{3}f'''(a) + \frac{2h^4}{3}f^{(4)}(a) - \frac{4h^5}{15}f^{(5)}(a) + O(h^6) \\
+     & f(a-h) = f(a) - hf'(a) + \frac{h^2}{2}f''(a) - \frac{h^3}{6}f'''(a) + \frac{h^4}{24}f^{(4)}(a) - \frac{h^5}{120}f^{(5)}(a) + O(h^6) \\
+     & f(a+h) = f(a) + hf'(a) + \frac{h^2}{2}f''(a) + \frac{h^3}{6}f'''(a) + \frac{h^4}{24}f^{(4)}(a) + \frac{h^5}{120}f^{(5)}(a) + O(h^6) \\
+     & f(a+2h) = f(a) + 2hf'(a) + 2h^2f''(a) + \frac{4h^3}{3}f'''(a) + \frac{2h^4}{3}f^{(4)}(a) + \frac{4h^5}{15}f^{(5)}(a) + O(h^6)       \\
+     & f(a-2h) = f(a) - 2hf'(a) + 2h^2f''(a) - \frac{4h^3}{3}f'''(a) + \frac{2h^4}{3}f^{(4)}(a) - \frac{4h^5}{15}f^{(5)}(a) + O(h^6)       \\
 \end{align}
 
 Set up equations for coefficients $c_{-2}, c_{-1}, c_1, c_2$:
 \begin{align}
-\text{(1st order)} & \quad -2c_{-2} - c_{-1} + c_1 + 2c_2 = 0 \\
-\text{(3rd order)} & \quad -\frac{4}{3}c_{-2} - \frac{1}{6}c_{-1} + \frac{1}{6}c_1 + \frac{4}{3}c_2 = 0 \\
-\text{(4th order)} & \quad \frac{2}{3}c_{-2} + \frac{1}{24}c_{-1} + \frac{1}{24}c_1 + \frac{2}{3}c_2 = 0 \\
-\text{(5th order)} & \quad -\frac{4}{15}c_{-2} - \frac{1}{120}c_{-1} + \frac{1}{120}c_1 + \frac{4}{15}c_2 = 0 \\
+    \text{(1st order)} & \quad -2c_{-2} - c_{-1} + c_1 + 2c_2 = 0                                                 \\
+    \text{(3rd order)} & \quad -\frac{4}{3}c_{-2} - \frac{1}{6}c_{-1} + \frac{1}{6}c_1 + \frac{4}{3}c_2 = 0       \\
+    \text{(4th order)} & \quad \frac{2}{3}c_{-2} + \frac{1}{24}c_{-1} + \frac{1}{24}c_1 + \frac{2}{3}c_2 = 0      \\
+    \text{(5th order)} & \quad -\frac{4}{15}c_{-2} - \frac{1}{120}c_{-1} + \frac{1}{120}c_1 + \frac{4}{15}c_2 = 0 \\
 \end{align}
 
 
 Solving yields:
 \[
-c_{-2} = -1, \quad c_{-1} = 16, \quad c_0 = -30, \quad c_1 = 16, \quad c_2 = -1
+    c_{-2} = -1, \quad c_{-1} = 16, \quad c_0 = -30, \quad c_1 = 16, \quad c_2 = -1
 \]
 
 Final fifth-order accurate approximation:
 \[
-f''(a) = \frac{-f(a-2h) + 16f(a-h) - 30f(a) + 16f(a+h) - f(a+2h)}{12h^2} + O(h^4)
+    f''(a) = \frac{-f(a-2h) + 16f(a-h) - 30f(a) + 16f(a+h) - f(a+2h)}{12h^2} + O(h^4)
 \]
 
 \section{exercise 6 Hongjun}
@@ -395,59 +405,59 @@ f''(a) = \frac{-f(a-2h) + 16f(a-h) - 30f(a) + 16f(a+h) - f(a+2h)}{12h^2} + O(h^4
 
 Let
 \[
-f(x) = \ln(1 + x^2).
+    f(x) = \ln(1 + x^2).
 \]
 Then
 \[
-f'(x) = \frac{2x}{1 + x^2}, 
-\qquad
-f''(x) = \frac{2(1 - x^2)}{(1 + x^2)^2},
+    f'(x) = \frac{2x}{1 + x^2},
+    \qquad
+    f''(x) = \frac{2(1 - x^2)}{(1 + x^2)^2},
 \]
 and the quadratic Taylor polynomial around \(x = a\) is
 \[
-T_2(x) = f(a) + f'(a)\,(x - a) + \frac{f''(a)}{2}\,(x - a)^2.
+    T_2(x) = f(a) + f'(a)\,(x - a) + \frac{f''(a)}{2}\,(x - a)^2.
 \]
 
 \subsection*{Expansion at \(a=0\)}
 
 \[
-f(0) = 0, 
-\quad
-f'(0) = 0,
-\quad
-f''(0) = 2.
+    f(0) = 0,
+    \quad
+    f'(0) = 0,
+    \quad
+    f''(0) = 2.
 \]
 Therefore,
 \[
-T_2(x) = 0 + 0\cdot x + \frac{2}{2}\,x^2 = x^2.
+    T_2(x) = 0 + 0\cdot x + \frac{2}{2}\,x^2 = x^2.
 \]
 
 \subsection*{Expansion at \(a=-1\)}
 
 \[
-f(-1) = \ln 2,
-\quad
-f'(-1) = -1,
-\quad
-f''(-1) = 0.
+    f(-1) = \ln 2,
+    \quad
+    f'(-1) = -1,
+    \quad
+    f''(-1) = 0.
 \]
 Therefore,
 \[
-T_2(x) = \ln 2 - (x + 1).
+    T_2(x) = \ln 2 - (x + 1).
 \]
 
 \subsection*{Expansion at \(a=1\)}
 
 \[
-f(1) = \ln 2,
-\quad
-f'(1) = 1,
-\quad
-f''(1) = 0.
+    f(1) = \ln 2,
+    \quad
+    f'(1) = 1,
+    \quad
+    f''(1) = 0.
 \]
 Therefore,
 \[
-T_2(x) = \ln 2 + (x - 1).
+    T_2(x) = \ln 2 + (x - 1).
 \]
 
 
@@ -482,55 +492,55 @@ Note that $\hat{d}_1$ is defined differently than in the standard Black-Scholes 
 \section{exercise 8 Hao}
 The value of a European cash-or-nothing put option is given by:
 \[
-P_{CoN} = B e^{-rT} N(-d_2),
+    P_{CoN} = B e^{-rT} N(-d_2),
 \]
 where:
 \[
-d_2 = \frac{\ln(S/K) + (r - q - \sigma^2/2)T}{\sigma \sqrt{T}}.
+    d_2 = \frac{\ln(S/K) + (r - q - \sigma^2/2)T}{\sigma \sqrt{T}}.
 \]
 
 The Delta ($\Delta$) of the option is the partial derivative of $P_{CoN}$ with respect to $S$:
 \[
-\Delta_{CoN} = \frac{\partial P_{CoN}}{\partial S} = B e^{-rT} \cdot \frac{\partial N(-d_2)}{\partial S}.
+    \Delta_{CoN} = \frac{\partial P_{CoN}}{\partial S} = B e^{-rT} \cdot \frac{\partial N(-d_2)}{\partial S}.
 \]
 
 Since $N(-d_2)$ is the CDF of the standard normal distribution, its derivative is the PDF:
 \[
-\frac{\partial N(-d_2)}{\partial S} = -n(d_2) \cdot \frac{\partial d_2}{\partial S},
+    \frac{\partial N(-d_2)}{\partial S} = -n(d_2) \cdot \frac{\partial d_2}{\partial S},
 \]
 where $n(d_2) = \frac{1}{\sqrt{2\pi}} e^{-d_2^2/2}$.
 
 The partial derivative of $d_2$ with respect to $S$ is:
 \[
-\frac{\partial d_2}{\partial S} = \frac{1}{S \sigma \sqrt{T}}.
+    \frac{\partial d_2}{\partial S} = \frac{1}{S \sigma \sqrt{T}}.
 \]
 
 Substituting this into the Delta formula:
 \[
-\Delta_{CoN} = B e^{-rT} \cdot \left( -n(d_2) \cdot \frac{1}{S \sigma \sqrt{T}} \right) = -\frac{B e^{-rT} n(d_2)}{S \sigma \sqrt{T}}.
+    \Delta_{CoN} = B e^{-rT} \cdot \left( -n(d_2) \cdot \frac{1}{S \sigma \sqrt{T}} \right) = -\frac{B e^{-rT} n(d_2)}{S \sigma \sqrt{T}}.
 \]
 
 The final Delta formula is:
 \[
-\Delta_{CoN} = -\frac{B e^{-rT}}{S \sigma \sqrt{2\pi T}} \cdot e^{-d_2^2/2}.
+    \Delta_{CoN} = -\frac{B e^{-rT}}{S \sigma \sqrt{2\pi T}} \cdot e^{-d_2^2/2}.
 \]
 
 
 \section{exercise 9 Hongjun}
 \[
-\text{Let }\tau = T - t,\quad m = \ln S_t + \bigl(r - q - \tfrac12\sigma^2\bigr)\tau,\quad
-\theta = \sigma\sqrt{\tau},\quad k = \ln K,
+    \text{Let }\tau = T - t,\quad m = \ln S_t + \bigl(r - q - \tfrac12\sigma^2\bigr)\tau,\quad
+    \theta = \sigma\sqrt{\tau},\quad k = \ln K,
 \]
 \[
-d = \frac{m - k}{\theta}
-= \frac{\ln(S_t/K) + (r - q - \tfrac12\sigma^2)\,\tau}{\sigma\sqrt{\tau}}.
+    d = \frac{m - k}{\theta}
+    = \frac{\ln(S_t/K) + (r - q - \tfrac12\sigma^2)\,\tau}{\sigma\sqrt{\tau}}.
 \]
 Then the log‐option price is
 \[
-C(S_t,t)
-= e^{-r\tau}\Bigl[(m-k)\,\Phi(d) + \theta\,\varphi(d)\Bigr]
-= e^{-r\tau}\Bigl[\bigl(\ln\tfrac{S_t}{K}+(r-q-\tfrac12\sigma^2)\tau\bigr)\Phi(d)
-+\sigma\sqrt{\tau}\,\varphi(d)\Bigr].
+    C(S_t,t)
+    = e^{-r\tau}\Bigl[(m-k)\,\Phi(d) + \theta\,\varphi(d)\Bigr]
+    = e^{-r\tau}\Bigl[\bigl(\ln\tfrac{S_t}{K}+(r-q-\tfrac12\sigma^2)\tau\bigr)\Phi(d)
+        +\sigma\sqrt{\tau}\,\varphi(d)\Bigr].
 \]
 
 \end{document}
