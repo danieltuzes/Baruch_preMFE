@@ -1,0 +1,244 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{graphicx} % Required for \scalebox
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{verbatim}
+\usepackage[extreme]{savetrees} % tighter margins
+\title{Baruch ACDE HW 4}
+\author{group 1}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{exercise 1 Daniel}
+The derivative of the $\Delta$ is needed for the Newton method:
+
+\[
+    N(x) = \int_{-\infty}^x \frac{1}{\sqrt{2\pi}} e^{-t^2/2} \, dt
+\]
+
+\[
+    \frac{d}{dK} \Delta_{\text{call}}(K)
+    = \frac{d}{dK} \left( e^{-qT} N(d_1) \right)
+    = e^{-qT} \cdot \frac{dN(d_1)}{dK}
+    = e^{-qT} \cdot \frac{1}{\sqrt{2\pi}} e^{-d_1^2/2} \cdot \frac{d d_1}{dK}
+\]
+
+\[
+    d_1 = \frac{\ln(S/K) + (r - q + \frac{1}{2} \sigma^2)T}{\sigma \sqrt{T}}, \quad
+    \Rightarrow \frac{d d_1}{dK} = -\frac{1}{K \sigma \sqrt{T}}
+\]
+
+\[
+    \Rightarrow \frac{d}{dK} \Delta_{\text{call}}(K)
+    = -\frac{e^{-qT}}{K \sigma \sqrt{2\pi T}} e^{-d_1^2/2}
+\]
+
+\begin{table}
+    \centering
+    \caption{Newton Method Iterations for Finding Strike starting from ATM}
+    \label{tab:newton_iterations}
+    \begin{tabular}{rrrrr}
+        \toprule
+        K         & Delta(K) & dDelta/dK & Next K    & Error    \\
+        \midrule
+        30.000000 & 0.538480 & -0.087991 & 30.437315 & 0.437315 \\
+        30.437315 & 0.500153 & -0.087161 & 30.439064 & 0.001750 \\
+        30.439064 & 0.500000 & -0.087156 & 30.439065 & 0.000000 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Based on the table \ref{tab:newton_iterations},
+the Newton method converges to a strike of approximately \( K \approx 30.439065 \)
+after three iterations, starting from an ATM strike of \( K = 30 \).
+
+\section{exercise 2}
+% Definitions and formulas for Theta of a European put
+
+Let \( x = \frac{S}{K} \). Then the Theta becomes:
+\[
+    \Theta(P)(x) = -\frac{\sigma K x}{2\sqrt{2\pi T}} e^{-\frac{d_1^2}{2}} + rK e^{-rT} N(-d_2)
+\]
+where
+\[
+    d_1 = \frac{\ln(x) + \left(r + \frac{\sigma^2}{2} \right)T}{\sigma\sqrt{T}}, \quad d_2 = d_1 - \sigma\sqrt{T}
+\]
+
+Then the derivative of \( \Theta(P) \) with respect to \( x \) is:
+\[
+    \frac{d\Theta}{dx} = -\frac{\sigma K}{2\sqrt{2\pi T}} e^{-\frac{d_1^2}{2}}
+    - \frac{\sigma K x}{2\sqrt{2\pi T}} e^{-\frac{d_1^2}{2}} \cdot (-d_1) \cdot \frac{1}{x \sigma \sqrt{T}}
+    + rK e^{-rT} \cdot \frac{1}{\sqrt{2\pi}} e^{-\frac{d_2^2}{2}} \cdot \left(-\frac{1}{x \sigma \sqrt{T}} \right)
+\]
+
+\begin{table}
+    \centering
+    \caption{Newton's Method for Theta Function}
+    \label{tab:newton_theta}
+    \begin{tabular}{rrrrrr}
+        \toprule
+        iteration & x        & f(x)      & f'(x)     & x\_new   & error    \\
+        \midrule
+        0         & 0.700000 & 0.009182  & -0.239005 & 0.738419 & 0.038419 \\
+        1         & 0.738419 & -0.001072 & -0.292386 & 0.734752 & 0.003667 \\
+        2         & 0.734752 & -0.000008 & -0.287984 & 0.734724 & 0.000028 \\
+        3         & 0.734724 & -0.000000 & -0.287950 & 0.734724 & 0.000000 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The Newton's method converges to \( S/K \approx 0.734724 \) after three iterations,
+starting from \( x = 0.7 \) based on the table \ref{tab:newton_theta}.
+
+\section{exercise 3}
+\[
+    \frac{\partial C}{\partial \sigma} = \text{Vega} = S e^{-qT} \phi(d_1) \sqrt{T}
+\]
+
+\[
+    d_1 = \frac{\ln(S/K) + (r - q + \frac{1}{2} \sigma^2)T}{\sigma \sqrt{T}}
+\]
+
+\[
+    \sigma_{n+1} = \sigma_n - f(\sigma_n) \cdot \frac{\sigma_n - \sigma_{n-1}}{f(\sigma_n) - f(\sigma_{n-1})}
+\]
+
+
+\begin{table}
+    \centering
+    \caption{Newton-Raphson Method Results}
+    \label{tab:newton_results}
+    \begin{tabular}{rrrrrr}
+        \toprule
+        iter & sigma    & price    & error    & vega (slope) & next\_sigma \\
+        \midrule
+        0    & 0.500000 & 6.194813 & 1.694813 & 7.968646     & 0.287315    \\
+        1    & 0.287315 & 4.552267 & 0.052267 & 7.262646     & 0.280118    \\
+        2    & 0.280118 & 4.500202 & 0.000202 & 7.205791     & 0.280090    \\
+        3    & 0.280090 & 4.500000 & 0.000000 & 7.205562     & 0.280090    \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+In the Newton method, the implied volatility converges to approximately \( \sigma \approx 0.280090 \)
+after three iterations, starting from \( \sigma = 0.5 \) based on table \ref{tab:newton_results}.
+
+\begin{table}
+    \centering
+    \caption{Secant Method Results}
+    \label{tab:secant_results}
+    \begin{tabular}{rrrrr}
+        \toprule
+        iter & sigma    & error    & slope    & next\_sigma \\
+        \midrule
+        0    & 0.500000 & 1.694813 & NaN      & 0.501000    \\
+        1    & 0.501000 & 1.702782 & 7.969178 & 0.287329    \\
+        2    & 0.287329 & 0.052370 & 7.724082 & 0.280549    \\
+        3    & 0.280549 & 0.003307 & 7.236335 & 0.280092    \\
+        4    & 0.280092 & 0.000013 & 7.207446 & 0.280090    \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+The secant method converges to approximately \( \sigma \approx 0.280090 \)
+after four iterations, starting from \( \sigma = 0.5 \) based on table \ref{tab:secant_results},
+which is consistent with the Newton-Raphson method results.
+
+\section{exercise 4}
+% Black-Scholes Call Price with Continuous Dividend Yield
+\[
+    C(S, K, T, r, q, \sigma) = S e^{-qT} N(d_1) - K e^{-rT} N(d_2)
+\]
+
+% Definitions of d_1 and d_2
+\[
+    d_1 = \frac{\ln(S/K) + (r - q + \frac{1}{2}\sigma^2)T}{\sigma \sqrt{T}}, \quad
+    d_2 = d_1 - \sigma \sqrt{T}
+\]
+
+% Vega of the option
+\[
+    \text{Vega}(\sigma) = S e^{-qT} \sqrt{T} \cdot \frac{1}{\sqrt{2\pi}} e^{-d_1^2 / 2}
+\]
+
+% Function whose root gives the implied volatility
+\[
+    f(\sigma) = C(S, K, T, r, q, \sigma) - C_{\text{market}}
+\]
+
+
+\begin{table}
+    \caption{Convergence of methods for implied volatility}
+    \label{tab:implied_volatility_convergence}
+    \begin{tabular}{rrr}
+        \toprule
+        Bisection & Secant    & Newton    \\
+        \midrule
+        0.5000500 & 0.5000000 & 0.5000000 \\
+        0.2500750 & 0.4900000 & 0.2556527 \\
+        0.3750625 & 0.2557150 & 0.2569032 \\
+        0.3125687 & 0.2569076 & 0.2569032 \\
+        0.2813219 & 0.2569032 & NaN       \\
+        0.2656984 & 0.2569032 & NaN       \\
+        0.2578867 & NaN       & NaN       \\
+        0.2539809 & NaN       & NaN       \\
+        0.2559338 & NaN       & NaN       \\
+        0.2569103 & NaN       & NaN       \\
+        0.2564220 & NaN       & NaN       \\
+        0.2566661 & NaN       & NaN       \\
+        0.2567882 & NaN       & NaN       \\
+        0.2568492 & NaN       & NaN       \\
+        0.2568797 & NaN       & NaN       \\
+        0.2568950 & NaN       & NaN       \\
+        0.2569026 & NaN       & NaN       \\
+        0.2569064 & NaN       & NaN       \\
+        0.2569045 & NaN       & NaN       \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+We can see from the table \ref{tab:implied_volatility_convergence} that all three methods converge to the same implied volatility of approximately \( \sigma \approx 0.256903 \).
+
+% Approximate implied volatility formula
+\[
+    \sigma_{\text{imp, approx}} \approx
+    \frac{ \sqrt{2\pi} \left( C - \frac{(r - q)T}{2} S \right) }
+    { S \sqrt{T} \left( 1 - \frac{(r + q)T}{2} \right) }
+\]
+
+% Relative error formula
+\[
+    \text{Relative Error} =
+    \frac{ \left| \sigma_{\text{imp, approx}} - \sigma_{\text{imp}} \right| }
+    { \sigma_{\text{imp}} }
+\]
+\[
+    \sigma_{\text{imp, approx}} = 0.256710, \quad
+    \text{Relative Error} = 0.00075
+\]
+Impressive!
+
+\section{exercise 5}
+\section{exercise 6}
+\section{exercise 7}
+\section{exercise 8}
+\section{exercise 9}
+\section{exercise 10}
+\section{exercise 11}
+\section{exercise 12}
+\section{exercise 13}
+\section{exercise 14}
+\section{exercise 15}
+\section{exercise 16}
+\section{exercise 17}
+\section{exercise 18}
+\section{exercise 19}
+
+\end{document}
