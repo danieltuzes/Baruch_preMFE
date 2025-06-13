@@ -60,7 +60,7 @@ Based on the table \ref{tab:newton_iterations},
 the Newton method converges to a strike of approximately \( K \approx 30.439065 \)
 after three iterations, starting from an ATM strike of \( K = 30 \).
 
-\section{exercise 2}
+\section{exercise 2 Daniel}
 % Definitions and formulas for Theta of a European put
 
 Let \( x = \frac{S}{K} \). Then the Theta becomes:
@@ -98,7 +98,7 @@ Then the derivative of \( \Theta(P) \) with respect to \( x \) is:
 The Newton's method converges to \( S/K \approx 0.734724 \) after three iterations,
 starting from \( x = 0.7 \) based on the table \ref{tab:newton_theta}.
 
-\section{exercise 3}
+\section{exercise 3 Daniel}
 \[
     \frac{\partial C}{\partial \sigma} = \text{Vega} = S e^{-qT} \phi(d_1) \sqrt{T}
 \]
@@ -151,7 +151,7 @@ The secant method converges to approximately \( \sigma \approx 0.280090 \)
 after four iterations, starting from \( \sigma = 0.5 \) based on table \ref{tab:secant_results},
 which is consistent with the Newton-Raphson method results.
 
-\section{exercise 4}
+\section{exercise 4 Daniel}
 % Black-Scholes Call Price with Continuous Dividend Yield
 \[
     C(S, K, T, r, q, \sigma) = S e^{-qT} N(d_1) - K e^{-rT} N(d_2)
@@ -238,7 +238,33 @@ Impressive!
 \section{exercise 15}
 \section{exercise 16}
 \section{exercise 17}
-\section{exercise 18}
-\section{exercise 19}
+\section{exercise 18 Daniel}
+C.
 
+The sensitivity of the European call and put option values with respect to the interest rate \( r \) (known as rho) are:
+
+\[
+    \rho_{\text{call}} = \frac{\partial C}{\partial r} = T K e^{-rT} N(d_2)
+\]
+
+\[
+    \rho_{\text{put}} = \frac{\partial P}{\partial r} = -T K e^{-rT} N(-d_2)
+\]
+
+where
+
+\[
+    d_2 = \frac{\ln(S/K) + (r - q - \tfrac{1}{2} \sigma^2) T}{\sigma \sqrt{T}}
+\]
+
+So the value of the call increases with the interest rate, while for the put, it decreases.
+
+\section{exercise 19 Daniel}
+B.
+
+Delta of a share is 1, if we short, it is -1, and if we have 10, it is -10.
+
+The Delta of a put ATM is around -0.5, and if we short it, it is 0.5, and if we have 10, it is 5.
+
+The sum is -5.
 \end{document}
