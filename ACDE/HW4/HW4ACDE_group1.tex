@@ -10,6 +10,7 @@
 \usepackage{booktabs}
 \usepackage{verbatim}
 \usepackage[extreme]{savetrees} % tighter margins
+\usepackage{lmodern} % Use scalable Latin Modern fonts
 \title{Baruch ACDE HW 4}
 \author{group 1}
 
@@ -254,71 +255,73 @@ Impressive!
     f_P(\sigma) = P(S, K, T, r, q, \sigma) - P_{\text{market}}
 \]
 
-Given \(S=1370, T = 199/252, r=0.04567, q=0.019054 \), we use Newton's Method and Explicit Approximation to estimate the implied volatility， the result is shown in table 6
+Given \(S=1370, T = 199/252, r=0.04567, q=0.019054 \),
+we use Newton's Method and Explicit Approximation to estimate the implied volatility,
+the result is shown in table 6
 
 
 \begin{table}[htbp]
-\centering
-\caption{Call Options: Implied Volatility Comparison}
-\label{tab:call_iv}
-\begin{tabular}{l S[table-format=1.6] S[table-format=1.6] S[table-format=-1.6]}
-\toprule
-Strike & {Newton IV} & {Approx IV} & {Error (\%)} \\
-\midrule
-C1175 & 0.257273 & 1.411213 & 448.53 \\
-C1200 & 0.249599 & 1.236640 & 395.45 \\
-C1225 & 0.241899 & 1.056759 & 336.86 \\
-C1250 & 0.234400 & 0.869813 & 271.08 \\
-C1275 & 0.226261 & 0.677791 & 199.56 \\
-C1300 & 0.218605 & 0.475593 & 117.56 \\
-C1325 & 0.211442 & 0.263115 & 24.44 \\
-C1350 & 0.204054 & 0.204040 & -0.01 \\
-C1375 & 0.196911 & 0.194043 & -1.46 \\
-C1400 & 0.189418 & 0.189243 & -0.09 \\
-C1425 & 0.182563 & 0.182151 & -0.23 \\
-C1450 & 0.175229 & 0.174466 & -0.44 \\
-C1500 & 0.163359 & 0.161552 & -1.11 \\
-C1550 & 0.150488 & 0.147163 & -2.21 \\
-C1575 & 0.144821 & 0.140620 & -2.90 \\
-C1600 & 0.141285 & 0.136237 & -3.57 \\
-\bottomrule
-\end{tabular}
+    \centering
+    \caption{Call Options: Implied Volatility Comparison}
+    \label{tab:call_iv}
+    \begin{tabular}{lccc}
+        \toprule
+        Strike & {Newton IV} & {Approx IV} & {Error (\%)} \\
+        \midrule
+        C1175  & 0.257273    & 1.411213    & 448.53       \\
+        C1200  & 0.249599    & 1.236640    & 395.45       \\
+        C1225  & 0.241899    & 1.056759    & 336.86       \\
+        C1250  & 0.234400    & 0.869813    & 271.08       \\
+        C1275  & 0.226261    & 0.677791    & 199.56       \\
+        C1300  & 0.218605    & 0.475593    & 117.56       \\
+        C1325  & 0.211442    & 0.263115    & 24.44        \\
+        C1350  & 0.204054    & 0.204040    & -0.01        \\
+        C1375  & 0.196911    & 0.194043    & -1.46        \\
+        C1400  & 0.189418    & 0.189243    & -0.09        \\
+        C1425  & 0.182563    & 0.182151    & -0.23        \\
+        C1450  & 0.175229    & 0.174466    & -0.44        \\
+        C1500  & 0.163359    & 0.161552    & -1.11        \\
+        C1550  & 0.150488    & 0.147163    & -2.21        \\
+        C1575  & 0.144821    & 0.140620    & -2.90        \\
+        C1600  & 0.141285    & 0.136237    & -3.57        \\
+        \bottomrule
+    \end{tabular}
 \end{table}
 
 \begin{table}[htbp]
-\centering
-\caption{Put Options: Implied Volatility Comparison}
-\label{tab:put_iv}
-\begin{tabular}{l S[table-format=1.6] S[table-format=1.6] S[table-format=-1.6]}
-\toprule
-Strike & {Newton IV} & {Approx IV} & {Error (\%)} \\
-\midrule
-P1175 & 0.257192 & 0.254945 & -0.87 \\
-P1200 & 0.249237 & 0.247547 & -0.68 \\
-P1225 & 0.241654 & 0.240447 & -0.50 \\
-P1250 & 0.234024 & 0.233223 & -0.34 \\
-P1275 & 0.226557 & 0.226080 & -0.21 \\
-P1300 & 0.219088 & 0.218853 & -0.11 \\
-P1325 & 0.211998 & 0.211919 & -0.04 \\
-P1350 & 0.204371 & 0.040477 & -80.19 \\
-P1375 & 0.196682 & 0.196637 & -0.02 \\
-P1400 & 0.189482 & 0.442855 & 133.72 \\
-P1425 & 0.182499 & 0.706597 & 287.18 \\
-P1450 & 0.176812 & 0.980996 & 454.82 \\
-P1500 & 0.162441 & 1.609792 & 891.00 \\
-P1550 & 0.150879 & 2.315074 & 1434.39 \\
-P1575 & 0.144861 & 2.716735 & 1775.41 \\
-P1600 & 0.140352 & 3.119543 & 2122.66 \\
-\bottomrule
-\end{tabular}
+    \centering
+    \caption{Put Options: Implied Volatility Comparison}
+    \label{tab:put_iv}
+    \begin{tabular}{rrrrr}
+        \toprule
+        Strike & {Newton IV} & {Approx IV} & {Error (\%)} \\
+        \midrule
+        P1175  & 0.257192    & 0.254945    & -0.87        \\
+        P1200  & 0.249237    & 0.247547    & -0.68        \\
+        P1225  & 0.241654    & 0.240447    & -0.50        \\
+        P1250  & 0.234024    & 0.233223    & -0.34        \\
+        P1275  & 0.226557    & 0.226080    & -0.21        \\
+        P1300  & 0.219088    & 0.218853    & -0.11        \\
+        P1325  & 0.211998    & 0.211919    & -0.04        \\
+        P1350  & 0.204371    & 0.040477    & -80.19       \\
+        P1375  & 0.196682    & 0.196637    & -0.02        \\
+        P1400  & 0.189482    & 0.442855    & 133.72       \\
+        P1425  & 0.182499    & 0.706597    & 287.18       \\
+        P1450  & 0.176812    & 0.980996    & 454.82       \\
+        P1500  & 0.162441    & 1.609792    & 891.00       \\
+        P1550  & 0.150879    & 2.315074    & 1434.39      \\
+        P1575  & 0.144861    & 2.716735    & 1775.41      \\
+        P1600  & 0.140352    & 3.119543    & 2122.66      \\
+        \bottomrule
+    \end{tabular}
 \end{table}
 
 \begin{enumerate}
-\item The explicit approximation provides satisfactory accuracy for put options, making it suitable for real-time applications where speed is critical.
+    \item The explicit approximation provides satisfactory accuracy for put options, making it suitable for real-time applications where speed is critical.
 
-\item For call options, particularly OTM contracts, the approximation exhibits significant bias, suggesting Newton's method remains preferable when accuracy is paramount.
+    \item For call options, particularly OTM contracts, the approximation exhibits significant bias, suggesting Newton's method remains preferable when accuracy is paramount.
 
-\item The inverse relationship between approximation error and moneyness indicates the formula's limitation in capturing volatility smile effects at extreme strikes.
+    \item The inverse relationship between approximation error and moneyness indicates the formula's limitation in capturing volatility smile effects at extreme strikes.
 \end{enumerate}
 
 \section{exercise 6 Hao}
@@ -328,17 +331,17 @@ Find all local extremum points of the function:
 
 \subsection*{Step 1: Compute First Partial Derivatives}
 \begin{align*}
-\frac{\partial f}{\partial x} &= 6xy + 2x - 6 \\
-\frac{\partial f}{\partial y} &= 3x^{2} - 3
+    \frac{\partial f}{\partial x} & = 6xy + 2x - 6 \\
+    \frac{\partial f}{\partial y} & = 3x^{2} - 3
 \end{align*}
 
 \subsection*{Step 2: Find Critical Points}
 Set partial derivatives equal to zero:
 \[
-\begin{cases}
-6xy + 2x - 6 = 0 \quad (1) \\
-3x^{2} - 3 = 0 \quad (2)
-\end{cases}
+    \begin{cases}
+        6xy + 2x - 6 = 0 \quad (1) \\
+        3x^{2} - 3 = 0 \quad (2)
+    \end{cases}
 \]
 
 From equation (2):
@@ -357,9 +360,9 @@ Critical points: $(1, \frac{2}{3})$ and $(-1, -\frac{4}{3})$
 \subsection*{Step 3: Second Derivative Test}
 Compute second partial derivatives:
 \begin{align*}
-\frac{\partial^{2} f}{\partial x^{2}} &= 6y + 2 \\
-\frac{\partial^{2} f}{\partial y^{2}} &= 0 \\
-\frac{\partial^{2} f}{\partial x \partial y} &= 6x
+    \frac{\partial^{2} f}{\partial x^{2}}        & = 6y + 2 \\
+    \frac{\partial^{2} f}{\partial y^{2}}        & = 0      \\
+    \frac{\partial^{2} f}{\partial x \partial y} & = 6x
 \end{align*}
 
 Hessian matrix determinant:
@@ -385,9 +388,9 @@ Define the Lagrangian:
 
 \subsection*{Step 2: Take Partial Derivatives}
 \begin{align*}
-\frac{\partial \mathcal{L}}{\partial x_{1}} &= 2x_{1} - 2x_{2} + x_{3} - 2\lambda x_{1} = 0 \\
-\frac{\partial \mathcal{L}}{\partial x_{2}} &= 6x_{2} - 2x_{1} - x_{3} - 2\lambda x_{2} = 0 \\
-\frac{\partial \mathcal{L}}{\partial x_{3}} &= 2x_{3} - x_{2} + x_{1} - 2\lambda x_{3} = 0
+    \frac{\partial \mathcal{L}}{\partial x_{1}} & = 2x_{1} - 2x_{2} + x_{3} - 2\lambda x_{1} = 0 \\
+    \frac{\partial \mathcal{L}}{\partial x_{2}} & = 6x_{2} - 2x_{1} - x_{3} - 2\lambda x_{2} = 0 \\
+    \frac{\partial \mathcal{L}}{\partial x_{3}} & = 2x_{3} - x_{2} + x_{1} - 2\lambda x_{3} = 0
 \end{align*}
 
 \subsection*{Step 3: Rewrite as Eigenvalue Problem}
@@ -395,10 +398,10 @@ This is equivalent to solving:
 \[ A\mathbf{x} = \lambda\mathbf{x} \]
 where:
 \[ A = \begin{pmatrix}
-1 & -1 & 0.5 \\
--1 & 3 & -0.5 \\
-0.5 & -0.5 & 1
-\end{pmatrix} \]
+        1   & -1   & 0.5  \\
+        -1  & 3    & -0.5 \\
+        0.5 & -0.5 & 1
+    \end{pmatrix} \]
 
 \subsection*{Step 4: Find Eigenvalues}  ·
 Characteristic equation:
@@ -410,10 +413,10 @@ Solutions: $\lambda = 1, 2+\frac{\sqrt{10}}{2}, 2-\frac{\sqrt{10}}{2}$
 \subsubsection*{Case $\lambda = 1$}
 Solve $(A - \lambda I)\mathbf{x} = 0$:
 \[ \begin{cases}
--2x_2 + x_3 = 0 \\
--2x_1 + 4x_2 - x_3 = 0 \\
-x_1 - x_2 = 0
-\end{cases} \]
+        -2x_2 + x_3 = 0        \\
+        -2x_1 + 4x_2 - x_3 = 0 \\
+        x_1 - x_2 = 0
+    \end{cases} \]
 Solution: $x_1 = x_2 = t$, $x_3 = 2t$
 
 Normalize to satisfy constraint:
@@ -423,10 +426,10 @@ Points: $\pm(1, 1, 2)$
 \subsubsection*{Case $\lambda = 2+\frac{\sqrt{10}}{2}$}
 Solve $(A - \lambda I)\mathbf{x} = 0$:
 \[ \begin{cases}
--(2+\sqrt{10})x_1 - 2x_2 + x_3 = 0 \\
--2x_1 +(2-\sqrt{10})x_2 - x_3 = 0 \\
-x_1 - x_2 - (2+\sqrt{10})x_3 = 0
-\end{cases} \]
+        -(2+\sqrt{10})x_1 - 2x_2 + x_3 = 0 \\
+        -2x_1 +(2-\sqrt{10})x_2 - x_3 = 0  \\
+        x_1 - x_2 - (2+\sqrt{10})x_3 = 0
+    \end{cases} \]
 Solution: $x_1 = \frac{\sqrt{10}}{2}t$, $x_2 = (-\frac{\sqrt{10}}{2}-2)t$, $x_3 = t$
 
 Normalize to satisfy constraint:
@@ -435,10 +438,10 @@ Points: $\pm(0.960, -2.174, 0.607)$
 \subsubsection*{Case $\lambda = 2-\frac{\sqrt{10}}{2}$}
 Solve $(A - \lambda I)\mathbf{x} = 0$:
 \[ \begin{cases}
-(\sqrt{10}-2)x_1 - 2x_2 + x_3 = 0 \\
--2x_1 +(2+\sqrt{10})x_2 - x_3 = 0 \\
-x_1 - x_2 +(\sqrt{10}-2)x_3 = 0
-\end{cases} \]
+        (\sqrt{10}-2)x_1 - 2x_2 + x_3 = 0 \\
+        -2x_1 +(2+\sqrt{10})x_2 - x_3 = 0 \\
+        x_1 - x_2 +(\sqrt{10}-2)x_3 = 0
+    \end{cases} \]
 Solution: $x_1 = -\frac{\sqrt{10}}{2}t$, $x_2 = (\frac{\sqrt{10}}{2}-2)t$, $x_3 = t$
 
 
@@ -447,16 +450,16 @@ Points: $\pm(-2.019, -0.535, 1.277)$
 
 \subsection*{Step 6: Evaluate Function}
 \begin{align*}
-f(1,1,2) = 9 \\
-f(0.960, -2.174, 0.607) = 21.545295 \\
-f(-2.019, -0.535, 1.277) = 2.510367 \\
+    f(1,1,2) = 9                        \\
+    f(0.960, -2.174, 0.607) = 21.545295 \\
+    f(-2.019, -0.535, 1.277) = 2.510367 \\
 \end{align*}
 
 \subsection*{Conclusion}
 The function has:
 \begin{itemize}
-\item Minimum value: 2.510367
-\item Maximum value: 21.545295
+    \item Minimum value: 2.510367
+    \item Maximum value: 21.545295
 \end{itemize}
 on the given constraint surface.
 
