@@ -1,3 +1,3 @@
 # Baruch_preMFE
 
-Scripts necessary for homeworks are stored here.
+Latex and scripts (Jupyter, pure python) necessary for homeworks are stored here.

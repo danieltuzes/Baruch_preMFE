@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{graphicx} % Required for \scalebox
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{verbatim}
+\usepackage[extreme]{savetrees} % tighter margins
+\usepackage{lmodern} % Use scalable Latin Modern fonts
+\title{Baruch NLA SIP HW 1}
+\author{group 1}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{exercise 1 Daniel}
+Let \(A = (a_{ij}) \in \mathbb{R}^{n\times n}\) and let \(D\) be diagonal with entries \(d_1, \dots, d_n\).
+We use the Einstein summation convention (repeated indices are summed).
+
+\[
+    (AD)_{ij} = a_{ik} D_{kj} = a_{ik} \, d_k \, \delta_{kj} = a_{ij} \, d_j,
+\]
+\[
+    (DA)_{ij} = D_{ik} a_{kj} = d_i \, \delta_{ik} \, a_{kj} = d_i \, a_{ij}.
+\]
+
+Thus
+\[
+    AD = DA \quad \Longleftrightarrow \quad (d_j - d_i)\, a_{ij} = 0
+\]
+for all \(i,j\) and all diagonal \(D\).
+
+If \(A\) is diagonal, then \(a_{ij} = 0\) for \(i \neq j\), so \((d_j - d_i)a_{ij} = 0\) holds and \(AD = DA\).
+
+Conversely, suppose \(AD = DA\) for every diagonal \(D\).
+Fix \(i \neq j\) and choose \(D\) with \(d_i \neq d_j\) (e.g., \(d_i = 1,\ d_j = 0\), others arbitrary).
+Then
+\[
+    (d_j - d_i)\, a_{ij} = 0 \quad \Longrightarrow \quad a_{ij} = 0.
+\]
+Since this holds for all \(i \neq j\), \(A\) is diagonal.
+
+Therefore, \(AD = DA\) for any diagonal \(D\) if and only if \(A\) is diagonal.
+
+\section{exercise 2}
+\section{exercise 3}
+\section{exercise 4}
+\section{exercise 5}
+\section{exercise 6}
+\section{exercise 7}
+\section{exercise 8}
+\section{exercise 9}
+\section{exercise 10}
+\section{exercise 11}
+\section{exercise 12}
+\section{exercise 13}
+\section{exercise 14}
+\section{exercise 15}
+\section{exercise 16}
+\section{exercise 17}
+\section{exercise 18}
+\section{exercise 19}
+\section{exercise 20}
+\section{exercise 21}
+\section{exercise 22}
+\section{exercise 23}
+\section{exercise 24}
+\section{}
+\end{document}
