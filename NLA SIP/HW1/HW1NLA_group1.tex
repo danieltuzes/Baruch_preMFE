@@ -11,6 +11,12 @@
 \usepackage{verbatim}
 \usepackage[extreme]{savetrees} % tighter margins
 \usepackage{lmodern} % Use scalable Latin Modern fonts
+
+\usepackage{bm}
+\let\normalmu\mu
+\renewcommand{\mu}{\bm{\normalmu}} % I want bold mu
+
+
 \title{Baruch NLA SIP HW 1}
 \author{group 1}
 
@@ -75,7 +81,25 @@ from which we can derive the inverse for $M_3$, and confirm the 3rd statement, s
 \section{exercise 21}
 \section{exercise 22}
 \section{exercise 23}
-\section{exercise 24}
 
-\section{}
+\section{exercise 24}
+Use notation
+\[\left( {\begin{array}{*{20}{c}}
+            {{X_1}} \\
+            {{X_2}} \\
+            {{X_3}}
+        \end{array}} \right) = {\mathbf{X}}\sim\mathcal{N}\left( {{\mathbf{\mu }},{\mathbf{\Sigma }}} \right)\]
+
+Let ${\mathbf{\hat X}} = {\mathbf{X}} - {\mathbf{\mu }}$,
+then $Var\left( {{\mathbf{\hat X}}} \right) = Var\left( {\mathbf{X}} \right) = {\mathbf{\Sigma }}$.
+\[P\left( {{{\mathbf{a}}^T}{\mathbf{X}} > 0} \right) = P\left( {{{\mathbf{a}}^T}\left( {{\mathbf{\mu }} + {\mathbf{\hat X}}} \right) > 0} \right) = P\left( {\underbrace {{{\mathbf{a}}^T}{\mathbf{\mu }} + {{\mathbf{a}}^T}{\mathbf{\hat X}}}_Y} > 0 \right)\]
+
+What is the distribution of $Y$?
+\[E\left( {{{\mathbf{a}}^T}{\mathbf{\mu }} + {{\mathbf{a}}^T}{\mathbf{\hat X}}} \right) = E\left( {{{\mathbf{a}}^T}{\mathbf{\mu }}} \right) + E\left( {{{\mathbf{a}}^T}{\mathbf{\hat X}}} \right) = {{\mathbf{a}}^T}{\mathbf{\mu }} = -4\]
+\[Var\left( {{{\mathbf{a}}^T}{\mathbf{\mu }} + {{\mathbf{a}}^T}{\mathbf{\hat X}}} \right) = Var\left( {{{\mathbf{a}}^T}{\mathbf{\hat X}}} \right) = {{\mathbf{a}}^T}Var\left( {{\mathbf{\hat X}}} \right){\mathbf{a}} = {{\mathbf{a}}^T}{\mathbf{\Sigma a}} = 32\]
+We also know that $Y$ is a linear combination of normally distributed variables, so it is also normally distributed:
+\[Y\sim \mathcal N({{\mathbf{a}}^T}{\mathbf{\mu }}, {{\mathbf{a}}^T}{\mathbf{\Sigma a}}) = \mathcal N(-4, 32)\]
+and
+\[Z=\frac{Y - E(Y)}{\sqrt{Var(Y)}} = \frac{Y + 4}{\sqrt{32}} \sim \mathcal N(0, 1)\]
+\[P\left( {{{\mathbf{a}}^T}{\mathbf{X}} > 0} \right) = P\left( {Y > 0} \right) = P\left( {\frac{{Y + 4}}{{\sqrt {32} }} > \frac{4}{{\sqrt {32} }}} \right) = P\left( {Z > \frac{4}{{\sqrt {32} }}} \right) \approx 0.24\]
 \end{document}
