@@ -14,7 +14,9 @@
 
 \usepackage{bm}
 \let\normalmu\mu
+\let\normalSigma\Sigma
 \renewcommand{\mu}{\bm{\normalmu}} % I want bold mu
+\renewcommand{\Sigma}{\bm{\normalSigma}} % I want bold Sigma
 
 
 \title{Baruch NLA SIP HW 1}
@@ -72,15 +74,37 @@ from which we can derive the inverse for $M_3$, and confirm the 3rd statement, s
 \section{exercise 12}
 \section{exercise 13}
 \section{exercise 14}
-\section{exercise 15}
+\section{exercise 15 Daniel}
 \section{exercise 16}
 \section{exercise 17}
-\section{exercise 18}
+\section{exercise 18 Daniel}
 \section{exercise 19}
 \section{exercise 20}
 \section{exercise 21}
 \section{exercise 22}
-\section{exercise 23}
+\section{exercise 23 Daniel}
+The covariance matrix $\mathbf{\Sigma}$ is symmetric and positive definite,
+so we can find an Cholesky decomposition,
+using which we can define the random vector $\mathbf{X}$ that has the right properties.
+
+\[{\mathbf{\Sigma }} = {\mathbf{L}}{{\mathbf{L}}^T}\qquad {\mathbf{LZ}} = {\mathbf{X}} \Rightarrow Var\left( {\mathbf{X}} \right) = {\mathbf{L}}{{\mathbf{L}}^T} = {\mathbf{\Sigma }}\]
+
+\[{\mathbf{L}} = \left( {\begin{array}{*{20}{c}}
+            a & 0 \\
+            d & c
+        \end{array}} \right) \Rightarrow \begin{array}{*{20}{c}}
+        {{a^2} = 9} \\
+        {ab =  - 4} \\
+        {{b^2} + {c^2} = 16}
+    \end{array} \Rightarrow \begin{array}{*{20}{c}}
+        {a = 3}      \\
+        {b =  - 4/3} \\
+        {c = 8\sqrt 2 /3}
+    \end{array} \Rightarrow \begin{array}{*{20}{c}}
+        {{X_1} = 3{Z_1}} \\
+        {{X_2} =  - 4{Z_1}/3 + 8\sqrt 2 {Z_2}/3}
+    \end{array}
+\]
 
 \section{exercise 24}
 Use notation
