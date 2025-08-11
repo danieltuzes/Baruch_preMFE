@@ -75,9 +75,56 @@ from which we can derive the inverse for $M_3$, and confirm the 3rd statement, s
 \section{exercise 13}
 \section{exercise 14}
 \section{exercise 15 Daniel}
+The matrix is only of 4x4 and writing out all the equations would actually lead to a 4th order polynomial that can be reduced to a 2nd order polynomial.
+
+Another way is to get reminded by ChatGPT that we can reduce the problem to a linear, homogeneous, constant-coefficient recurrence relation.
+Let the eigenvector be $\mathbf{p} = \begin{pmatrix} p_1 \\ p_2 \\ p_3 \\ p_4 \end{pmatrix}$, then we have the following system of equations:
+\[ - {p_{j - 1}} + \left( {2 - \lambda } \right){p_j} - {p_{j + 1}} = 0\qquad \forall j \in \{ 1,2,3,4\} \quad {p_0} = {p_5} = 0\]
+We solve it with the ansatz $p_j = r^j$ for some $r$. Plugging in gives us the characteristic equation:
+\[ - r^{j-1} + (2 - \lambda) r^j - r^{j+1} = 0 \]
+Dividing by $r^{j-1}$ (for $r \neq 0$) leads to:
+\[ - 1 + (2 - \lambda) r - r^2 = 0 \]
+Rearranging gives the standard form of a quadratic equation:
+\[ r^2 - (2 - \lambda) r + 1 = 0 \]
+Note that if $r$ is a root, then $r^{-1}$ is also a root, so we can write the general solution as
+\[ p_j = A r^j + B r^{-j} \]
+for some constants $A$ and $B$. $B=-A$ because $p_0 = 0$, so we can write
+\[ p_j = A \left( r^j - r^{-j} \right) \]
+At $p_5  =0$ we have
+\[ 0 = A \left( r^5 - r^{-5} \right) \]
+This implies that either $A = 0$ or $r^5 = r^{-5}$, which leads to $r^{10} = 1$. The solutions to this equation are the 10th roots of unity:
+\[ r = e^{i\frac{2\pi k}{10}}, \quad k = 0, 1, \ldots, 4 \]
+Note that $k>4$ result in the same solutions due to $B=-A$ and the periodicity of the exponential fucntion. From the quadratic equation, divided by $r$:
+\[2-\lambda_k = e^{i\frac{2\pi k}{10}} + e^{-i\frac{2\pi k}{10}} = 2 \cos\left(\frac{2\pi k}{10}\right)\quad \]
+So the matrix has the diagonal form of
+\[
+    \Lambda = \begin{pmatrix}
+        2 - 2\cos\left(\frac{\pi}{5}\right) & 0                                    & 0                                    & 0                                    \\
+        0                                   & 2 - 2\cos\left(\frac{2\pi}{5}\right) & 0                                    & 0                                    \\
+        0                                   & 0                                    & 2 - 2\cos\left(\frac{3\pi}{5}\right) & 0                                    \\
+        0                                   & 0                                    & 0                                    & 2 - 2\cos\left(\frac{4\pi}{5}\right)
+    \end{pmatrix}
+\]
+
 \section{exercise 16}
 \section{exercise 17}
 \section{exercise 18 Daniel}
+The matrix can be written as
+\[A= d{{\mathbf{I}}_{n \times n}} + {\mathbf{1}} \left( {1,2, \ldots ,n} \right)\]
+The identity matrix has every vector as an eigenvector, and the rank-1 matrix has only 1 eigenvector $\mathbf{v}$ outside the diad's kernel, for which:
+\[
+    \hat\lambda \mathbf{v} = \left[{\mathbf{1}} \left( {1,2, \ldots ,n} \right) \right] \cdot \mathbf{v} = {\mathbf{1}} \cdot \left[ \left( {1,2, \ldots ,n} \right) \mathbf{v}\right] \Rightarrow \mathbf{v}_1 = \mathbf{1} \quad \hat\lambda_1 = \frac{n \cdot (n+1)}{2}
+\]
+And for the kernel:
+\[\left[ {{\mathbf{1}}\left( {1,2, \ldots ,n} \right)} \right]{\mathbf{v}} = {\mathbf{1}}\underbrace {\left[ {\left( {1,2, \ldots ,n} \right){\mathbf{v}}} \right]}_0 \Rightarrow \hat\lambda _k = 0\quad \forall k \in \left\{ {2,3, \ldots ,n} \right\}\quad {{\mathbf{v}}_k} = {{\mathbf{e}}_1} - {{\mathbf{e}}_k}/k\]
+
+So the eigenvalues for $A$ are
+\begin{itemize}
+    \item $\lambda_1 = d + \frac{n \cdot (n+1)}{2}$ and the eigenvector is $\mathbf{v}_1 = \mathbf{1}$.
+    \item $\lambda_k = d$ and the eigenvectors are $\mathbf{v}_k = {\mathbf{e}}_1 - {{\mathbf{e}}_k}/k$ for $k \in \left\{2, 3, \ldots n\right\}$
+\end{itemize}
+
+
 \section{exercise 19}
 \section{exercise 20}
 \section{exercise 21}
