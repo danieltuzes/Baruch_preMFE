@@ -1,0 +1,67 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{siunitx}
+\usepackage{pdfpages}
+\usepackage{placeins}
+\usepackage{tocbibind}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+
+\title{Baruch ML Exam}
+\author{Annie Yi, Daniel Tuzes, group 9}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+**Solution Outline**
+
+We want to evaluate  
+$$
+\lim_{n \to \infty} \int_{[0,1]^n} \frac{x_1^5 + x_2^5 + \cdots + x_n^5}{x_1^4 + x_2^4 + \cdots + x_n^4}\,dx_1\,dx_2 \cdots dx_n.
+$$
+
+1. **Heuristic via Law of Large Numbers (LLN)**  
+
+   Let \(X_1, X_2, \dots, X_n\) be i.i.d.\ random variables, each uniformly distributed on \([0,1]\). Then  
+   - \(\frac{1}{n}\sum_{i=1}^n X_i^4 \to \mathbb{E}[X^4]\) almost surely,  
+   - \(\frac{1}{n}\sum_{i=1}^n X_i^5 \to \mathbb{E}[X^5]\) almost surely,  
+   where \(X \sim \mathrm{Uniform}(0,1)\).
+
+   Consequently, for “most” points \((x_1,\dots,x_n) \in [0,1]^n\), the ratio
+   $$
+   \frac{x_1^5 + \cdots + x_n^5}{x_1^4 + \cdots + x_n^4}
+   $$
+   gets close to
+   $$
+   \frac{\mathbb{E}[X^5]}{\mathbb{E}[X^4]}.
+   $$
+   Since \(\mathbb{E}[X^k] = \tfrac{1}{k+1}\) for \(X \sim \mathrm{Uniform}(0,1)\), we have  
+   - \(\mathbb{E}[X^4] = \tfrac{1}{5},\)  
+   - \(\mathbb{E}[X^5] = \tfrac{1}{6}.\)
+
+   Therefore,  
+   $$
+   \frac{\mathbb{E}[X^5]}{\mathbb{E}[X^4]}
+   \;=\;
+   \frac{1/6}{1/5}
+   \;=\;
+   \frac{5}{6}.
+   $$
+
+2. **Conclusion**  
+
+   By the **law of large numbers**, the integrand converges pointwise (almost everywhere) to \(5/6\). By a standard limiting‐integral argument (often invoked with the Dominated Convergence Theorem or a related technique), the value of the integral converges to \(5/6\) as \(n \to \infty\).
+
+Hence,
+$$
+\lim_{n \to \infty} \int_{[0,1]^n} \frac{x_1^5 + \cdots + x_n^5}{x_1^4 + \cdots + x_n^4}\,dx_1 \cdots dx_n
+\;=\;
+\frac{5}{6}.
+$$
+
+\end{document}
