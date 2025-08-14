@@ -62,11 +62,90 @@ Multiply the original statement by $M_1$ from the right and by $M_1^{-1}$ from t
 With this new truth, we can derive the inverse for $M_2$ with the same logic and get the 2nd statement,
 from which we can derive the inverse for $M_3$, and confirm the 3rd statement, similarly for $M_4$ and for the last statement.
 
-\section{exercise 3}
+\section{exercise 3 Daniel}
+Left-multiply by $I+A$ and right-multiply by $(I+A^{-1})$, which exists, as we can see from the problem statement:
+
+\begin{align*}
+    (I+A)(I+A)^{-1}(I+A^{-1})
+     & = (I+A)\Bigl[I-(I+A^{-1})^{-1}\Bigr](I+A^{-1}) \\[2mm]
+    I\,(I+A^{-1})
+     & = (I+A)\Bigl[(I+A^{-1})-I\Bigr]                \\[2mm]
+    I+A^{-1}
+     & = (I+A)A^{-1}                                  \\
+     & = I+A^{-1}.
+\end{align*}
 \section{exercise 4}
 \section{exercise 5}
-\section{exercise 6}
-\section{exercise 7}
+\section{exercise 6 Daniel}
+Wow! Multiply by $A+B$ from the left:
+\[\begin{gathered}
+        I + B{A^{ - 1}} + A{B^{ - 1}} + I = I\quad X: = B{A^{ - 1}} \hfill \\
+        X + {X^{ - 1}} =  - I\quad /X \cdot  \hfill \\
+        {X^2} + X + I = 0 \hfill \\
+        \left( {{X^2} + X + I} \right)\left( {X - I} \right) = 0\left( {X - I} \right) \qquad \text{thanks, chatGPT}\hfill \\
+        {X^3} - I = 0 \hfill \\
+        {X^3} = I \Rightarrow \det \left( {{X^3}} \right) = 1 = {\left( {\frac{{\det \left( B \right)}}{{\det \left( A \right)}}} \right)^3}\quad {\text{if }}\det \left( A \right),\det \left( B \right) \in \mathbb{R} \Rightarrow \det \left( A \right) = \det \left( B \right) \hfill \\
+    \end{gathered} \]
+
+\section{exercise 7 Daniel}
+% Covariance, variances, and correlation matrix
+\[
+    \Sigma =
+    \begin{pmatrix}
+        1      & -0.525 & 1.375  & -0.075 & -0.75  \\
+        -0.525 & 4      & 0.1875 & 0.1875 & -0.675 \\
+        1.375  & 0.1875 & 12.25  & 0.4375 & -1.875 \\
+        -0.075 & 0.1875 & 0.4375 & 6.25   & 0.3    \\
+        -0.75  & -0.675 & -1.875 & 0.3    & 4.41
+    \end{pmatrix}.
+\]
+
+% Diagonal matrix of variances and the std-dev matrix
+\[
+    D=\mathrm{diag}(\Sigma)=
+    \begin{pmatrix}
+        1 & 0 & 0     & 0    & 0    \\
+        0 & 4 & 0     & 0    & 0    \\
+        0 & 0 & 12.25 & 0    & 0    \\
+        0 & 0 & 0     & 6.25 & 0    \\
+        0 & 0 & 0     & 0    & 4.41
+    \end{pmatrix},
+    \qquad
+    S:=D^{1/2}=\mathrm{diag}(1,\,2,\,3.5,\,2.5,\,2.1).
+\]
+
+% Definition of the correlation matrix
+\[
+    \Omega \;=\; D^{-1/2}\,\Sigma\,D^{-1/2}
+    \quad\Longleftrightarrow\quad
+    \omega_{ij}=\frac{\sigma_{ij}}{\sqrt{\sigma_{ii}\sigma_{jj}}}.
+\]
+
+% (Optional) exact fractional form
+\[
+    \Omega =
+    \begin{pmatrix}
+        1               & -\tfrac{21}{80} & \tfrac{11}{28}  & -\tfrac{3}{100} & -\tfrac{5}{14}  \\
+        -\tfrac{21}{80} & 1               & \tfrac{3}{112}  & \tfrac{3}{80}   & -\tfrac{9}{56}  \\
+        \tfrac{11}{28}  & \tfrac{3}{112}  & 1               & \tfrac{1}{20}   & -\tfrac{25}{98} \\
+        -\tfrac{3}{100} & \tfrac{3}{80}   & \tfrac{1}{20}   & 1               & \tfrac{2}{35}   \\
+        -\tfrac{5}{14}  & -\tfrac{9}{56}  & -\tfrac{25}{98} & \tfrac{2}{35}   & 1
+    \end{pmatrix}.
+\]
+
+% Numerical result (6 d.p.)
+\[
+    \Omega \approx
+    \begin{pmatrix}
+        1         & -0.262500 & 0.392857  & -0.030000 & -0.357143 \\
+        -0.262500 & 1         & 0.026786  & 0.037500  & -0.160714 \\
+        0.392857  & 0.026786  & 1         & 0.050000  & -0.255102 \\
+        -0.030000 & 0.037500  & 0.050000  & 1         & 0.057143  \\
+        -0.357143 & -0.160714 & -0.255102 & 0.057143  & 1
+    \end{pmatrix}.
+\]
+
+
 \section{exercise 8}
 \section{exercise 9}
 \section{exercise 10}
@@ -133,8 +212,22 @@ So the eigenvalues for $A$ are
 \end{itemize}
 
 
-\section{exercise 19}
-\section{exercise 20}
+\section{exercise 19 Daniel}
+Let $v \neq0$, then $Qv \neq 0$ because $Q$ is orthogonal and it keeps the norm.
+
+i) \[{v^t}{Q^t}AQv = {\left( {Qv} \right)^t}A\left( {Qv} \right) > 0\]
+must hold because $A$ is spd, and $Qv$ is a non-zero vector. So $Q^tAQ$ is also spd.
+
+ii) \[{v^t}{Q^t}AQv = {\left( {Qv} \right)^t}A\left( {Qv} \right) \geqslant 0\]
+must hold because $A$ is spsd. So $Q^tAQ$ is also spsd.
+
+\section{exercise 20 Daniel}
+\[A = Q\Lambda {Q^t} \Rightarrow {A^{ - 1}} = {\left( {{Q^t}} \right)^{ - 1}}{\Lambda ^{ - 1}}{Q^{ - 1}}\]
+$Q$ orthogonal, $Q^{-1} = Q^t$:
+\[\begin{gathered}
+        {A^{ - 1}} = Q{\Lambda ^{ - 1}}{Q^t} \hfill \\
+        A{A^{ - 1}} = ?I = ?Q\Lambda {Q^t}Q{\Lambda ^{ - 1}}{Q^t} = Q\Lambda {\Lambda ^{ - 1}}{Q^t} = Q{Q^t} = I \hfill \\
+    \end{gathered} \]
 \section{exercise 21}
 
 \section{exercise 22}
