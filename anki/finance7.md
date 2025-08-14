@@ -31,3 +31,8 @@ $$
 
 ## Let $X$, $Y$ and $Z$ be independent standard normal random vars. What is the distribuion of $\frac{X+YZ}{1+Z^2}$?
 
+## What is a Jordan-block? What is its eigenvalue and eigenvector?
+
+## Why a matrix and its transpose has the same eigenvalues?
+
+## Why is the determinant and the trace of the matrix can be calculated from the eigenvalues only?
