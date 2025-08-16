@@ -1,0 +1,62 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{graphicx} % Required for \scalebox
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{lmodern} % Use scalable Latin Modern fonts
+\title{Baruch SIP NLA Quiz 4}
+\author{Daniel Tuzes}
+
+\begin{document}
+\maketitle
+
+\section{exercise 1}
+The matrix is strictly diagonally dominant, and the diagonal elements are positive, so eigenvalues are positive. The matrix is symmetric, so it is positive definite.
+
+\section{exercise 2}
+\begin{itemize}
+    \item $R_1 = 1, A_{1,1} = 1$
+    \item $R_2 = 1.5, A_{2,2} = 2.5$
+    \item $R_3 = 2.1, A_{3,3} = 3.1$
+\end{itemize}
+i) $R_i \le A_{i,i}$ so the matrix is weakly diagonally dominant. It is also symmetric, so it is positive semidefinite.
+
+ii) Check the leading principal minors and whether they are all positive:
+\begin{itemize}
+    \item $M_1 = A_{1,1} = 1 > 0$
+    \item $M_2 = \begin{vmatrix}
+                  A_{1,1} & A_{1,2} \\
+                  A_{2,1} & A_{2,2}
+              \end{vmatrix} = 1 \cdot 2.5 - 0.04 > 0$
+    \item $M_3 = \begin{vmatrix}
+                  A_{1,1} & A_{1,2} & A_{1,3} \\
+                  A_{2,1} & A_{2,2} & A_{2,3} \\
+                  A_{3,1} & A_{3,2} & A_{3,3}
+              \end{vmatrix} = 4.752 > 0$
+\end{itemize}
+Since all leading principal minors are positive, the matrix is positive definite.
+
+\section{exercise 3}
+A correlation matrix is spsd, so let's check what $\rho$ must fulfill.
+\begin{enumerate}
+    \item $1-\rho^2 \geq 0 \Rightarrow \rho^2 \leq 1 \Rightarrow -1 \leq \rho \leq 1$
+    \item The matrix's determinant must be non-negative:
+          $\rho^2 + 2\cdot0.64\rho + (2\cdot0.64-1) \leq 0 \Rightarrow \rho_1 = -1, \rho_2 = -0.28$
+\end{enumerate}
+To meet all the requirements, $\rho$ must be in the interval $[-1, -0.28]$.
+
+\section{exercise 4}
+If there exist $c_1$ and $c_2$ such that $X_1 = Z_1$ and $X_2 = c_1 Z_1 + c_2 Z_2$. Then
+\begin{enumerate}
+    \item $var(X_1) = var(Z_1) = 1$, check
+    \item $cov(X_1, X_2) = c_1 var(Z_1) + c_2 cov(Z_1, Z_2) = c_1$. So ${c_1 = -0.36}$
+    \item $var(X_2) = c_1^2 var(Z_1) + c_2^2 var(Z_2) + 2c_1 c_2 cov(Z_1, Z_2) = c_1^2 + c_2^2 = 1 \Rightarrow{c_2 = 0.932}$
+\end{enumerate}
+$\boxed{X_1 = Z_1}$ and $\boxed{X_2 = -0.36 Z_1 + 0.932 Z_2}$
+\end{document}
