@@ -1,0 +1,9 @@
+== Summary of male.earnings ==
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  2.164  11.987  16.239  17.327  21.477  52.443 
+
+== Any NA values? ==
+[1] FALSE
+
+== Length of vector ==
+[1] 5956

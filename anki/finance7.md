@@ -41,7 +41,10 @@ $$
 
 $$
   {A_1} \subseteq {A_2} \subseteq  \ldots  \Rightarrow P\left( {{A_1} \cup {A_2} \cup  \ldots } \right) = \mathop {\lim }\limits_{n \to \infty } P\left( {{A_n}} \right)
-  $$
-  $$
+$$
+$$
   {A_1} \supseteq {A_2} \supseteq  \ldots  \Rightarrow P\left( {{A_1} \cap {A_2} \cap  \ldots } \right) = \mathop {\lim }\limits_{n \to \infty } P\left( {{A_n}} \right)
-  $$
+$$
+
+## Show that the sum of 2 random variable is the convolution
+

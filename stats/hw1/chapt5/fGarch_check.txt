@@ -1,0 +1,4 @@
+== Checking fGarch installation ==
+fGarch is installed ✅
+fGarch loaded successfully ✅
+Package version:  4033.92 

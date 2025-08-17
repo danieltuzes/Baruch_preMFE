@@ -1,0 +1,1040 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{graphicx} % Required for \scalebox
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{verbatim}
+\usepackage{adjustbox}
+\usepackage{fancyvrb}
+\usepackage[shortlabels]{enumitem}
+\setcounter{MaxMatrixCols}{20}
+\definecolor{codegray}{gray}{0.9}
+
+\lstset{
+    backgroundcolor=\color{codegray},
+    basicstyle=\ttfamily\small,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{orange}
+}
+\title{Baruch SIP Stats HW1}
+\author{Daniel Tuzes}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{T1 - student}
+During the class we derived the formula (maybe we missed the absolute sign?)
+\[{f_{{T_n}}}\left( x \right) = \left| x \right|{f_{{F_{1,n}}}}\left( {{x^2}} \right)\]
+Now it makes sense why we derived the pdf for the Fisched distribution during the class.
+Pluging it into the formula, after simplifying with \(\left| x \right|\), we get
+\[{f_{{T_n}}}\left( x \right) = \frac{{\Gamma \left( {\frac{{1 + n}}{2}} \right)}}{{\Gamma \left( {\frac{1}{2}} \right)\Gamma \left( {\frac{n}{2}} \right)}}{n^{\frac{n}{2}}}{\left( {n + {x^2}} \right)^{ - \frac{{1 + n}}{2}}}\]
+
+\subsection{mean}
+\[E\left( x \right) = \int\limits_{ - \infty }^\infty  {x{f_{{T_n}}}\left( x \right)dx}  = \frac{{\Gamma \left( {\frac{{1 + n}}{2}} \right)}}{{\Gamma \left( {\frac{1}{2}} \right)\Gamma \left( {\frac{n}{2}} \right)}}{n^{\frac{n}{2}}}\int\limits_{ - \infty }^\infty  {x{{\left( {n + {x^2}} \right)}^{ - \frac{{1 + n}}{2}}}dx} \]
+The integrant is antysymmetric, so the mean is 0 if the integral exists.
+
+At 0 it is not diverging if $n>0$, which holds.
+
+\[x{\left( {n + {x^2}} \right)^{ - \frac{{1 + n}}{2}}}\]
+integrable (for big $x$) iif \[x{\left( {{x^2}} \right)^{ - \frac{{1 + n}}{2}}} = {x^{ - n}}\] is integrable too,
+which holds for $n>1$.
+
+\subsection{variance}
+For $n>1$, the mean exists, so we can also try to compute the variance using $Var(X) = E(X^2) - E(X)^2 = E(X^2)$.
+\[
+    \mathbb{E}[X^2] = \int_{-\infty}^\infty x^2 f_{T_n}(x) \, dx
+    = 2 \int_0^\infty x^2 f_{T_n}(x) \, dx
+\]
+
+Substitute the expression of $f_{T_n}(x)$:
+
+\[
+    = 2 \cdot \frac{\Gamma\left( \frac{n+1}{2} \right)}{\Gamma\left( \frac{1}{2} \right)\Gamma\left( \frac{n}{2} \right)} \cdot n^{n/2}
+    \cdot \int_0^\infty x^2 (n + x^2)^{-\frac{n+1}{2}} \, dx
+\]
+
+With the help of
+\url{https://www.statlect.com/probability-distributions/student-t-distribution},
+let \( u = \frac{x^2}{n} \), so \( x = \sqrt{n u} \), and \( dx = \frac{\sqrt{n}}{2\sqrt{u}}\, du \)
+
+Then:
+\begin{itemize}
+    \item \( x^2 = n u \)
+    \item \( x^2 \cdot dx = n u \cdot \frac{\sqrt{n}}{2\sqrt{u}} \, du = \frac{n^{3/2}}{2} \cdot u^{1/2} \, du \)
+\end{itemize}
+
+So the integral becomes:
+
+\[
+    \int_0^\infty x^2 (n + x^2)^{-\frac{n+1}{2}} dx
+    = \frac{n^{3/2}}{2} \int_0^\infty u^{1/2} (n + n u)^{-\frac{n+1}{2}} du
+    = \frac{n^{3/2}}{2} \int_0^\infty u^{1/2} \cdot n^{-\frac{n+1}{2}} (1 + u)^{-\frac{n+1}{2}} du
+\]
+
+Factor out constants:
+
+\[
+    = \frac{n^{3/2 - \frac{n+1}{2}}}{2} \int_0^\infty u^{1/2} (1 + u)^{-\frac{n+1}{2}} du
+    = \frac{n^{(2 - n)/2}}{2} \int_0^\infty u^{1/2} (1 + u)^{-\frac{n+1}{2}} du
+\]
+
+This integral is a beta integral (as the webpage shows):
+
+\[
+    \int_0^\infty u^{a - 1} (1 + u)^{-(a + b)} du = B(a, b)
+\]
+
+with \( a = \frac{3}{2} \), \( b = \frac{n - 2}{2} \), so:
+
+\[
+    \int_0^\infty u^{1/2} (1 + u)^{-\frac{n+1}{2}} du = B\left( \frac{3}{2}, \frac{n - 2}{2} \right)
+    = \frac{\Gamma\left( \frac{3}{2} \right) \Gamma\left( \frac{n - 2}{2} \right)}{\Gamma\left( \frac{n + 1}{2} \right)}
+\]
+
+Putting everything together:
+
+\[
+    \mathbb{E}[X^2] =
+    2 \cdot \frac{\Gamma\left( \frac{n+1}{2} \right)}{\Gamma\left( \frac{1}{2} \right)\Gamma\left( \frac{n}{2} \right)}
+    \cdot n^{n/2} \cdot \frac{n^{(2 - n)/2}}{2}
+    \cdot \frac{\Gamma\left( \frac{3}{2} \right) \Gamma\left( \frac{n - 2}{2} \right)}{\Gamma\left( \frac{n + 1}{2} \right)}
+\]
+
+
+\[
+    \mathbb{E}[X^2] = n \cdot \frac{\Gamma\left( \frac{3}{2} \right)}{\Gamma\left( \frac{1}{2} \right)}
+    \cdot \frac{\Gamma\left( \frac{n - 2}{2} \right)}{\Gamma\left( \frac{n}{2} \right)}
+\]
+
+We use \( \Gamma\left( \frac{3}{2} \right) = \frac{\sqrt{\pi}}{2} \), and \( \Gamma\left( \frac{1}{2} \right) = \sqrt{\pi} \), so:
+
+\[
+    \frac{\Gamma\left( \frac{3}{2} \right)}{\Gamma\left( \frac{1}{2} \right)} = \frac{1}{2}
+\]
+
+Then:
+
+\[
+    \mathbb{E}[X^2] = \frac{n}{2} \cdot \frac{\Gamma\left( \frac{n - 2}{2} \right)}{\Gamma\left( \frac{n}{2} \right)}
+\]
+
+Finally, use the gamma identity:
+
+\[
+    \frac{\Gamma\left( \frac{n - 2}{2} \right)}{\Gamma\left( \frac{n}{2} \right)} = \frac{2}{n - 2}
+\]
+
+So:
+
+\[
+    \mathbb{E}[X^2] = \frac{n}{2} \cdot \frac{2}{n - 2} = \frac{n}{n - 2}
+\]
+
+\[
+    \boxed{\operatorname{Var}(T_n) = \frac{n}{n - 2} \quad \text{for } n > 2}
+\]
+\section{Kurtosis}
+\[{f_{\Gamma \left( {\lambda ,n} \right)}} = \frac{1}{{\Gamma \left( n \right)}}{x^{n - 1}}{\lambda ^n}{e^{ - \lambda x}}\]
+
+\[\begin{aligned}
+        MF{G_{\Gamma \left( {\lambda ,n} \right)}}\left( t \right) & = E\left[ {{e^{Xt}}} \right]                                                                                                                                                                                     \\
+                                                                   & = \int\limits_0^\infty  {\frac{1}{{\Gamma \left( n \right)}}{x^{n - 1}}{\lambda ^n}{e^{ - \lambda x}}{e^{xt}}dx} \qquad {e^{ - \lambda x}}{e^{xt}} = {e^{ - \left( {\lambda  - t} \right)x}}                     \\
+                                                                   & = \frac{{{\lambda ^n}}}{{{{\left( {\lambda  - t} \right)}^n}}}\int\limits_0^\infty  {\frac{1}{{\Gamma \left( n \right)}}{x^{n - 1}}{{\left( {\lambda  - t} \right)}^n}{e^{ - \left( {\lambda  - t} \right)x}}dx} \\
+                                                                   & = \frac{{{\lambda ^n}}}{{{{\left( {\lambda  - t} \right)}^n}}}                                                                                                                                                   \\
+    \end{aligned} \]
+
+So the raw moments are:
+\[\begin{gathered}
+        {\mu _1}' = \frac{d}{{dt}}{\left. {\frac{{{\lambda ^n}}}{{{{\left( {\lambda  - t} \right)}^n}}}} \right|_{t = 0}} = n{\left. {\frac{{{\lambda ^n}}}{{{{\left( {\lambda  - t} \right)}^{n + 1}}}}} \right|_{t = 0}} = \frac{n}{\lambda } \hfill \\
+        {\mu _2}' = \frac{{{d^2}}}{{d{t^2}}}{\left. {\frac{{{\lambda ^n}}}{{{{\left( {\lambda  - t} \right)}^n}}}} \right|_{t = 0}} = n\left( {n + 1} \right){\left. {\frac{{{\lambda ^n}}}{{{{\left( {\lambda  - t} \right)}^{n + 2}}}}} \right|_{t = 0}} = \frac{{n\left( {n + 1} \right)}}{{{\lambda ^2}}} \hfill \\
+        {\mu _3}' = \frac{{{d^3}}}{{d{t^3}}}{\left. {\frac{{{\lambda ^n}}}{{{{\left( {\lambda  - t} \right)}^n}}}} \right|_{t = 0}} = n\left( {n + 1} \right)\left( {n + 2} \right){\left. {\frac{{{\lambda ^n}}}{{{{\left( {\lambda  - t} \right)}^{n + 3}}}}} \right|_{t = 0}} = \frac{{n\left( {n + 1} \right)\left( {n + 2} \right)}}{{{\lambda ^3}}} \hfill \\
+        {\mu _4}' = \frac{{{d^4}}}{{d{t^4}}}{\left. {\frac{{{\lambda ^n}}}{{{{\left( {\lambda  - t} \right)}^n}}}} \right|_{t = 0}} =\ldots = \frac{{n\left( {n + 1} \right)\left( {n + 2} \right)\left( {n + 3} \right)}}{{{\lambda ^4}}} \hfill \\
+    \end{gathered} \]
+
+\subsection{Skewness}
+\[
+    \text{Skewness} = \gamma_1 = \frac{\mu_3}{\mu_2^{3/2}}
+\]
+This is defined with the central moments which are calculated from the raw moments by:
+\[
+    \begin{aligned}
+        \mu_2 & = \mu_2' - (\mu_1')^2                  \\
+        \mu_3 & = \mu_3' - 3\mu_2'\mu_1' + 2(\mu_1')^3
+    \end{aligned}
+\]
+So with the raw
+\[
+    \text{Skewness} = \frac{\mu_3' - 3\mu_2'\mu_1' + 2(\mu_1')^3}{\left( \mu_2' - (\mu_1')^2 \right)^{3/2}}
+\]
+Putting in what we have calcualted:
+\[
+    \begin{aligned}
+        \text{Numerator} & = \frac{
+            \alpha(\alpha + 1)(\alpha + 2)
+            - 3\alpha(\alpha + 1)\alpha
+            + 2\alpha^3
+        }{\lambda^3}                \\
+                         & = \frac{
+            \alpha^3 + 3\alpha^2 + 2\alpha
+            - 3\alpha^3 - 3\alpha^2
+            + 2\alpha^3
+        }{\lambda^3}
+        = \frac{2\alpha}{\lambda^3}
+    \end{aligned}
+\]
+\[
+    \begin{aligned}
+        \text{Denominator} & =
+        \left( \frac{\alpha(\alpha + 1)}{\lambda^2} - \left( \frac{\alpha}{\lambda} \right)^2 \right)^{3/2}
+        = \left( \frac{\alpha}{\lambda^2} \right)^{3/2}
+    \end{aligned}
+\]
+
+% Final expression
+\[
+    \text{Skewness} = \frac{\frac{2\alpha}{\lambda^3}}{\left( \frac{\alpha}{\lambda^2} \right)^{3/2}}
+    = \frac{2\alpha}{\lambda^3} \cdot \left( \frac{\lambda^3}{\alpha^{3/2}} \right)
+    = \frac{2}{\sqrt{\alpha}}
+\]
+\subsection{Kurtosis}
+\[
+    \text{Kurtosis} = \gamma_2 = \frac{\mu_4}{\mu_2^2}
+\]
+\[
+    \mu_4 = \mu_4' - 4\mu_3'\mu_1' + 6\mu_2'(\mu_1')^2 - 3(\mu_1')^4
+\]
+
+\[
+    \begin{aligned}
+        \mu_4 & =
+        \frac{\alpha(\alpha + 1)(\alpha + 2)(\alpha + 3)}{\lambda^4}
+        - 4 \cdot \frac{\alpha(\alpha + 1)(\alpha + 2)}{\lambda^3} \cdot \frac{\alpha}{\lambda}                    \\
+              & \quad + 6 \cdot \frac{\alpha(\alpha + 1)}{\lambda^2} \cdot \left( \frac{\alpha}{\lambda} \right)^2
+        - 3 \cdot \left( \frac{\alpha}{\lambda} \right)^4
+    \end{aligned}
+\]
+
+% Multiply all terms to common denominator λ⁴
+\[
+    \begin{aligned}
+        \mu_4 & = \frac{1}{\lambda^4} \Big[
+            \alpha(\alpha + 1)(\alpha + 2)(\alpha + 3)
+            - 4\alpha^2(\alpha + 1)(\alpha + 2)
+            + 6\alpha^3(\alpha + 1)
+            - 3\alpha^4
+            \Big]
+    \end{aligned}
+\]
+
+% Now compute kurtosis
+\[
+    \text{Kurtosis} = \frac{\mu_4}{\mu_2^2} =
+    \frac{ \frac{1}{\lambda^4} \cdot \left[
+            \alpha(\alpha + 1)(\alpha + 2)(\alpha + 3)
+            - 4\alpha^2(\alpha + 1)(\alpha + 2)
+            + 6\alpha^3(\alpha + 1)
+            - 3\alpha^4 \right] }
+    { \left( \frac{\alpha}{\lambda^2} \right)^2 }
+\]
+
+% Cancel λ⁴ terms
+\[
+    \text{Kurtosis} = \frac{1}{\alpha^2} \cdot \left[
+        \alpha(\alpha + 1)(\alpha + 2)(\alpha + 3)
+        - 4\alpha^2(\alpha + 1)(\alpha + 2)
+        + 6\alpha^3(\alpha + 1)
+        - 3\alpha^4 \right]
+\]
+
+% Factor out α
+\[
+    \text{Kurtosis} =
+    \frac{1}{\alpha^2} \cdot \left[
+        \alpha(\alpha + 1)\left((\alpha + 2)(\alpha + 3)
+        - 4\alpha(\alpha + 2)
+        + 6\alpha^2
+        \right) - 3\alpha^4 \right]
+\]
+
+% Final simplification (manual)
+\[
+    \text{Kurtosis} = \frac{6}{\alpha} + 3
+\]
+
+\section{Mixing it up}
+\begin{enumerate}[(a)]
+    \item What is the kurtosis of a normal mixture distribution that is\\
+          $95\%\, \mathcal{N}(0,1)$ and $5\%\, \mathcal{N}(0,10)$?
+
+          % Mixture definition
+          Let \( X \sim p \cdot \mathcal{N}(0, 1) + (1 - p) \cdot \mathcal{N}(0, 10) \),
+          this means that $f_X(x) = p\cdot f_{\mathcal{N}(0, 1)}(x) + f_{\mathcal{N}(0, 10)}(x)$
+
+          % Define kurtosis from raw moments
+          \[
+              \text{Kurtosis} = \frac{\mathbb{E}[X^4]}{(\mathbb{E}[X^2])^2}
+              = \frac{\mu_4'}{(\mu_2')^2}
+          \]
+
+          % Step 1: Compute second moment
+          \[
+              \begin{aligned}
+                  \mathbb{E}[X^2]
+                   & = p \cdot \mathbb{E}[X^2 \mid \mathcal{N}(0,1)]
+                  + (1 - p) \cdot \mathbb{E}[X^2 \mid \mathcal{N}(0,10)] \\
+                   & = p \cdot 1 + (1 - p) \cdot 10                      \\
+                   & = 10 - 9p
+              \end{aligned}
+          \]
+
+          % Step 2: Compute fourth moment
+          \[
+              \begin{aligned}
+                  \mathbb{E}[X^4]
+                   & = p \cdot \mathbb{E}[X^4 \mid \mathcal{N}(0,1)]
+                  + (1 - p) \cdot \mathbb{E}[X^4 \mid \mathcal{N}(0,10)] \\
+                   & = p \cdot 3 + (1 - p) \cdot 300                     \\
+                   & = 300 - 297p
+              \end{aligned}
+          \]
+
+          % Step 3: Plug into kurtosis formula
+          \[
+              \begin{aligned}
+                  \text{Kurtosis}
+                   & = \frac{\mathbb{E}[X^4]}{(\mathbb{E}[X^2])^2} \\
+                   & = \frac{300 - 297p}{(10 - 9p)^2}
+              \end{aligned}
+          \]
+          Using $p=0.05$:
+          % Final boxed result
+          \[
+              \boxed{
+                  \text{Kurtosis} = 3.12656
+              }
+          \]
+
+
+    \item Find a formula for the kurtosis of a normal mixture distribution that is $100p\%\, \mathcal{N}(0,1)$ and $100(1 - p)\%\, \mathcal{N}(0, \sigma^2)$, where $p$ and $\sigma$ are parameters. Your formula should give the kurtosis as a function of $p$ and $\sigma$.
+          % Step 1: Compute second moment
+          \[
+              \begin{aligned}
+                  \mathbb{E}[X^2]
+                   & = p \cdot \mathbb{E}[X^2 \mid \mathcal{N}(0,1)]
+                  + (1 - p) \cdot \mathbb{E}[X^2 \mid \mathcal{N}(0,\sigma^2)] \\
+                   & = p \cdot 1 + (1 - p) \cdot \sigma^2                      \\
+                   & = p + (1 - p)\sigma^2
+              \end{aligned}
+          \]
+
+          % Step 2: Compute fourth moment
+          \[
+              \begin{aligned}
+                  \mathbb{E}[X^4]
+                   & = p \cdot \mathbb{E}[X^4 \mid \mathcal{N}(0,1)]
+                  + (1 - p) \cdot \mathbb{E}[X^4 \mid \mathcal{N}(0,\sigma^2)] \\
+                   & = p \cdot 3 + (1 - p) \cdot 3\sigma^4                     \\
+                   & = 3\left( p + (1 - p)\sigma^4 \right)
+              \end{aligned}
+          \]
+
+          % Step 3: Plug into kurtosis formula
+          \[
+              \begin{aligned}
+                  \text{Kurtosis}
+                   & = \frac{3\left( p + (1 - p)\sigma^4 \right)}
+                  {\left( p + (1 - p)\sigma^2 \right)^2}
+              \end{aligned}
+          \]
+
+    \item Show that the kurtosis of the normal mixtures in part (b) can be made arbitrarily large by choosing $p$ and $\sigma$ appropriately. Find values of $p$ and $\sigma$ so that the kurtosis is $10,\!000$ or larger.
+
+          Let $p=1-\epsilon$, and check the limit in $\epsilon \to 0$ and increasing $\sigma$ so that $\epsilon \cdot \sigma = \text{const} = 1$. Then
+          \[
+              \text{Kurtosis}_{\text{lim}} = 3\frac{\epsilon\sigma^4}
+              {\epsilon^2\sigma^4} = 3/\epsilon > 10000 \Rightarrow \epsilon \approx < 1/3333\quad\sigma \approx 3333
+          \]
+          Use $\epsilon = 1/10000$ and $\sigma = 10000$ to see that $\text{Kurtosis} = 29994.>10000$.
+    \item Let $M > 0$ be arbitrarily large. Show that for any $p_0 < 1$, no matter how close to $1$, there is a $p > p_0$ and a $\sigma$, such that the normal mixture with these values of $p$ and $\sigma$ has a kurtosis at least $M$. This shows that there is a normal mixture arbitrarily close to a normal distribution but with a kurtosis above any arbitrarily large value of $M$.
+
+          We have showed it in the previous point. We showed that if $1-p$ is small enough, the Kurtosis is big enough.
+          \begin{itemize}
+              \item If $1-p$ has to be smaller than a given value $1-p_0$ too ($\Rightarrow p>p_0$), the Kurtosis is even bigger.
+              \item If Kurtosis has to be even bigger than $M$, just take $\epsilon$ even smaller.
+          \end{itemize}
+\end{enumerate}
+
+\section{Fischer}
+\begin{enumerate}[(a)]
+    \item
+          \[\begin{aligned}
+                  {\lambda _{MLE}} = & \mathop {\arg \max }\limits_\lambda  \ln \left( {{L_\lambda }\left( x \right)} \right)                                                                                              \\
+                  =                  & \mathop {\arg \max }\limits_\lambda  \sum\limits_{i = 1}^n {\ln \left( {\lambda {e^{ - \lambda {x_i}}}} \right)}                                                                    \\
+                  =                  & \mathop {\arg \max }\limits_\lambda  \sum\limits_{i = 1}^n {\left( {\ln \left( \lambda  \right) - \lambda {x_i}} \right)\qquad \sum\limits_{i = 1}^n {\frac{{{x_i}}}{n}}  = \bar x} \\
+                  =                  & \mathop {\arg \max }\limits_\lambda  \left( {n\ln \left( \lambda  \right) - n\lambda \bar x} \right)                                                                                \\
+                  =                  & n\mathop { \cdot \arg \max }\limits_\lambda  \left( {\ln \left( \lambda  \right) - \lambda \bar x} \right)                                                                          \\
+              \end{aligned} \]
+
+          A $g(x) = \ln(x) - \lambda\bar{x}$ has a maximum at \(\lambda = \frac{1}{\bar{x}}\), so $\lambda_{MLE} = \frac{1}{\bar{x}}$.
+
+          \[\begin{aligned}
+                  I({\lambda _0}) = & - {E_{{\lambda _0}}}\left[ {{{\left. {\frac{{{d^2}}}{{d{\lambda ^2}}}\ln \left( {{f_\lambda }(x)} \right)} \right|}_{\lambda  = {\lambda _0}}}} \right]      \\
+                  =                 & - {E_{{\lambda _0}}}\left[ {{{\left. {\frac{{{d^2}}}{{d{\lambda ^2}}}\left( {\ln \lambda  - \lambda x} \right)} \right|}_{\lambda  = {\lambda _0}}}} \right] \\
+                  =                 & - {E_{{\lambda _0}}}\left[ {\frac{{ - 1}}{{\lambda _0^2}}} \right] = \frac{1}{{\lambda _0^2}}{E_{{\lambda _0}}}\left( 1 \right) = \frac{1}{{\lambda _0^2}}   \\
+              \end{aligned} \]
+
+          Asymptotic normality means that the MLE is asymptotically normal, so
+          \[
+              \sqrt{n}(\hat{\lambda}_{MLE} - \lambda_0) \xrightarrow{d} \mathcal N(0, 1/I(\lambda_0)) \equiv \mathcal N(0, \lambda_0^2)
+          \]
+    \item
+          \[\begin{aligned}
+                  \frac{d}{{d\mu }}\sum\limits_{i = 1}^n {\ln {f_\mu }\left( {{x_i}} \right)}  = & \frac{d}{{d\mu }}\sum\limits_{i = 1}^n {\left[ {\ln \left( {\frac{1}{{\sqrt {2\pi } \sigma }}} \right) - \frac{1}{{2{\sigma ^2}}}{{\left( {{x_i} - \mu } \right)}^2}} \right]} \\
+                  =                                                                              & \frac{1}{{{\sigma ^2}}}\frac{d}{{d\mu }}\sum\limits_{i = 1}^n {\left[ {{x_i} - \mu } \right]}                                                                                  \\
+                  =                                                                              & \frac{1}{{n{\sigma ^2}}}\frac{d}{{d\mu }}\left( {\bar x - \mu } \right) = 0 \Leftrightarrow \mu  = \bar x \Rightarrow {\mu _{MLE}} = \bar x                                    \\
+              \end{aligned} \]
+          The Fisher-information:
+          \[\begin{aligned}
+                  I\left( {{\mu _0}} \right) = & - {E_{{\mu _0}}}\left( {\frac{{{d^2}}}{{d{\mu ^2}}}\ln \left( {{f_\mu }\left( x \right)} \right)} \right) \\
+                  =                            & - {E_{{\mu _0}}}\left( {\frac{1}{{{\sigma ^2}}}\frac{d}{{d\mu }}\left( {x - \mu } \right)} \right)        \\
+                  =                            & \frac{{ - 1}}{{{\sigma ^2}}}{E_{{\mu _0}}}\left( { - 1} \right) = \frac{1}{{{\sigma ^2}}}                 \\
+              \end{aligned} \]
+
+          The asymptotic normality of the MLE means that
+          \[
+              \sqrt{n}(\hat{\mu}_{MLE} - \mu_0) \xrightarrow{d} \mathcal N(0, 1/I(\mu_0)) \equiv \mathcal N(0, \sigma^2)
+          \]
+
+    \item
+          \[\begin{aligned}
+                  \sigma _{MLE}^2 = & \mathop {\arg \max }\limits_{{\sigma ^2}} \sum\limits_{i = 1}^n {\left( {\ln \left( {{f_{{\sigma ^2}}}\left( {{x_i}} \right)} \right)} \right)} \qquad {f_{{\sigma ^2}}}\left( {{x_i}} \right) = \frac{1}{{\sqrt {2\pi {\sigma ^2}} }}{e^{ - \frac{1}{2}\frac{{{{\left( {{x_i} - \mu } \right)}^2}}}{{{\sigma ^2}}}}} \\
+                  =                 & \mathop {\arg \max }\limits_{{\sigma ^2}} \sum\limits_{i = 1}^n {\left( {\ln \left( {\frac{1}{{\sqrt {2\pi } }}} \right) - \frac{1}{2}\ln \left( {{\sigma ^2}} \right) - \frac{1}{2}\frac{{{{\left( {{x_i} - \mu } \right)}^2}}}{{{\sigma ^2}}}} \right)}                                                             \\
+                  =                 & \mathop {\arg \max }\limits_{{\sigma ^2}} \left( { - \frac{n}{2}\ln \left( {{\sigma ^2}} \right) - \frac{1}{2}\sum\limits_{i = 1}^n {\frac{{{{\left( {{x_i} - \mu } \right)}^2}}}{{{\sigma ^2}}}} } \right)                                                                                                           \\
+                  \Leftrightarrow   & 0 = \frac{d}{{d\left( {{\sigma ^2}} \right)}}\left( { - \frac{n}{2}\ln \left( {{\sigma ^2}} \right) - \frac{1}{2}\sum\limits_{i = 1}^n {\frac{{{{\left( {{x_i} - \mu } \right)}^2}}}{{{\sigma ^2}}}} } \right)                                                                                                        \\
+                  \Leftrightarrow   & 0 =  - \frac{n}{2}\frac{1}{{{\sigma ^2}}} + \frac{1}{2}\sum\limits_{i = 1}^n {\frac{{{{\left( {{x_i} - \mu } \right)}^2}}}{{{\sigma ^4}}}}                                                                                                                                                                            \\
+                  \Leftrightarrow   & {\sigma ^2} = \frac{1}{n}\sum\limits_{i = 1}^n {{{\left( {{x_i} - \mu } \right)}^2}}  \Rightarrow \sigma _{MLE}^2 = \frac{1}{n}\sum\limits_{i = 1}^n {{{\left( {{x_i} - \mu } \right)}^2}}                                                                                                                            \\
+              \end{aligned} \]
+
+          \[\begin{aligned}
+                  I\left( {\sigma _0^2} \right) = & - {E_{\sigma _0^2}}\left( {{{\left. {\left( {\frac{{{d^2}}}{{d{{\left( {{\sigma ^2}} \right)}^2}}}\left( {\ln {f_{{\sigma ^2}}}\left( x \right)} \right)} \right)} \right|}_{{\sigma ^2} = \sigma _0^2}}} \right)                                                            \\
+                  =                               & - {E_{\sigma _0^2}}\left( {{{\left. {\left( {\frac{d}{{d\left( {{\sigma ^2}} \right)}}\left( {\frac{{ - 1}}{2}\frac{1}{{{\sigma ^2}}} + \frac{1}{2}\frac{{{{\left( {x - \mu } \right)}^2}}}{{{\sigma ^4}}}} \right)} \right)} \right|}_{{\sigma ^2} = \sigma _0^2}}} \right) \\
+                  =                               & - {E_{\sigma _0^2}}\left( {{{\left. {\left( {\frac{{ - 1}}{2}\frac{{ - 1}}{{{\sigma ^4}}} + \frac{1}{2}\left( { - 2} \right)\frac{{{{\left( {x - \mu } \right)}^2}}}{{{\sigma ^6}}}} \right)} \right|}_{{\sigma ^2} = \sigma _0^2}}} \right)                                 \\
+                  =                               & - {E_{\sigma _0^2}}\left( {{{\left. {\left( {\frac{1}{2}\frac{1}{{{\sigma ^4}}} - \frac{{{{\left( {x - \mu } \right)}^2}}}{{{\sigma ^6}}}} \right)} \right|}_{{\sigma ^2} = \sigma _0^2}}} \right)                                                                           \\
+                  =                               & - \left( {\frac{1}{2}\frac{1}{{\sigma _0^4}} - \frac{{\sigma _0^2}}{{\sigma _0^6}}} \right) = \frac{1}{2}\frac{1}{{\sigma _0^4}}                                                                                                                                             \\
+              \end{aligned} \]
+
+          The asymptotic normality of the MLE means that
+          \[\sqrt n \left( {\sigma _{MLE}^2 - \sigma _0^2} \right)\xrightarrow{d}{\mathcal{N}}\left( {0,1/I\left( {\sigma _0^2} \right)} \right) \equiv {\mathcal{N}}\left( {0,2\sigma _0^4} \right)\]
+
+          \section{Invariance}
+          The expected value of the uniform distribution is ${E_{U\left( {{a_0},{b_0}} \right)}}\left( x \right) = \frac{{{a_0} + {b_0}}}{2}$.
+          To get its MLE, according to the hint on the invariance property, we can say that ${E_{U\left( {{a_0},{b_0}} \right),MLE}}\left( x \right) = \frac{{{a_{MLE}} + {b_{MLE}}}}{2}$.
+
+          \[L\left( {a,b} \right) = \prod\limits_{i = 1}^n {\frac{1}{{b - a}}{{\mathbf{1}}_{{x_i} \in \left[ {a,b} \right]}}}  = \frac{1}{{{{\left( {b - a} \right)}^n}}}{{\mathbf{1}}_{\min {x_i} \geqslant a}}{{\mathbf{1}}_{\max {x_i} \leqslant b}}\]
+          $a$ and $b$ behave independently, so we can maximize them separately, and the result is $b_{MLE} = \max_{i\in \{1,\ldots,n\}} {x_i}$ and $a_{MLE} = \min_{i\in \{1,\ldots,n\}} {x_i}$, so
+
+          \[
+              {E_{U\left( {{a_{0}},{b_{0}}} \right),MLE}}\left( x \right) = \frac{{\min {x_i} + \max {x_i}}}{2}
+          \]
+
+\end{enumerate}
+\section{Chapter 4 R-lab}
+\subsection{Problem 1}
+The value of 4 indicies, DAX, SMI, CAC and FTSE are displayed between 1991 and 1999 in figure \ref{fig:eustocks}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{EuStocks.pdf}
+    \caption{European stock market trends.}
+    \label{fig:eustocks}
+\end{figure}
+There is increasing trend in the data, which looks more exponentially increasing than linearly increasing.
+Ups and down can be observed in all of them, and SMI e.g.\ looks smoother than CAC.
+The big jumps and drops are strongly correlated.
+
+\subsection{Problem 2}
+On the log returns, shown in figure \ref{fig:logreturns}, we can see more noisy data,
+the trend whether the underlying data is increasing or decreasing is not obvious.
+The amplitude of the signal varies, and they are all scaled to fit into the same plot.
+There is a high frequency component in the data,
+about which it is hard to tell whether it correlates across the indices.
+The lower frequency components, at least in absolute value, correlate.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{EuStocksLogRet.pdf}
+    \caption{Log returns of the European stock market indices.}
+    \label{fig:logreturns}
+\end{figure}
+
+\subsection{Problem 3}
+In figure \ref{fig:EuStocksQQ},
+the quantiles of the log returns are plotted against the quantiles of a normal distribution.
+The points are not on the line, so the log returns are not normally distributed.
+Around the sample media, the points are close to the line,
+but they deviate more and more from it as we go further away from the median.
+The tails are heavier than the normal distribution,
+which means that there are more extreme values than in a normal distribution.
+
+For DAX, SMI and CAC,
+there are 1-2 extreme deviation from the line for the lower quantiles,
+but for FTSE,
+there are more extreme values in the higher quantiles, meaning that they are fat tailed.
+Apart from these extreme values,
+the curves have a rotation symmetry around the sample median,
+which means that the distribution is symmetric.
+Because the areas for the quantile plots are the same the scale is selected to fit the data,
+the previous property can be seen by the position of 0 sample quantile.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{EuStocksQQ.pdf}
+    \caption{Quantile-quantile plot of the log returns of the European stock market indices.}
+    \label{fig:EuStocksQQ}
+\end{figure}
+
+The Shapiro-Wilk test results are:
+\[
+    \begin{aligned}
+        \textbf{DAX:}  & \quad W = 0.95384, \quad p < 2.2 \times 10^{-16}   \\
+        \textbf{SMI:}  & \quad W = 0.95537, \quad p < 2.2 \times 10^{-16}   \\
+        \textbf{CAC:}  & \quad W = 0.98203, \quad p = 1.574 \times 10^{-14} \\
+        \textbf{FTSE:} & \quad W = 0.97994, \quad p = 1.754 \times 10^{-15}
+    \end{aligned}
+\]
+In none of the cases is $W$ close enough to 1, or $p$ far enough from 0 (like above 0.05),
+so we can reject the null hypothesis that the log returns are normally distributed.
+
+\subsection{Problem 4}
+\texttt{q.grid = (1:n) / (n + 1)} creates an array of floats
+with equidistant values between $1/(n+1)$ and $n/(n+1)$,
+where $n$ is the number of data points.
+These values are used to calculate the quantiles of the data.
+
+\texttt{qt(q\_grid,df)} calculates the quantiles of the t-distribution
+with $df$ degrees of freedom at the quantiles
+given by the float array \texttt{q\_grid}.
+
+\texttt{paste} interpolate the string values and concatenate them.
+\subsection{Problem 5}
+The results for DAX can be seen in figure \ref{fig:qqplot_dax}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{qqplot_dax.pdf}
+    \caption{Quantile-quantile plot of the log returns of DAX against a t-distribution.}
+    \label{fig:qqplot_dax}
+\end{figure}
+
+For $df=4$ and $df=6$, the points are the closest to the line, except 2-3 extreme values.
+For 4, both lower and higher values along the sample quantile are above the reference line,
+meaning that the lower sample quantile values we underestimate the tail heaviness,
+and for the higher sample quantile values we overestimate it.
+For 6, the higher sample quantile values are below the reference line,
+and below the reference line for the lower sample quantile values,
+meaning that we slightly underestimate the tail heaviness on both sides.
+
+\subsection{Problem 6}
+We define
+\begin{enumerate}
+    \item the kernel density estimate (KDE) of the log returns, used as reference distribution (shown instead of the original data points),
+    \item 3 $t$-distributions with degrees of freedom $df=4$, $df=5$, and $df=6$, with standard deviation calculated by the robust median absolute deviation (MAD) method,
+    \item 1 normal distribution with standard deviation calculated from the data points.
+\end{enumerate}
+These distributions are shown in \ref{fig:EuStocksDensities}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{EuStocksDensities.pdf}
+    \caption{Kernel density estimate and t-distributions of the log returns of the European stock market indices.}
+    \label{fig:EuStocksDensities}
+\end{figure}
+Apart from the very center, the t-distributions are close to the KDE,
+and they are closer than the normal distribution at any point.
+The main question is about the tails, which can be hardly seen on a linear y scale.
+
+In figure \ref{fig:EuStocksDensitiesLog} the same distributions are shown on a logarithmic y scale.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{EuStocksDensitiesLog.pdf}
+    \caption{Kernel density estimate, t-distributions and the normal distribution
+        of the log returns of the European stock market indices on a logarithmic y scale.}
+    \label{fig:EuStocksDensitiesLog}
+\end{figure}
+On this scale, the tails can be seen better.
+
+Only a few counts are in the tails, so the KDE is not very smooth there,
+but the t-distributions are smooth. Based on this plot,
+we cannot tell which t-distribution fits the data best,
+but we can see that the t-distributions are better than the normal distribution.
+
+\subsection{Problem 7}
+The default kernel is the Gaussian kernel, and the bandwitdth is \texttt{"nrd0"}. From the documentation:
+\begin{quote}
+    \texttt{bw.nrd0} implements a rule-of-thumb for choosing the bandwidth of a Gaussian kernel density estimator.
+    It defaults to 0.9 times the minimum of the standard deviation
+    and the interquartile range divided by 1.34 times
+    the sample size to the negative one-fifth power
+    (= Silverman's ‘rule of thumb’, Silverman (1986, page 48, eqn (3.31)))
+    unless the quartiles coincide when a positive result will be guaranteed.
+\end{quote}
+i.e.\ $h = 0.9 \cdot \min\left( \sigma, \frac{\mathrm{IQR}}{1.34} \right) \cdot n^{-1/5}$.
+
+\subsection{Problem 8}
+For CAC, to tell which t-distribution fits the data best,
+we can make a quantile-quantile plot of the log returns against the t-distributions.
+The results can be seen in figure \ref{fig:qqplot_cac}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{qqplot_cac.pdf}
+    \caption{Quantile-quantile plot of the log returns of CAC against t-distributions with values
+        $df=3, 4 \ldots 8$.}
+    \label{fig:qqplot_cac}
+\end{figure}
+Similar to the DAX case, between $df=4$ and $df=6$,
+the points are the closest to the line, except 2-3 extreme values. For $df=5$,
+only the lower sample quantile values are above the reference line,
+meaning that the lower sample quantile values we underestimate the tail heaviness,
+and for the higher sample quantile values the estimate seems to be more accurate based on the visual inspection.
+
+\subsection{Problem 9}
+The McDonald's Corporation (MCD) adjusted close price is shown in figure \ref{fig:mcd_price}
+between Jan-4-10 to Sep-5-14. The data looks increasing,
+starting from around price 55 and ending around 90,
+reaching top value of around a 100 close to the end of the period.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{mcd_price_plot.pdf}
+    \caption{MCD Adjusted Close Price}
+    \label{fig:mcd_price}
+\end{figure}
+\subsection{Problem 10}
+The log returns of the MCD stock is shown in figure \ref{fig:mcd_logret}.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{mcd_price_LogPlot.pdf}
+    \caption{MCD Log Returns}
+    \label{fig:mcd_logret}
+\end{figure}
+Again, from the log returns, I cannot see the trend of the stock,
+but I can see that the amplitude of the signal varies.
+\subsection{Problem 11}
+The histogram of the log returns is shown in figure \ref{fig:mcd_hist}.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{mcd_price_LogHist.pdf}
+    \caption{MCD Log Returns Histogram}
+    \label{fig:mcd_hist}
+\end{figure}
+The histogram is pretty much symmetric around 0,
+but maybe slightly skewed to the right,
+meaning that there are more positive log returns than negative ones,
+however, big negative log returns are more frequent than big positive ones.
+
+The QQ plot of the log returns is shown in figure \ref{fig:mcd_qq}.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{mcd_price_QQ.pdf}
+    \caption{MCD Log Returns QQ Plot}
+    \label{fig:mcd_qq}
+\end{figure}
+The points are not on the line,
+so the log returns are not normally distributed.
+The results of the Shapiro-Wilk test are:
+\texttt{W = 0.96956, p-value = 5.226e-15},
+which means that we can reject the null hypothesis that the log returns are normally distributed.
+
+We can test how heavy the tails are
+by comparing the log returns to a series of t-distributions.
+The quantile-quantile plot of the log returns
+against t-distributions with degrees of freedom
+$df=3, 4, \ldots, 8$ is shown in figure \ref{fig:mcd_qq_t}.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{mcd_price_QQ_t.pdf}
+    \caption{MCD Log Returns QQ Plot against t-distributions}
+    \label{fig:mcd_qq_t}
+\end{figure}
+For $df=4$, the points are the closest to the line.
+From this plot, the heavyness of the tails seems to be symmetric.
+
+\section{Chapter 5 R-lab}
+\subsection{Problem 1}
+Earnings data for year 1998 from the Current Population Survey (CPS) is shown in figure \ref{fig:cps_earnings}.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{chapt5/densities.pdf}
+    \caption{CPS Earnings Data densities for 1998 without and with transformation.}
+    \label{fig:cps_earnings}
+\end{figure}
+
+Out of the 3 predefined transformation, the sqrt transformation gave the best result.
+By extending the transformation with a custom ones of the form $x \mapsto x^p$,
+with $p \in \{0.3, 0.4, 0.6\}$,
+the best result was achieved with $p=0.4$. This is judged by:
+\begin{itemize}
+    \item The QQ plot of the transformed data is the closest to a straight line.
+    \item The density around the center is the most symmetric.
+    \item In the boxplot similar amount of data is above and below the median.
+\end{itemize}
+
+\subsection{Problem 2}
+% with letter enum
+\begin{enumerate}[label=(\alph*)]
+    \item \texttt{ind} and \texttt{ind2} are boolean arrays corresponding to each calculated $\lambda$ value,
+          telling whether $\lambda$ has the value of the MLE and in the range of $0.95$ percentile, respectively.
+    \item The parameter \texttt{interp} in the \texttt{boxcox} tells whether the result should be interpolated with spline. Default is \texttt{TRUE}, which means that the result is interpolated.
+    \item This is told by the value of $\lambda$ where \texttt{ind} is \texttt{TRUE}. The value is $0.36$.
+    \item The interval is $[0.32, 0.40]$.
+    \item \texttt{ind2 <- (bc$y > max(bc$y) - qchisq(0.99, df = 1) / 2)} It gives the result $[0.31, 0.41]$.
+\end{enumerate}
+
+
+\subsection{Problem 3}
+The degree of freedom $\nu = 21.6$ and $\xi = 1.65$.
+
+\subsection{Problem 4}
+The skewed t-distribution is fitted and plotted with the following R code:
+% use minted verbatim
+\begin{verbatim}
+    library("Ecdat")
+    ?CPSch3
+    data(CPSch3)
+    dimnames(CPSch3)[[2]]
+    male.earnings <- CPSch3[CPSch3[, 3] == "male", 2]
+
+    library("fGarch")
+    fit = sstdFit(male.earnings, hessian = TRUE)
+
+    pdf("fitted_vs_empirical.pdf", width = 7, height = 5)
+
+    par(mfrow = c(1, 1))
+
+    params <- fit$estimate
+    mu <- params["mean"]
+    sigma <- params["sd"]
+    nu <- params["nu"]
+    xi <- params["xi"]
+
+    x <- seq(min(male.earnings), max(male.earnings),
+      length.out = 1000)
+    emp_density <- density(male.earnings)
+    fitted_density <- dsstd(x, mean = mu, sd = sigma,
+      nu = nu, xi = xi)
+
+    plot(emp_density,
+      main = "Empirical vs Fitted Skewed t Density",
+        xlab = "Earnings", ylab = "Density", lwd = 2)
+    lines(x, fitted_density, col = "red", lwd = 2)
+    legend("topright", legend = c("Empirical",
+      "Fitted skewed t"), col = c("black", "red"), lwd = 2)
+
+    dev.off()
+\end{verbatim}
+
+The plotted figure can be seen in figure \ref{fig:fitted_vs_empirical}.
+The fitted skewed t-distribution is shown in red, and the empirical density by the KDE is shown in black.
+The fitted skewed t-distribution is very close to the empirical density,
+and it is an adequate fit to the data.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{chapt5/fitted_vs_empirical.pdf}
+    \caption{Empirical and fitted skewed t-distribution densities of
+        the male earnings data from the CPS 1998 dataset.}
+    \label{fig:fitted_vs_empirical}
+\end{figure}
+
+The versions of the R and its packeges used to generate the results are:
+\begin{verbatim}
+> cat("R version:", R.version.string, "\n")
+R version: R version 4.5.1 (2025-06-13 ucrt) 
+> cat("Ecdat version:",
+  as.character(packageVersion("Ecdat")), "\n")
+Ecdat version: 0.4.2 
+> cat("Ecfun version:",
+  as.character(packageVersion("Ecfun")), "\n")
+Ecfun version: 0.3.6 
+> cat("fGarch version:",
+  as.character(packageVersion("fGarch")), "\n")
+fGarch version: 4033.92 
+> cat("timeSeries version:",
+  as.character(packageVersion("timeSeries")), "\n")
+timeSeries version: 4041.111 
+> cat("timeDate version:",
+  as.character(packageVersion("timeDate")), "\n")
+timeDate version: 4041.110 
+> cat("fBasics version:",
+  as.character(packageVersion("fBasics")), "\n")
+fBasics version: 4041.97
+\end{verbatim}
+
+\subsection{Problem 5}
+Fit a skewed GED to the data by the code
+\begin{verbatim}
+library("Ecdat")
+?CPSch3
+data(CPSch3)
+dimnames(CPSch3)[[2]]
+male.earnings <- CPSch3[CPSch3[, 3] == "male", 2]
+
+
+library("fGarch")
+fitGED <- sgedFit(male.earnings, hessian = TRUE)
+paramsGED <- fitGED$par
+muGED <- paramsGED["mean"]
+sigmaGED <- paramsGED["sd"]
+nuGED <- paramsGED["nu"]
+xiGED <- paramsGED["xi"] # Add this line to extract skewness
+
+x <- seq(min(male.earnings), max(male.earnings),
+  length.out = 500)
+emp_density <- density(male.earnings)
+fitted_density_GED <- dsged(x, mean = muGED, sd = sigmaGED,
+  nu = nuGED, xi = xiGED)
+
+pdf("fitted_vs_empirical_ged.pdf", width = 7, height = 5)
+plot(density(male.earnings),
+    main = "Empirical vs Fitted Skewed GED Density",
+    xlab = "Earnings", ylab = "Density", lwd = 2
+)
+lines(x, fitted_density_GED, col = "blue", lwd = 2)
+legend("topright",
+    legend = c("Empirical", "Fitted skewed GED"),
+    col = c("black", "blue"), lwd = 2
+)
+
+dev.off()
+\end{verbatim}
+The fitted skewed GED is shown in blue, and the empirical density by the KDE is shown in black.
+The figure can be seen in figure \ref{fig:fitted_vs_empirical_ged}.
+The fitted skewed GED is very close to the empirical density,
+and it is an adequate fit to the data.
+The skewed t-distribution may be a better fit around the maximum.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{chapt5/fitted_vs_empirical_ged.pdf}
+    \caption{Empirical and fitted skewed GED densities of
+        the male earnings data from the CPS 1998 dataset.}
+    \label{fig:fitted_vs_empirical_ged}
+
+\end{figure}
+
+\subsection{Problem 6 - DAX returns}
+Running the script give use \texttt{MLE = 0.00078 0.01058 4.03515},
+so $\text{mean} = 0.00078$, $\text{sd} = 0.01058$, $\nu = 4.03515$.
+
+AIC stands for Akaike Information Criterion, which is a measure of the quality of a statistical model.
+In this case, $\text{AIC} = -11960.47$.
+
+\subsection{Problem 7}
+The results can be seen in figure \ref{fig:chapt5_DAX_fits}.
+\begin{enumerate}
+    \item $\text{AIC}_1 = -11958.47$ if started from a symmetric distribution, $\xi = 1$
+    \item $\text{AIC}_2 = -11887.97$ if started from a skewed distribution with $\xi = 2$
+    \item $\text{AIC}_{0.5} = -11955.52$ if started from a skewed distribution with $\xi = 0.5$
+    \item
+\end{enumerate}
+This means that the best fit is the one started from a symmetric distribution, $\xi = 1$,
+but the result is not sensitive to the symmetry around 1.
+AIC chooses the function with the lowest value, so it prefers the symmetric distribution.
+We didn't gain anything by fitting a skewed distribution.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{chapt5/DAX_fits.pdf}
+    \caption{Density maps of the DAX earnings on a logarithmic scale.
+        The difference between the empirical and fitted densities is small.
+        The fitter converges to 1 if started from 1, and converges to 0.98766,
+        still close to 1, if started below or above 1.}
+    \label{fig:chapt5_DAX_fits}
+\end{figure}
+
+\subsection{Problem 8}
+The code to create TKDE is shown here:
+\begin{lstlisting}[language=R, basicstyle=\ttfamily\footnotesize]
+# Load data and library
+data(Garch, package = "Ecdat")
+library(fGarch)
+data(EuStockMarkets)
+Y <- diff(log(EuStockMarkets[, 1])) # DAX log returns
+
+# Fit symmetric t-distribution to Y
+loglik_std <- function(x) -sum(dstd(Y, x[1], x[2], x[3], log = TRUE))
+start <- c(mean(Y), sd(Y), 4)
+fit_std <- optim(start, loglik_std,
+    method = "L-BFGS-B",
+    lower = c(-0.1, 0.001, 2.1),
+    upper = c(0.1, 1, 20), hessian = TRUE
+)
+par_std <- fit_std$par
+mu <- par_std[1]
+sigma <- par_std[2]
+nu <- par_std[3]
+
+# Step 1: Transform Y to Z = \Phi^{-1}(F(Y))
+Fy <- pstd(Y, mean = mu, sd = sigma, nu = nu)
+Z <- qnorm(Fy)
+
+# Step 2: KDE in Z-space (standard normal)
+dens_Z <- density(Z)
+z_grid <- dens_Z$x
+fz <- dens_Z$y
+
+# Step 3: Inverse transform: y = g^{-1}(z) = qstd(pnorm(z))
+y_grid <- qstd(pnorm(z_grid), mean = mu, sd = sigma, nu = nu)
+
+# Step 4: Compute g'(y)
+gprime_num <- dstd(y_grid, mean = mu, sd = sigma, nu = nu)
+Fy_grid <- pstd(y_grid, mean = mu, sd = sigma, nu = nu)
+g_y <- qnorm(Fy_grid)
+gprime_den <- dnorm(g_y)
+gprime <- gprime_num / gprime_den
+
+# Step 5: TKDE density
+fY <- fz * gprime
+
+# Step 6: Empirical KDE
+emp_kde <- density(Y)
+
+# Step 7: Restrict x-range
+xlim <- c(-0.06, 0.06)
+keep_kde <- emp_kde$x >= xlim[1] & emp_kde$x <= xlim[2]
+keep_tkde <- y_grid >= xlim[1] & y_grid <= xlim[2]
+
+# Step 8: Plot both on same PDF
+pdf("TKDE_DAX.pdf", width = 7, height = 8)
+par(mfrow = c(2, 1), mar = c(4, 4, 3, 2))
+
+# Top plot: linear y-scale
+plot(emp_kde$x[keep_kde], emp_kde$y[keep_kde],
+    type = "l", lwd = 2,
+    xlab = "Log Return (Y)", ylab = "Density", xlim = xlim,
+    main = "KDE vs TKDE (Linear Scale)"
+)
+lines(y_grid[keep_tkde], fY[keep_tkde], col = "red", lty = 2, lwd = 2)
+legend("topright",
+    legend = c("KDE", "TKDE"),
+    col = c("black", "red"), lwd = 2, lty = c(1, 2)
+)
+
+# Bottom plot: log y-scale
+plot(emp_kde$x[keep_kde], emp_kde$y[keep_kde],
+    type = "l", lwd = 2, log = "y",
+    xlab = "Log Return (Y)", ylab = "Density (log scale)", xlim = xlim,
+    main = "KDE vs TKDE (Log Y Scale)"
+)
+lines(y_grid[keep_tkde], fY[keep_tkde], col = "red", lty = 2, lwd = 2)
+legend("topright",
+    legend = c("KDE", "TKDE"),
+    col = c("black", "red"), lwd = 2, lty = c(1, 2)
+)
+dev.off()
+\end{lstlisting}
+The resulting figure can be seen in figure \ref{fig:TKDE_DAX}.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{chapt5/TKDE_DAX.pdf}
+    \caption{Empirical KDE and TKDE of the DAX log returns on linear and logarithmic y scale.}
+    \label{fig:TKDE_DAX}
+\end{figure}
+
+\subsection{Problem 9}
+Now the KDE, TKDE and the fitted t-distribution are plotted together on linear y scale,
+on full range and when $x$ is restricted to the interval $[0.035, 0.06]$.
+See the single plot in figure \ref{fig:TKDE_DAX}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{chapt5/tkde_full_and_zoomed.pdf}
+    \caption{Empirical KDE, TKDE and fitted t-distribution of the DAX log returns on linear y scale.}
+    \label{fig:TKDE_DAX_full}
+\end{figure}
+\subsection{Problem 10}
+$\text{AIC}= -12773.7254$
+
+% MLEs: mu = 0.000444034613143611 , sigma = 0.00867870242574702 , nu = 4.00000195833625 , xi = 0.999999822643733
+$\mu = 0.000444$, $\sigma = 0.008679$, $\nu = 4.000002$, $\xi = 0.999999$
+\subsection{Problem 11}
+\begin{enumerate}
+    \item Loads the data from disk.
+    \item Keep only the 7th column in a new var.
+    \item Calculate the log returns.
+    \item Load the MASS package.
+    \item Load the fGarch package.
+    \item Fit a t-distribution to the log returns.
+    \item The return of the fit contains a member "estimate". Store it in a new variable.
+    \item Store the mean as the 1st element of the estimate.
+    \item Store the standard deviation as a function of the 2nd and 3rd elements of the estimate.
+    \item Store the degrees of freedom as the 3rd element of the estimate.
+    \item Generate the values for the x-axis from the the given values.
+    \item Generate a histogram of the log returns with 80 bins and giving counts.
+    \item Plot for every x value the density of the t-distribution with the given parameters.
+    \item Style the line.
+\end{enumerate}
+\subsection{Problem 12}
+\begin{verbatim}
+> params.T 
+        m            s           df 
+0.0006401997 0.0066825003 4.2693074409
+\end{verbatim}
+$\sigma = s \cdot \sqrt{df / (df - 2)} = 0.00917$
+But this describes the variability of the data, not the uncertainty of the estimate.
+
+$$H_0: \mu = 0 \quad \text{vs.} \quad H_1: \mu \ne 0$$
+
+The test statistics is $z = \frac{ \hat{\mu} }{ \text{SE}(\hat{\mu}) }$
+and the 2-sided p-value is $p = 2 \cdot \Phi(-|z|)$.
+To get the standard error of the mean,
+$\text{SE}(\hat{\mu}) = \sqrt{ \operatorname{Var}(\hat{\mu}) } = \sqrt{ \text{vcov}["m", "m"] }$,
+and this value is returned by the fit. The result is $p = 0.0052$,
+which is much less than e.g.\ 0.05, so we can reject the null hypothesis that the mean is 0.
+\subsection{Problem 13}
+% pdf("mcd_price_LogHist_t.pdf", width = 6, height = 4) # size in inches
+The plot can be seen in figure \ref{fig:mcd_price_LogHist_t}.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{chapt5/mcd_price_LogHist_t.pdf}
+    \caption{Histogram of the log returns with fitted t-distribution.}
+    \label{fig:mcd_price_LogHist_t}
+\end{figure}
+With the histogram, we lose some precision due to the binning, but it makes the data more interpretable.
+Plotting a cumulative plot would keep all the details, but the monotonicity would make it less informative.
+
+The fitted curve visually appealing,
+and gives the impression that the author discovered the nature of the data.
+\subsection{Problem 14}
+% qqplots_normal_t_iqr.pdf
+The quantile-quantile plots of the log returns against the normal and t-distributions
+with degrees of freedom $df=3, 4, 5, 6$ are shown in figure \ref{fig:qqplots_normal_t_iqr}.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{chapt5/qqplots_normal_t_iqr.pdf}
+    \caption{Quantile-quantile plots of the log returns against normal and t-distributions.}
+    \label{fig:qqplots_normal_t_iqr}
+\end{figure}
+The points are on a line for $df=5$, but the tail in the lower quantiles is even heavier.
+The calculated kurtosis is $kurt=9.269708$. Assuming that the data is from a normal distribution,
+the standard error of the kurtosis is given by
+
+$$\text{SE}(\hat{\kappa}) = \sqrt{ \frac{24n(n - 1)^2}{(n - 3)(n - 2)(n + 3)(n + 5)} } = 0.1134706$$
+The kurtosis is well above the normal distribution's value of 3, with multiples of the standard error,
+so we can say that the data has heavy tails.
+
+The test statistic is:
+\[
+    z = \frac{ \hat{\kappa}_{\text{excess}} }{ \text{SE}(\hat{\kappa}_{\text{excess}}) } = \frac{6.29985}{0.11347} \approx 55.52
+\]
+
+\[
+    p = 2 \cdot \Phi(-|z|) \approx 0.00000
+\]
+\end{document}
