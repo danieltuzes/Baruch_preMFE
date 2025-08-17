@@ -74,6 +74,7 @@ Left-multiply by $I+A$ and right-multiply by $(I+A^{-1})$, which exists, as we c
      & = (I+A)A^{-1}                                  \\
      & = I+A^{-1}.
 \end{align*}
+We made equivalent transformations throughout the process, the last equation is true, so the first equation must be true too.
 \section{exercise 4}
 \section{exercise 5}
 \section{exercise 6 Daniel}
@@ -156,7 +157,10 @@ Wow! Multiply by $A+B$ from the left:
 \section{exercise 15 Daniel}
 The matrix is only of 4x4 and writing out all the equations would actually lead to a 4th order polynomial that can be reduced to a 2nd order polynomial.
 
-Another way is to get reminded by ChatGPT that we can reduce the problem to a linear, homogeneous, constant-coefficient recurrence relation.
+We can also look up the Dan's LA Primer book for this example.
+
+Another way is to get reminded by ChatGPT that we can reduce the problem to a linear, homogeneous, constant-coefficient recurrence relation. This looks like a pretty general approch so I go with this one.
+
 Let the eigenvector be $\mathbf{p} = \begin{pmatrix} p_1 \\ p_2 \\ p_3 \\ p_4 \end{pmatrix}$, then we have the following system of equations:
 \[ - {p_{j - 1}} + \left( {2 - \lambda } \right){p_j} - {p_{j + 1}} = 0\qquad \forall j \in \{ 1,2,3,4\} \quad {p_0} = {p_5} = 0\]
 We solve it with the ansatz $p_j = r^j$ for some $r$. Plugging in gives us the characteristic equation:
@@ -192,7 +196,7 @@ So the matrix has the diagonal form of
         \Omega v = \left( {\rho {\mathbf{1}}{{\mathbf{1}}^T} + \left( {\rho  - 1} \right){\mathbf{I}}} \right)v \hfill \\
         \Omega v = \rho {\mathbf{1}}\left( {{{\mathbf{1}}^T}v} \right) + \left( {1 - \rho } \right)v \Rightarrow \begin{array}{*{20}{c}}
             {{v_1} = {\mathbf{1}}\qquad {\lambda _1} = \rho n + 1 - \rho  \geqslant 0 \Rightarrow \boxed{\rho  \geqslant \frac{{ - 1}}{{n - 1}}}} \\
-            {{v_{2,3, \ldots }}{\mathbf{1}} = 0\quad {\lambda _{2,3, \ldots }} = 1 - \rho  \geqslant 0 \Rightarrow \boxed{\rho  \leqslant 1}}
+            {{\mathbf{1}^T}{v_{2,3, \ldots }} = 0\quad {\lambda _{2,3, \ldots }} = 1 - \rho  \geqslant 0 \Rightarrow \boxed{\rho  \leqslant 1}}
         \end{array} \hfill \\
     \end{gathered} \]
 \section{exercise 18 Daniel}
@@ -213,7 +217,7 @@ So the eigenvalues for $A$ are
 
 
 \section{exercise 19 Daniel}
-Let $v \neq0$, then $Qv \neq 0$ because $Q$ is orthogonal and it keeps the norm.
+Let $v \neq0$, then $Qv \neq 0$ because $Q$ is orthogonal so it keeps the norm.
 
 i) \[{v^t}{Q^t}AQv = {\left( {Qv} \right)^t}A\left( {Qv} \right) > 0\]
 must hold because $A$ is spd, and $Qv$ is a non-zero vector. So $Q^tAQ$ is also spd.
