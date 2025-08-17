@@ -75,8 +75,37 @@ Left-multiply by $I+A$ and right-multiply by $(I+A^{-1})$, which exists, as we c
      & = I+A^{-1}.
 \end{align*}
 We made equivalent transformations throughout the process, the last equation is true, so the first equation must be true too.
-\section{exercise 4}
-\section{exercise 5}
+
+\section{exercise 4 Hao Wang}
+
+\begin{itemize}
+    \item If \( A \) has rank 1, then all columns of \( A \) are scalar multiples of a single nonzero column vector \( v \). Let the \( i \)-th column of \( A \) be \( w_i v \), where \( w_i \) is a scalar. Then, \( A \) can be written as \( A = vw^T \), where \( w = [w_1, w_2, \dots, w_n]^T \).
+    
+    \item If \( A = vw^T \), then every column of \( A \) is a multiple of \( v \), and every row is a multiple of \( w^T \). Thus, the column space and row space of \( A \) are both 1-dimensional, so \( \text{rank}(A) = 1 \).
+\end{itemize}
+
+\section{exercise 5 Hao Wang}
+
+Proof of $\det(I - xy^T) = 1 - y^T x$:
+
+Let $x, y \in \mathbb{R}^n$. Consider the rank-1 matrix $xy^T$:
+
+The matrix $xy^T$ has one non-zero eigenvalue: $\lambda = y^T x$ (since $xy^T x = x(y^T x) = (y^T x)x$) and $n-1$ zero eigenvalues (because $\text{rank}(xy^T) = 1$)
+
+Therefore, $I - xy^T$ has eigenvalues: $1 - y^T x$ and $1$ with multiplicity $n-1$
+
+The determinant is the product of eigenvalues, so we can get:
+\[
+\det(I - xy^T) = (1 - y^T x) \cdot 1^{n-1} = 1 - y^T x
+\]
+
+Based on this conclusion:
+\begin{itemize}
+    \item If \( I - xy^T \) is nonsingular, then \( \det(I - xy^T) \neq 0 \). Thus, \( 1 - y^T x \neq 0 \), which implies \( y^T x \neq 1 \).
+    
+    \item  If \( y^T x \neq 1 \), then \( \det(I - xy^T) = 1 - y^T x \neq 0 \), so \( I - xy^T \) is nonsingular.
+\end{itemize}
+
 \section{exercise 6 Daniel}
 Wow! Multiply by $A+B$ from the left:
 \[\begin{gathered}
@@ -147,10 +176,83 @@ Wow! Multiply by $A+B$ from the left:
 \]
 
 
-\section{exercise 8}
-\section{exercise 9}
-\section{exercise 10}
-\section{exercise 11}
+\section{exercise 8 Hao Wang}
+
+\subsection*{(i) Covariance matrix with standard deviations (0.1, 0.2, 0.5, 1, 2):}
+
+The covariance matrix \(\Sigma\) is given by:
+\[
+\Sigma = \begin{pmatrix}
+0.01 & -0.005 & 0.0075 & -0.005 & -0.06 \\
+-0.005 & 0.04 & -0.01 & -0.05 & 0.04 \\
+0.0075 & -0.01 & 0.25 & 0.10 & 0.05 \\
+-0.005 & -0.05 & 0.10 & 1 & 0.20 \\
+-0.06 & 0.04 & 0.05 & 0.20 & 4
+\end{pmatrix}
+\]
+
+\subsection*{(ii) Covariance matrix with standard deviations (2, 1, 0.5, 0.2, 0.1):}
+
+The covariance matrix \(\Sigma\) is given by:
+\[
+\Sigma = \begin{pmatrix}
+4 & -0.5 & 0.15 & -0.02 & -0.06 \\
+-0.5 & 1 & -0.05 & -0.05 & 0.01 \\
+0.15 & -0.05 & 0.25 & 0.02 & 0.0025 \\
+-0.02 & -0.05 & 0.02 & 0.04 & 0.002 \\
+-0.06 & 0.01 & 0.0025 & 0.002 & 0.01
+\end{pmatrix}
+\]
+
+
+\section{exercise 9 Hao Wang}
+
+Given the condition:
+\[
+\frac{1}{n}A^n = \frac{1}{n+1}A^{n+1} = \frac{1}{n+2}A^{n+2}
+\]
+Any eigenvalue \(\lambda\) of \(A\) must satisfy:
+\[
+\frac{1}{n}\lambda^n = \frac{1}{n+1}\lambda^{n+1} = \frac{1}{n+2}\lambda^{n+2}
+\]
+The only solution is \(\lambda = 0\). Thus, all eigenvalues of \(A\) must be 0.
+
+
+\section{exercise 10 Hao Wang}
+
+\subsection*{(i) Symmetric Positive Definite \(A\):}
+
+For any positive integer \(m\), \(A^m\) is symmetric positive definite because:
+\begin{itemize}
+    \item \(A^m\) is symmetric.
+    \item Eigenvalues of \(A^m\) are \(\lambda_i^m > 0\) given \(\lambda_i > 0\).
+\end{itemize}
+
+\subsection*{(ii) Symmetric Positive Semidefinite \(A\):}
+
+For any positive integer \(m\), \(A^m\) is symmetric positive semidefinite because:
+\begin{itemize}
+    \item \(A^m\) is symmetric.
+    \item Eigenvalues of \(A^m\) are \(\lambda_i^m \geq 0\) given \(\lambda_i \geq 0\).
+\end{itemize}
+
+
+\section{exercise 11 Hao Wang}
+
+\subsection*{(i) \(M^t A M\) is Symmetric Positive Semidefinite:}
+
+\begin{itemize}
+    \item Symmetry: \((M^t A M)^t = M^t A M\).
+    \item For any \(x\), \(x^t M^t A M x = (Mx)^t A (M x) \geq 0\).
+\end{itemize}
+
+\subsection*{(ii) \(M^t A M\) is Positive Definite if and only if Columns of \(M\) are Linearly Independent:}
+
+\begin{itemize}
+    \item If columns of \(M\) are independent, \(M x \neq 0\)  for \(x \neq 0\), then \(x^t M^t A M x > 0\).
+    \item If \(x^t M^t A M x > 0\), then \(M x \neq 0\) for any \(x \neq 0\), thus columns of \(M\) are independent.
+\end{itemize}
+
 \section{exercise 12}
 \section{exercise 13}
 \section{exercise 14}
@@ -189,7 +291,68 @@ So the matrix has the diagonal form of
     \end{pmatrix}
 \]
 
-\section{exercise 16}
+\section{exercise 16 Hao Wang}
+
+The given matrix \( J \) is an \( n \times n \) tridiagonal matrix with the following structure:
+\[
+J = \begin{pmatrix}
+a & 0 & 0 & \cdots & 0 \\
+b & a & 0 & \cdots & 0 \\
+0 & b & a & \cdots & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & \cdots & a
+\end{pmatrix}
+\]
+
+\subsection*{Eigenvalues:}
+The eigenvalues of \( J \) are all equal to \( a \). This is because \( J \) is a lower triangular matrix, and the eigenvalues of a triangular matrix are the entries on its main diagonal.
+
+\subsection*{Eigenvectors:}
+To find the eigenvectors corresponding to the eigenvalue \( a \), we solve:
+\[
+(J - a I) \mathbf{v} = 0
+\]
+This simplifies to:
+\[
+\begin{pmatrix}
+0 & 0 & 0 & \cdots & 0 \\
+b & 0 & 0 & \cdots & 0 \\
+0 & b & 0 & \cdots & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & \cdots & 0
+\end{pmatrix}
+\begin{pmatrix}
+v_1 \\
+v_2 \\
+v_3 \\
+\vdots \\
+v_n
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 \\
+0 \\
+0 \\
+\vdots \\
+0
+\end{pmatrix}
+\]
+
+From this system, we deduce:
+\[
+v_1 = v_2 = \cdots = v_{n-1} = 0, \quad v_n \text{ is free.}
+\]
+Thus, the only eigenvector is:
+\[
+\mathbf{v} = \begin{pmatrix}
+0 \\
+0 \\
+\vdots \\
+0 \\
+1
+\end{pmatrix}
+\]
+
 \section{exercise 17 Daniel}
 \[\begin{gathered}
         \Omega  = \rho {\mathbf{1}}{{\mathbf{1}}^T} + \left( {\rho  - 1} \right){\mathbf{I}} \hfill \\
@@ -199,6 +362,7 @@ So the matrix has the diagonal form of
             {{\mathbf{1}^T}{v_{2,3, \ldots }} = 0\quad {\lambda _{2,3, \ldots }} = 1 - \rho  \geqslant 0 \Rightarrow \boxed{\rho  \leqslant 1}}
         \end{array} \hfill \\
     \end{gathered} \]
+
 \section{exercise 18 Daniel}
 The matrix can be written as
 \[A= d{{\mathbf{I}}_{n \times n}} + {\mathbf{1}} \left( {1,2, \ldots ,n} \right)\]
@@ -232,9 +396,120 @@ $Q$ orthogonal, $Q^{-1} = Q^t$:
         {A^{ - 1}} = Q{\Lambda ^{ - 1}}{Q^t} \hfill \\
         A{A^{ - 1}} = ?I = ?Q\Lambda {Q^t}Q{\Lambda ^{ - 1}}{Q^t} = Q\Lambda {\Lambda ^{ - 1}}{Q^t} = Q{Q^t} = I \hfill \\
     \end{gathered} \]
-\section{exercise 21}
+    
+\section{exercise 21 Hao Wang}
 
-\section{exercise 22}
+Given the matrix:
+\[
+\Omega = \begin{pmatrix}
+1 & 0.2 & 0.3 \\
+0.2 & 1 & -0.2 \\
+0.3 & -0.2 & 1
+\end{pmatrix},
+\]
+we verify it is a correlation matrix by checking:
+\begin{itemize}
+    \item Symmetry: \(\Omega = \Omega^T\).
+    \item Diagonal entries: All are 1.
+    \item Positive semidefiniteness: All leading principal minors are non-negative.
+\end{itemize}
+
+The determinant is:
+\[
+\det(\Omega) = 0.806 \geq 0.
+\]
+Thus, \(\Omega\) is a valid correlation matrix.
+
+The Cholesky factor \(U\) (upper triangular) satisfies \(\Omega = U^TU\). Computing \(U\):
+\[
+U \approx \begin{pmatrix}
+1 & 0.2 & 0.3 \\
+0 & 0.9798 & -0.2654 \\
+0 & 0 & 0.9163
+\end{pmatrix}
+\]
+
+\section{exercise 22 Hao Wang}
+
+\subsection*{(i) Values of \(\rho\) for Valid Correlation Matrix:}
+
+The matrix:
+\[
+\Omega = \begin{pmatrix}
+1 & 0.4 & -0.4 \\
+0.4 & 1 & \rho \\
+-0.4 & \rho & 1
+\end{pmatrix}
+\]
+must be positive semidefinite. The determinant condition yields:
+\[
+\rho^2 + 0.32\rho - 0.68 \leq 0 \implies \rho \in [-1, 0.68].
+\]
+
+\subsection*{(ii) Bounds for \(\rho = \text{corr}(X_1, X_2)\):}
+
+Given correlations:
+\[
+\Omega = \begin{pmatrix}
+1 & \rho & 0.4 & -0.2 \\
+\rho & 1 & 0.2 & -0.3 \\
+0.4 & 0.2 & 1 & -0.2 \\
+-0.2 & -0.3 & -0.2 & 1
+\end{pmatrix}
+\]
+
+We determine the valid range for $\rho$ by requiring all leading principal minors to be non-negative.
+
+1. First-order Principal Minor
+\[
+\Delta_1 = 1 > 0 \quad \text{(Always satisfied)}
+\]
+
+2. Second-order Principal Minor
+\[
+\Delta_2 = \begin{vmatrix}
+1 & \rho \\
+\rho & 1 
+\end{vmatrix} = 1 - \rho^2 \geq 0
+\]
+\[
+\Rightarrow \rho \in [-1, 1]
+\]
+
+3. Third-order Principal Minor
+\[
+\Delta_3 = \begin{vmatrix}
+1 & \rho & 0.4 \\
+\rho & 1 & 0.2 \\
+0.4 & 0.2 & 1
+\end{vmatrix} 
+= -\rho^2 + 0.16\rho + 0.8 \geq 0
+\]
+Solving the quadratic inequality:
+\[
+\rho^2 - 0.16\rho - 0.8 \leq 0 \Rightarrow \rho \in [-0.818, 0.978]
+\]
+
+4. Fourth-order Principal Minor (Full Determinant)
+\begin{align*}
+\Delta_4 &= \det(\bm{\Omega}) \\
+&=\begin{vmatrix}
+1-\rho^2 & 0.2-0.4\rho & -0.3+0.2\rho \\
+0.2-0.4\rho & 0.84 & -0.12 \\
+-0.3+0.2\rho & -0.12 & 0.96
+\end{vmatrix} 
+=-0.96\rho^2 + 0.216\rho + 0.6924 \geq 0
+\end{align*}
+Solving:
+\[
+0.96\rho^2 - 0.216\rho - 0.6924 \leq 0 \Rightarrow \rho \in [-0.744, 0.969]
+\]
+
+Intersection of all conditions:
+\[
+\rho \in [-0.744, 0.969]
+\]
+
 \section{exercise 23 Daniel}
 The covariance matrix $\mathbf{\Sigma}$ is symmetric and positive definite,
 so we can find an Cholesky decomposition,
