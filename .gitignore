@@ -209,6 +209,8 @@ cython_debug/
 
 # Output files (can be included if desired, but usually generated from source)
 *.pdf
+!/stats/*.pdf
+/stats/hw1/DanielTuzes_StatsHW1.pdf
 
 # Other files that might contain sensitive information or large data
 *.bib
