@@ -40,8 +40,36 @@ $$
 ## What does the continuity of probability mean?
 
 $$
-  {A_1} \subseteq {A_2} \subseteq  \ldots  \Rightarrow P\left( {{A_1} \cup {A_2} \cup  \ldots } \right) = \mathop {\lim }\limits_{n \to \infty } P\left( {{A_n}} \right)
-  $$
-  $$
-  {A_1} \supseteq {A_2} \supseteq  \ldots  \Rightarrow P\left( {{A_1} \cap {A_2} \cap  \ldots } \right) = \mathop {\lim }\limits_{n \to \infty } P\left( {{A_n}} \right)
-  $$
+{A_1} \subseteq {A_2} \subseteq  \ldots  \Rightarrow P\left( {{A_1} \cup {A_2} \cup  \ldots } \right) = \mathop {\lim }\limits_{n \to \infty } P\left( {{A_n}} \right)
+$$
+
+$$
+{A_1} \supseteq {A_2} \supseteq  \ldots  \Rightarrow P\left( {{A_1} \cap {A_2} \cap  \ldots } \right) = \mathop {\lim }\limits_{n \to \infty } P\left( {{A_n}} \right)
+$$
+
+## Show that $\sqrt N {\hat \mu _N} = \sqrt N \bar X = \frac{{{X_1} + {X_2} +  \ldots  + {X_N}}}{{\sqrt N }} \sim {\mathcal{N}}\left( {0,1} \right)$ and $N\left( {\overline {{X^2}}  - {{\bar X}^2}} \right) = N\widehat {{\sigma ^2}} \sim \chi _{n - 1}^2$ are independent
+
+Let $\left( {\begin{array}{*{20}{c}}
+  {{X_1}} \\ 
+  {{X_2}} \\ 
+   \vdots  \\ 
+  {{X_N}} 
+\end{array}} \right) = X$, $X_i, i\in \left\{1,2,\ldots,N\right\}$ be iid std normal random vars. Then $Y=QX$ is also std normal if $Q$ is an orthogonal matrix. Let
+
+\[Q = \left( {\begin{array}{*{20}{c}}
+  {\frac{1}{{\sqrt N }}}& \ldots &{\frac{1}{{\sqrt N }}} \\ 
+  ?&?&? \\ 
+  ?&?&? 
+\end{array}} \right)\]
+
+There are multiple ways to fill the matrix.
+$$Y_1 = \frac{1}{{\sqrt N }}\sum_{i=1}^{N} X_i = \sqrt N \bar X \Rightarrow \bar X = Y_1/\sqrt N$$
+Due to CLT, this is clearly std normal.
+\[\begin{gathered}
+  N\widehat {{\sigma ^2}}  = N\left( {\overline {{X^2}}  - {{\bar X}^2}} \right) = N\left( {\frac{{X_1^2 + X_2^2 +  \ldots X_N^2}}{N} - {{\left( {\frac{{{X_1} + {X_2} +  \ldots  + {X_N}}}{N}} \right)}^2}} \right) \hfill \\
+  N\left( {\overline {{X^2}}  - {{\bar X}^2}} \right) = X_1^2 + X_2^2 +  \ldots X_N^2 - {\left[ {\frac{1}{{\sqrt N }}\left( {{X_1} + {X_2} +  \ldots  + {X_N}} \right)} \right]^2} \hfill \\
+  N\left( {\overline {{X^2}}  - {{\bar X}^2}} \right) = Y_1^2 + Y_2^2 +  \ldots Y_N^2 - Y_1^2 = Y_2^2 + Y_3^2 +  \ldots Y_N^2 \hfill \\ 
+\end{gathered} \]
+
+$Y_i$ are all independent, $\bar X(Y_1)$ and $N\widehat {{\sigma ^2}}(Y_2,\ldots Y_N)$ are independent.
+
