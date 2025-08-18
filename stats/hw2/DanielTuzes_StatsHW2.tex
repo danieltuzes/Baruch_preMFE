@@ -1,0 +1,116 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{graphicx} % Required for \scalebox
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{verbatim}
+\usepackage{adjustbox}
+\usepackage{fancyvrb}
+\usepackage[shortlabels]{enumitem}
+\setcounter{MaxMatrixCols}{20}
+\definecolor{codegray}{gray}{0.9}
+
+\lstset{
+    backgroundcolor=\color{codegray},
+    basicstyle=\ttfamily\small,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{orange}
+}
+\title{Baruch SIP Stats HW2}
+\author{Daniel Tuzes}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{T1 - exponential}
+The function $M$ is the moment generating function of the exponential distribution with parameter $\alpha$. For $t < \alpha$:
+\[\begin{gathered}
+        {f_{\Gamma \left( {n,\alpha } \right)}}\left( x \right) = \frac{{{e^{ - \alpha x}}{x^{n - 1}}{\alpha ^n}}}{{\Gamma \left( n \right)}} \hfill \\
+        {M _{\Gamma \left( {n,\alpha } \right)}}\left( t \right) = E\left( {{e^{Xt}}} \right) = \int\limits_0^\infty  {{f_{\Gamma \left( {n,\alpha } \right)}}\left( x \right){e^{xt}}dx}  = \int\limits_0^\infty  {\frac{{{e^{ - \alpha x}}{x^{n - 1}}{\alpha ^n}}}{{\Gamma \left( n \right)}}{e^{xt}}dx}  \hfill \\
+        {M _{\Gamma \left( {n,\alpha } \right)}}\left( t \right) = \frac{{{\alpha ^n}}}{{{{\left( {\alpha  - t} \right)}^n}}}\int\limits_0^\infty  {\frac{{{e^{ - \left( {\alpha  - t} \right)x}}{x^{n - 1}}{{\left( {\alpha  - t} \right)}^n}}}{{\Gamma \left( n \right)}}dx}  = \frac{{{\alpha ^n}}}{{{{\left( {\alpha  - t} \right)}^n}}} \hfill \\
+    \end{gathered} \]
+
+Note that the exponential function is $\Gamma(1,\alpha)$, so its moment generating function is given by
+\[
+    M_{\Gamma(1,\alpha)}(t) = \frac{\alpha}{\alpha - t}, \quad t < \alpha.
+\]
+
+The MFG of the sum of independent exponential random variables is the product of their MFGs.
+If \(X_1, X_2, \ldots, X_n\) are independent exponential random variables with the same parameter \(\alpha\), then their sum \(T = X_1 + X_2 + \ldots + X_n\) has the moment generating function
+\[
+    M_T(t) = \left[\frac{\alpha}{(\alpha - t)}\right]^n = \frac{\alpha^n}{(\alpha - t)^n}= M_{\Gamma(n,\alpha)}(t) , \quad t < \alpha.
+\]
+If 2 random vars have the same MFG, they have the same distribution. Therefore, \(T\) has the same distribution as \(\Gamma(n,\alpha)\).
+
+Let $S=2\alpha T$,
+\[\begin{gathered}
+        {f_S}\left( x \right) = {f_{2\alpha T}}\left( x \right) = {f_T}\left( {\frac{x}{{2\alpha }}} \right)\frac{1}{{2\alpha }} = \frac{{{e^{ - \alpha \frac{x}{{2\alpha }}}}{{\left( {\frac{x}{{2\alpha }}} \right)}^{n - 1}}{\alpha ^n}}}{{\Gamma \left( n \right)}}\frac{1}{{2\alpha }} \hfill\\
+        {f_S}\left( x \right) = \frac{{{e^{ - \frac{x}{2}}}{x^{n - 1}}\alpha \frac{1}{{{2^{n - 1}}}}}}{{\Gamma \left( n \right)}}\frac{1}{{2\alpha }} \hfill \\
+        {f_S}\left( x \right) = \frac{{{e^{ - \frac{1}{2}x}}{x^{n - 1}}{{\left( {\frac{1}{2}} \right)}^n}}}{{\Gamma \left( n \right)}} = \Gamma \left( {n,\frac{1}{2}} \right) \hfill \\
+    \end{gathered} \]
+Take a 95\% confidence interval for $S$:
+\[P\left( {{c_1} \leqslant S \leqslant {c_2}} \right) = 95\%  \Leftarrow \int\limits_0^{{c_1}} {{f_S}\left( x \right)dx}  = \frac{{5\% }}{2},\,\int\limits_0^{{c_2}} {{f_S}\left( x \right)dx}  = 1 - \frac{{5\% }}{2}\]
+This is a numeric integration problem of a known distribution $\Gamma(n,1/2)$, $c_1$ and $c_2$ can be expressed.
+\[\begin{gathered}
+        P\left( {{c_1} \leqslant 2\alpha T \leqslant {c_2}} \right) = 95\%  \hfill \\
+        \Updownarrow  \hfill \\
+        P\left( {\frac{{{c_1}}}{{2T}} \leqslant \alpha  \leqslant \frac{{{c_2}}}{{2T}}} \right) = 95\%  \hfill \\
+    \end{gathered} \]
+Here, $T$ is a calculable quantity from $X_i$ realized random numbers as their sum.
+
+\section{T2 - Normal Hypothesis}
+\[\begin{array}{*{20}{c}}
+        {B: = \sqrt n \frac{{{{\hat \mu }_X} - {\mu _X}}}{\sigma_X }\sim\mathcal{N}\left( {0,1} \right)} \\
+        {A: = \frac{{n\hat \sigma _X^2}}{{{\sigma_X ^2}}}\sim{\chi _{n - 1}}}
+    \end{array} \Rightarrow T:=\frac{B}{{\sqrt {\frac{A}{{n - 1}}} }} = \sqrt {n - 1} \frac{{{{\hat \mu }_X} - {\mu _X}}}{{\hat \sigma _X^2}}\sim{t_{n - 1}}\]
+$t_{n - 1}$ is a known distribution with $n=15$, and btw, symmetric:
+\[\begin{gathered}
+        P\left( {{c_1} \leqslant T \leqslant {c_2}} \right) = 95\%  \Leftarrow \int\limits_{ - \infty }^{{c_1}} {{f_T}\left( x \right)dx}  = \frac{{5\% }}{2},\int\limits_{ - \infty }^{{c_2}} {{f_T}\left( x \right)dx}  = 1 - \frac{{5\% }}{2} \hfill \\
+        \Updownarrow  \hfill \\
+        P\left( {{c_1} \leqslant \sqrt {n - 1} \frac{{{{\hat \mu }_X} - {\mu _X}}}{{\hat \sigma _X^2}} \leqslant {c_2}} \right) = 95\%  \hfill \\
+        \Updownarrow  \hfill \\
+        P\left( {{{\hat \mu }_X} - \frac{{{c_1}\hat \sigma _X^2}}{{\sqrt {n - 1} }} \geqslant {\mu _X} \geqslant {{\hat \mu }_X} - \frac{{{c_2}\hat \sigma _X^2}}{{\sqrt {n - 1} }}} \right) = 95\%  \hfill \\
+    \end{gathered} \]
+
+For the variance:
+
+\[\begin{gathered}
+        P\left( {{c_3} \leqslant B \leqslant {c_4}} \right) = 95\%  \Leftarrow \int\limits_{ - \infty }^{{c_3}} {{f_B}\left( x \right)dx}  = \frac{{5\% }}{2},\int\limits_{ - \infty }^{{c_4}} {{f_B}\left( x \right)dx}  = 1 - \frac{{5\% }}{2} \hfill \\
+        \Updownarrow  \hfill \\
+        P\left( {{c_3} \leqslant \frac{{n\hat \sigma _X^2}}{{\sigma _X^2}} \leqslant {c_4}} \right) = 95\%  \hfill \\
+        \Updownarrow  \hfill \\
+        P\left( {\frac{{n\hat \sigma _X^2}}{{{c_3}}} \leqslant \sigma _X^2 \leqslant \frac{{n\hat \sigma _X^2}}{{{c_4}}}} \right) = 95\%  \hfill \\
+    \end{gathered} \]
+
+
+After numeric calculations:
+\[
+    \begin{aligned}
+        n                   & =15, \qquad \bar X=2.4, \qquad \hat\sigma_n^{2}=0.55,   \\
+        S^{2}               & =0.5892857143,                                          \\
+        t_{0.975,14}        & =2.1447866879,                                          \\
+        \chi^{2}_{0.025,14} & =5.6287261030,\qquad \chi^{2}_{0.975,14}=26.1189480450, \\
+        S/\sqrt{n}          & =0.1982062418.
+    \end{aligned}
+\]
+
+\[
+    \mathrm{CI}_{0.95}(\mu)=\big[\,1.9748898911,\;2.8251101089\,\big],
+\]
+\[
+    \mathrm{CI}_{0.95}(\sigma^{2})=\big[\,0.3158626445,\;1.4656957629\,\big].
+\]
+
+\end{document}
