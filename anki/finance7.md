@@ -73,3 +73,10 @@ Due to CLT, this is clearly std normal.
 
 $Y_i$ are all independent, $\bar X(Y_1)$ and $N\widehat {{\sigma ^2}}(Y_2,\ldots Y_N)$ are independent.
 
+## What is the MFG of the normal distribution?
+
+$$
+M_X(t) = e^{\mu t + \frac{1}{2} \sigma^2 t^2}
+$$
+
+ 
