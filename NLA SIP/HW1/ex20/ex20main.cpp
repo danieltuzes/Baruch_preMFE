@@ -130,10 +130,9 @@ void write_csv_matrix(const std::string &path, const Matrix &M)
 }
 
 /**
- * @brief (Your) Cholesky routine — kept EXACTLY as provided.
+ * @brief general Cholesky routine
  * @param A (in/out): working copy updated in-place
  * @param U (out): result factor
- * @note No modifications to the algorithm/body.
  */
 void Cholesky_decomp(Matrix &A, Matrix &U)
 {
@@ -151,6 +150,75 @@ void Cholesky_decomp(Matrix &A, Matrix &U)
             for (size_t k = i + 1; k < n; ++k)
                 A[j][k] -= U[i][k] * U[i][j];
         }
+    }
+}
+
+void Cholesky_decomp_tridiag(Matrix &A, Matrix &U, size_t bandwidth)
+{
+    const size_t n = A.size();
+
+    for (size_t i = 0; i < n; ++i)
+    {
+        const size_t imax = std::min(n, i + 1 + bandwidth);
+
+        U[i][i] = sqrt(A[i][i]);
+
+        for (size_t k = i + 1; k < imax; ++k)
+            U[i][k] = A[i][k] / U[i][i];
+
+        // update A
+        for (size_t j = i + 1; j < imax; ++j)
+        {
+            for (size_t k = i + 1; k < imax; ++k)
+                A[j][k] -= U[i][k] * U[i][j];
+        }
+    }
+}
+
+void Cholesky_decomp_banded(Matrix &A, Matrix &U, size_t lower, size_t higher)
+{
+    const size_t n = A.size();
+
+    for (size_t i = 0; i < n; ++i)
+    {
+        U[i][i] = sqrt(A[i][i]);
+        const size_t ikmax = std::min(n, i + 1 + higher);
+        const size_t ijmax = std::min(n, i + 1 + lower);
+
+        for (size_t k = i + 1; k < ikmax; ++k)
+            U[i][k] = A[i][k] / U[i][i];
+
+        // update A
+        for (size_t j = i + 1; j < ijmax; ++j)
+        {
+            for (size_t k = i + 1; k < ikmax; ++k)
+                A[j][k] -= U[i][k] * U[i][j];
+        }
+    }
+}
+
+void forward_subst(const Matrix &A, std::vector<double> &x, const std::vector<double> &b)
+{
+    const std::size_t n = A.size();
+    for (std::size_t i = 0; i < n; ++i)
+    {
+        double s = 0.0;
+        for (std::size_t j = 0; j < i; ++j)
+            s += A[i][j] * x[j];
+        x[i] = (b[i] - s) / A[i][i];
+    }
+}
+
+void backward_subst(const Matrix &A, std::vector<double> &x, const std::vector<double> &b)
+{
+    const std::size_t n = A.size();
+    for (std::size_t ii = 0; ii < n; ++ii)
+    {
+        const std::size_t i = n - 1 - ii;
+        double s = 0.0;
+        for (std::size_t j = i + 1; j < n; ++j)
+            s += A[i][j] * x[j];
+        x[i] = (b[i] - s) / A[i][i];
     }
 }
 
